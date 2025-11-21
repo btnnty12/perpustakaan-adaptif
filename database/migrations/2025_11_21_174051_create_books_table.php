@@ -9,13 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // id INT PK AI
             $table->string('title');
             $table->string('author');
             $table->string('genre')->nullable();
             $table->text('description')->nullable();
             $table->integer('publication_year')->nullable();
-            $table->timestamps();
+            $table->timestamps(); // created_at & updated_at
         });
     }
 

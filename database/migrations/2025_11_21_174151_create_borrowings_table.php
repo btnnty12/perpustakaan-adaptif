@@ -12,9 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
-            $table->enum('status', ['borrowed','returned'])->default('borrowed');
-            $table->date('borrowed_at')->nullable();
-            $table->date('returned_at')->nullable();
+            $table->enum('status', ['read', 'reading', 'wishlist'])->default('wishlist');
             $table->timestamps();
         });
     }
