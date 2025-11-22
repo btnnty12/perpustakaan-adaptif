@@ -8,19 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('buku', function (Blueprint $table) {
             $table->id(); // id INT PK AI
-            $table->string('title');
-            $table->string('author');
+            $table->string('judul');
+            $table->string('penulis');
             $table->string('genre')->nullable();
-            $table->text('description')->nullable();
-            $table->integer('publication_year')->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->integer('tahun_terbit')->nullable();
             $table->timestamps(); // created_at & updated_at
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('buku');
     }
 };
