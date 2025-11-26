@@ -13,14 +13,16 @@ return new class extends Migration
 
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade')
+                  ->index();
 
             $table->foreignId('buku_id')
                   ->constrained('buku')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade')
+                  ->index();
 
-            // Nilai rekomendasi diambil dari ERD (recommendation_score)
-            $table->float('skor_rekomendasi')->nullable();
+            // Nilai rekomendasi, misal dari algoritma rekomendasi
+            $table->decimal('skor_rekomendasi', 5, 2)->nullable();
 
             $table->timestamps();
         });

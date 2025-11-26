@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    // READ (LIST)
+    // READ (LIST BUKU)
     public function index()
     {
         $buku = Buku::all();
@@ -18,14 +18,17 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required',
-            'penulis' => 'required',
-            'penerbit' => 'required',
-            'tahun_terbit' => 'required',
-            'stok' => 'required|integer|min:1',
+            'judul'        => 'required|string',
+            'penulis'      => 'required|string',
+            'genre'        => 'nullable|string',
+            'deskripsi'    => 'nullable|string',
+            'tahun_terbit' => 'required|integer',
+            'stok'         => 'required|integer|min:0',
         ]);
 
-        $buku = Buku::create($request->all());
+        $buku = Buku::create($request->only([
+            'judul', 'penulis', 'genre', 'deskripsi', 'tahun_terbit', 'stok'
+        ]));
 
         return response()->json([
             'message' => 'Buku berhasil ditambahkan',
@@ -45,7 +48,9 @@ class BookController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        $buku->update($request->all());
+        $buku->update($request->only([
+            'judul', 'penulis', 'genre', 'deskripsi', 'tahun_terbit', 'stok'
+        ]));
 
         return response()->json([
             'message' => 'Buku berhasil diperbarui',

@@ -13,7 +13,8 @@ return new class extends Migration
 
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade')
+                  ->index();
 
             $table->string('kata_kunci');
             $table->integer('jumlah_hasil')->default(0);

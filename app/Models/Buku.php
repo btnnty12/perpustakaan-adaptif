@@ -17,6 +17,7 @@ class Buku extends Model
         'genre',
         'deskripsi',
         'tahun_terbit',
+        'stok', // stok buku
     ];
 
     // Relasi: buku bisa punya banyak pinjaman

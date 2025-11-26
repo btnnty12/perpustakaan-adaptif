@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('kata_sandi');
 
-            // Peran pengguna
-            $table->enum('peran', ['admin', 'anggota'])->default('anggota');
+            // Peran pengguna, ditambahkan 'staff'
+            $table->enum('peran', ['admin', 'anggota', 'staff'])->default('anggota');
 
             // Timestamp
             $table->timestamp('created_at')->useCurrent();

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('genre')->nullable();
             $table->text('deskripsi')->nullable();
             $table->integer('tahun_terbit')->nullable();
+            $table->integer('stok')->default(0);
             $table->timestamps(); // created_at & updated_at
         });
     }

@@ -14,16 +14,19 @@ return new class extends Migration
             // Relasi ke tabel pengguna
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade')
+                  ->index(); // index untuk mempercepat query
 
             // Relasi ke tabel buku
             $table->foreignId('buku_id')
                   ->constrained('buku')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade')
+                  ->index(); // index untuk mempercepat query
 
             // Status pinjaman
-            $table->enum('status', ['dibaca', 'sedang_dibaca', 'daftar_keinginan'])
-                  ->default('daftar_keinginan');
+            $table->enum('status', ['daftar_keinginan', 'sedang_dibaca', 'dibaca'])
+                  ->default('daftar_keinginan')
+                  ->comment('daftar_keinginan → sedang_dibaca → dibaca');
 
             $table->timestamps();
         });
