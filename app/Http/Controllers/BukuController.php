@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class BukuController extends Controller
 {
     // LIST BUKU
     public function index()
@@ -16,16 +16,16 @@ class BookController extends Controller
     // CREATE BUKU
     public function store(Request $request)
     {
-        $request->validate([
-            'judul'        => 'required|string',
-            'penulis'      => 'required|string',
-            'genre'        => 'nullable|string',
+        $validated = $request->validate([
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'genre'        => 'nullable|string|max:100',
             'deskripsi'    => 'nullable|string',
-            'tahun_terbit' => 'required|integer',
-            'stok'         => 'required|integer|min:0',
+            'tahun_terbit' => 'required|integer|min:1500|max:2099',
+            'stok'         => 'required|integer|min:0'
         ]);
 
-        $buku = Buku::create($request->all());
+        $buku = Buku::create($validated);
 
         return response()->json([
             'message' => 'Buku berhasil ditambahkan',
@@ -36,7 +36,8 @@ class BookController extends Controller
     // DETAIL BUKU
     public function show($id)
     {
-        return response()->json(Buku::findOrFail($id));
+        $buku = Buku::findOrFail($id);
+        return response()->json($buku);
     }
 
     // UPDATE BUKU
@@ -44,9 +45,16 @@ class BookController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        $buku->update($request->only([
-            'judul', 'penulis', 'genre', 'deskripsi', 'tahun_terbit', 'stok'
-        ]));
+        $validated = $request->validate([
+            'judul'        => 'sometimes|required|string|max:255',
+            'penulis'      => 'sometimes|required|string|max:255',
+            'genre'        => 'nullable|string|max:100',
+            'deskripsi'    => 'nullable|string',
+            'tahun_terbit' => 'sometimes|required|integer|min:1500|max:2099',
+            'stok'         => 'sometimes|required|integer|min:0'
+        ]);
+
+        $buku->update($validated);
 
         return response()->json([
             'message' => 'Buku berhasil diperbarui',
@@ -59,7 +67,7 @@ class BookController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        // Opsional: blokir jika masih ada pinjaman aktif
+        // Cek apakah ada pinjaman aktif
         if ($buku->pinjaman()->where('status', 'sedang_dipinjam')->exists()) {
             return response()->json([
                 'message' => 'Buku tidak bisa dihapus karena masih dipinjam'
