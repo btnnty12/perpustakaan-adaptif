@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Pengguna;
-use App\Models\Buku;
 
 class Rekomendasi extends Model
 {
@@ -17,6 +15,10 @@ class Rekomendasi extends Model
         'pengguna_id',
         'buku_id',
         'skor_rekomendasi',
+    ];
+
+    protected $casts = [
+        'skor_rekomendasi' => 'float', // agar auto jadi float
     ];
 
     // Relasi ke pengguna

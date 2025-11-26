@@ -7,14 +7,13 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    // READ (LIST BUKU)
+    // LIST BUKU
     public function index()
     {
-        $buku = Buku::all();
-        return response()->json($buku);
+        return response()->json(Buku::all());
     }
 
-    // CREATE
+    // CREATE BUKU
     public function store(Request $request)
     {
         $request->validate([
@@ -26,9 +25,7 @@ class BookController extends Controller
             'stok'         => 'required|integer|min:0',
         ]);
 
-        $buku = Buku::create($request->only([
-            'judul', 'penulis', 'genre', 'deskripsi', 'tahun_terbit', 'stok'
-        ]));
+        $buku = Buku::create($request->all());
 
         return response()->json([
             'message' => 'Buku berhasil ditambahkan',
@@ -36,14 +33,13 @@ class BookController extends Controller
         ], 201);
     }
 
-    // SHOW DETAIL
+    // DETAIL BUKU
     public function show($id)
     {
-        $buku = Buku::findOrFail($id);
-        return response()->json($buku);
+        return response()->json(Buku::findOrFail($id));
     }
 
-    // UPDATE
+    // UPDATE BUKU
     public function update(Request $request, $id)
     {
         $buku = Buku::findOrFail($id);
@@ -58,10 +54,18 @@ class BookController extends Controller
         ]);
     }
 
-    // DELETE
+    // DELETE BUKU
     public function destroy($id)
     {
         $buku = Buku::findOrFail($id);
+
+        // Opsional: blokir jika masih ada pinjaman aktif
+        if ($buku->pinjaman()->where('status', 'sedang_dipinjam')->exists()) {
+            return response()->json([
+                'message' => 'Buku tidak bisa dihapus karena masih dipinjam'
+            ], 400);
+        }
+
         $buku->delete();
 
         return response()->json(['message' => 'Buku berhasil dihapus']);

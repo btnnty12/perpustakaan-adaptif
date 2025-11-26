@@ -11,22 +11,24 @@ return new class extends Migration
         Schema::create('pinjaman', function (Blueprint $table) {
             $table->id();
 
-            // Relasi ke tabel pengguna
+            // Relasi pengguna
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
                   ->onDelete('cascade');
 
-            // Relasi ke tabel buku
+            // Relasi buku
             $table->foreignId('buku_id')
                   ->constrained('buku')
                   ->onDelete('cascade');
 
-            // Status pinjaman
-            $table->enum('status', ['daftar_keinginan', 'sedang_dibaca', 'dibaca'])
-                  ->default('daftar_keinginan')
-                  ->comment('daftar_keinginan → sedang_dibaca → dibaca');
+            // Status konsisten dengan controller
+            $table->enum('status', ['wishlist', 'sedang_dipinjam', 'dikembalikan'])
+                  ->default('wishlist')
+                  ->comment('wishlist → sedang_dipinjam → dikembalikan');
 
             $table->timestamps();
+
+            // $table->softDeletes();
         });
     }
 

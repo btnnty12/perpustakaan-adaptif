@@ -11,20 +11,20 @@ return new class extends Migration
         Schema::create('rekomendasi', function (Blueprint $table) {
             $table->id();
 
-            // Relasi ke tabel pengguna
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
                   ->onDelete('cascade');
 
-            // Relasi ke tabel buku
             $table->foreignId('buku_id')
                   ->constrained('buku')
                   ->onDelete('cascade');
 
-            // Skor rekomendasi
             $table->decimal('skor_rekomendasi', 5, 2)->nullable();
 
             $table->timestamps();
+
+            // Cegah rekomendasi duplikat
+            $table->unique(['pengguna_id', 'buku_id']);
         });
     }
 

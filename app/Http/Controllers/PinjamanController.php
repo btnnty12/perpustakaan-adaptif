@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class BorrowingController extends Controller
 {
-    // LIST PEMINJAMAN
+    // LIST PINJAMAN
     public function index()
     {
         $pinjaman = Pinjaman::with(['pengguna', 'buku'])->get();
@@ -27,24 +27,24 @@ class BorrowingController extends Controller
         $pengguna = Pengguna::findOrFail($request->pengguna_id);
         $buku     = Buku::findOrFail($request->buku_id);
 
-        // Validasi role pengguna (hanya anggota atau staff)
+        // Validasi role
         if (!in_array($pengguna->peran, ['anggota', 'staff'])) {
             return response()->json(['message' => 'Pengguna tidak berhak meminjam buku'], 403);
         }
 
-        // Validasi stok buku
+        // Validasi stok
         if ($buku->stok < 1) {
             return response()->json(['message' => 'Stok buku tidak tersedia'], 400);
         }
 
-        // Buat peminjaman
+        // Buat peminjaman awal dengan status "sedang_dipinjam"
         $pinjaman = Pinjaman::create([
             'pengguna_id' => $pengguna->id,
             'buku_id'     => $buku->id,
-            'status'      => 'sedang_dibaca',
+            'status'      => 'sedang_dipinjam',
         ]);
 
-        // Kurangi stok buku
+        // Kurangi stok
         $buku->decrement('stok');
 
         return response()->json([
@@ -53,33 +53,44 @@ class BorrowingController extends Controller
         ], 201);
     }
 
-    // UPDATE STATUS
+    // UPDATE STATUS PEMINJAMAN
     public function update(Request $request, $id)
     {
         $pinjaman = Pinjaman::findOrFail($id);
 
         $request->validate([
-            'status' => 'required|in:dibaca,sedang_dibaca,daftar_keinginan'
+            'status' => 'required|in:wishlist,sedang_dipinjam,dikembalikan'
         ]);
 
-        $pinjaman->update(['status' => $request->status]);
+        $old = $pinjaman->status;
+        $new = $request->status;
+
+        // Jika berubah menjadi dikembalikan, tambahkan stok (hanya 1x)
+        if ($old !== 'dikembalikan' && $new === 'dikembalikan') {
+            $pinjaman->buku->increment('stok');
+        }
+
+        $pinjaman->update(['status' => $new]);
 
         return response()->json([
-            'message' => 'Status peminjaman diperbarui',
+            'message' => 'Status peminjaman berhasil diperbarui',
             'data' => $pinjaman
         ]);
     }
 
-    // DELETE (PENGEMBALIAN)
-    public function destroy($id)
+    // PENGEMBALIAN BUKU
+    public function returnBook($id)
     {
         $pinjaman = Pinjaman::findOrFail($id);
-        $buku = $pinjaman->buku;
 
-        // Tambah stok buku saat dikembalikan
-        $buku->increment('stok');
+        // Cegah double return
+        if ($pinjaman->status === 'dikembalikan') {
+            return response()->json(['message' => 'Buku sudah dikembalikan sebelumnya'], 400);
+        }
 
-        $pinjaman->delete();
+        // Update status & kembalikan stok
+        $pinjaman->update(['status' => 'dikembalikan']);
+        $pinjaman->buku->increment('stok');
 
         return response()->json(['message' => 'Buku berhasil dikembalikan']);
     }
