@@ -9,19 +9,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rekomendasi', function (Blueprint $table) {
-            $table->id(); // PK
+            $table->id();
 
+            // Relasi ke tabel pengguna
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
-                  ->onDelete('cascade')
-                  ->index();
+                  ->onDelete('cascade');
 
+            // Relasi ke tabel buku
             $table->foreignId('buku_id')
                   ->constrained('buku')
-                  ->onDelete('cascade')
-                  ->index();
+                  ->onDelete('cascade');
 
-            // Nilai rekomendasi, misal dari algoritma rekomendasi
+            // Skor rekomendasi
             $table->decimal('skor_rekomendasi', 5, 2)->nullable();
 
             $table->timestamps();
