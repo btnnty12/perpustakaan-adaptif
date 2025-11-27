@@ -1,0 +1,37 @@
+/* Background */
+.bg-custom {
+    background-color: #C4431E;
+}
+
+/* Card */
+.card-custom {
+    width: 40%;
+    background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+    padding: 35px 45px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Title */
+.title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #C4431E;
+    margin-bottom: 20px;
+}
+
+/* Custom Button */
+.btn-daftar {
+    padding: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .card-custom {
+        width: 90%;
+        padding: 25px;
+    }
+}
