@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* LEFT SECTION */
+.left {
+    background-color: #C4431E;
+}
+
+.left .ilustrasi {
+    width: 70%;
+}
+
+/* RIGHT SECTION */
+.right {
+    background-color: #C4431E;
+}
+
+/* CARD */
+.card-custom {
+    width: 70%;
+    background: #FBD46D;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* TITLES */
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #C4431E;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+hr {
+    border: none;
+    border-bottom: 2px solid #fff;
+    width: 70%;
+    margin: 10px auto;
+}
+
+/* BUTTON */
+.btn-custom {
+    background: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+    width: 60%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-custom:hover {
+    background: #f1f1f1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .card-custom {
+        width: 90%;
+    }
+    
+    .btn-custom {
+        width: 80%;
+    }
+
+    .left .ilustrasi {
+        width: 90%;
+    }
+.sidebar-icon:hover {
+    opacity: .7;
+    transition: .2s;
+}
+}

@@ -1,0 +1,33 @@
+.sidebar-icon {
+    font-size: 26px;
+    padding: 10px;
+    border-radius: 12px;
+    transition: 0.2s;
+}
+
+.sidebar-icon:hover {
+    background: #ffffff33;
+}
+
+.sidebar-icon.active {
+    background: #FFD97D;
+    color: #B43C1E;
+}
+
+.book-card {
+    width: 120px;
+    text-align: center;
+}
+
+.book-card img {
+    width: 120px;
+    height: 170px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.book-title {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
