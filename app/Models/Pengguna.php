@@ -15,33 +15,44 @@ class Pengguna extends Authenticatable
     protected $fillable = [
         'nama',
         'email',
-        'kata_sandi',
+        'katasandi',  
         'peran',
     ];
 
     protected $hidden = [
-        'kata_sandi',
+        'katasandi',
+        'remember_token',
     ];
 
-    // Agar Laravel authentication membaca 'kata_sandi' sebagai password
+    /**
+     * Override agar Laravel menggunakan 'katasandi'
+     * sebagai kolom password untuk login.
+     */
     public function getAuthPassword()
     {
-        return $this->kata_sandi;
+        return $this->katasandi;
     }
 
-    // Mutator otomatis hashing password
-    public function setKataSandiAttribute($value)
+    /**
+     * Mutator untuk meng-hash katasandi otomatis
+     * saat diset dari controller atau seeder.
+     */
+    public function setKatasandiAttribute($value)
     {
-        $this->attributes['kata_sandi'] = bcrypt($value);
+        $this->attributes['katasandi'] = bcrypt($value);
     }
 
-    // Relasi: 1 pengguna punya banyak pinjaman
+    // ======================
+    //       RELASI
+    // ======================
     public function pinjaman()
     {
         return $this->hasMany(Pinjaman::class, 'pengguna_id');
     }
 
-    // Helper role
+    // ======================
+    //     HELPER ROLE
+    // ======================
     public function isAdmin()
     {
         return $this->peran === 'admin';

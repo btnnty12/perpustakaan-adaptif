@@ -12,13 +12,12 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('email', 191)->unique();
-            $table->string('password');
+            $table->string('katasandi');
 
             $table->enum('peran', ['admin', 'anggota', 'staff'])
                   ->default('anggota');
 
-            $table->timestamps();       // created_at & updated_at otomatis
-            // $table->softDeletes();    // opsional jika ingin histori
+            $table->timestamps(); 
         });
     }
 
