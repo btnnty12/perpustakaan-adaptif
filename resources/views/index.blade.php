@@ -7,10 +7,6 @@
 
     <!-- Tailwind Online -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Icons -->
-    <script src="https://kit.fontawesome.com/a2e0e6ad65.js" crossorigin="anonymous"></script>
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
@@ -19,24 +15,53 @@
 
 <div class="flex">
 
-    <!-- SIDEBAR -->
-    <aside class="w-56 bg-[#B1321B] text-white flex flex-col py-6">
-        <div class="flex flex-col items-center space-y-10 text-2xl">
+    <aside id="sidebar"
+       class="w-20 bg-[#C34722] text-white flex flex-col items-center py-6 shadow-lg relative">
 
-            <a href="#" class="hover:opacity-80"><i class="fas fa-home"></i></a>
-            <a href="#" class="hover:opacity-80"><i class="fas fa-search"></i></a>
-            <a href="#" class="hover:opacity-80"><i class="fas fa-book"></i></a>
+    <div id="menuWrapper" class="relative flex flex-col items-center space-y-8 flex-1">
 
-            <a href="#" class="bg-yellow-300 rounded-xl px-4 py-3 text-orange-800 shadow-md">
-                <i class="fas fa-book-open text-xl"></i>
-            </a>
-
-            <a href="#" class="hover:opacity-80"><i class="fas fa-heart"></i></a>
-            <a href="#" class="hover:opacity-80"><i class="fas fa-cog"></i></a>
-            <a href="#" class="hover:opacity-80"><i class="fas fa-sign-out-alt"></i></a>
-
+        <!-- Highlight PUTIH -->
+        <div id="highlight"
+             class="absolute left-0 w-16 h-12 bg-white/30 rounded-xl transition-all duration-300 shadow-md -z-10"
+             style="top: 0;">
         </div>
-    </aside>
+
+        <!-- Icons -->
+        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+            <i class="fa-solid fa-house"></i>
+        </button>
+
+        <button 
+    onclick="window.location.href='/search';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+
+        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+            <i class="fa-solid fa-file-lines"></i>
+        </button>
+
+        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+            <i class="fa-solid fa-book"></i>
+        </button>
+
+        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+            <i class="fa-solid fa-heart"></i>
+        </button>
+
+        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+            <i class="fa-solid fa-gear"></i>
+        </button>
+    </div>
+
+    <!-- LOGOUT PALING BAWAH -->
+    <button 
+        onclick="window.location.href='/welcome';"
+        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
+        <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+
+</aside>
 
     <!-- MAIN CONTENT -->
     <div class="flex-1 p-10 relative">
