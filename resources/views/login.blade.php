@@ -5,52 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Aplikasi Manajemen Perpustakaan</title>
 
-    <!-- BOOTSTRAP ONLINE CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- TAILWIND -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- STYLE CUSTOM -->
+    <!-- STYLE CUSTOM (warna + desain asli) -->
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 
-<body>
+<body class="m-0 p-0">
 
-    <div class="container-fluid d-flex flex-column flex-md-row vh-100 p-0">
+    <div class="w-full min-h-screen flex flex-col md:flex-row">
 
         <!-- LEFT -->
-        <div class="left col-md-6 d-flex align-items-center justify-content-center p-4">
-            <img src="{{ asset('images/ilustration.png') }}" class="img-fluid" alt="gambar">
+        <div class="left md:w-1/2 flex items-center justify-center p-6">
+            <img src="{{ asset('images/ilustration.png') }}" class="max-w-full" alt="gambar">
         </div>
 
         <!-- RIGHT -->
-        <div class="right col-md-6 d-flex align-items-center justify-content-center p-4">
+        <div class="right md:w-1/2 flex items-center justify-center p-6">
 
-            <div class="card-custom text-center">
+            <div class="card-custom text-center w-full max-w-md">
+
                 <div class="title">APLIKASI MANAJEMEN PERPUSTAKAAN</div>
                 <hr>
 
-                <form>
+                <form method="POST" action="/login">
+                    @csrf
 
-                    <div class="mb-3 text-start">
-                        <label class="form-label fw-bold">Nama Pengguna</label>
-                        <input type="text" class="form-control input-custom" placeholder="Masukkan nama pengguna">
+                    <div class="text-left mb-3">
+                        <label class="font-bold">Nama Pengguna</label>
+                        <input 
+                            type="text" 
+                            name="username"
+                            class="input-custom w-full mt-1"
+                            placeholder="Masukkan nama pengguna"
+                            required
+                        >
                     </div>
 
-                    <div class="mb-3 text-start">
-                        <label class="form-label fw-bold">Kata Sandi</label>
-                        <input type="password" class="form-control input-custom" placeholder="Masukkan kata sandi">
+                    <div class="text-left mb-3">
+                        <label class="font-bold">Kata Sandi</label>
+                        <input 
+                            type="password" 
+                            name="password"
+                            class="input-custom w-full mt-1"
+                            placeholder="Masukkan kata sandi"
+                            required
+                        >
                     </div>
 
-                    <button class="btn-custom mt-3">MASUK</button>
+                    <button class="btn-custom w-full mt-4">
+                        MASUK
+                    </button>
 
                 </form>
-
             </div>
+
         </div>
 
     </div>
-
-    <!-- BOOTSTRAP JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
