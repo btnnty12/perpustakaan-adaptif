@@ -9,19 +9,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pengguna', function (Blueprint $table) {
-            $table->id(); // id INT PK AUTO_INCREMENT
+            $table->id();
             $table->string('nama');
-            $table->string('email')->unique();
+            $table->string('email', 191)->unique();
             $table->string('kata_sandi');
 
-            // Peran pengguna
-            $table->enum('peran', ['admin', 'anggota'])->default('anggota');
+            $table->enum('peran', ['admin', 'anggota', 'staff'])
+                  ->default('anggota');
 
-            // Timestamp
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')
-                  ->useCurrent()
-                  ->useCurrentOnUpdate();
+            $table->rememberToken();
+
+            $table->timestamps(); 
         });
     }
 

@@ -9,13 +9,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buku', function (Blueprint $table) {
-            $table->id(); // id INT PK AI
+            $table->id();
             $table->string('judul');
             $table->string('penulis');
             $table->string('genre')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->integer('tahun_terbit')->nullable();
-            $table->timestamps(); // created_at & updated_at
+
+            $table->unsignedSmallInteger('tahun_terbit')->nullable();
+    
+            $table->unsignedInteger('stok')->default(0);
+
+            $table->timestamps();
+
+            // Index untuk pencarian cepat
+            $table->index('judul');
+            $table->index('penulis');
+
+            // $table->softDeletes();
         });
     }
 

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rekomendasi', function (Blueprint $table) {
-            $table->id(); // PK
+            $table->id();
 
             $table->foreignId('pengguna_id')
                   ->constrained('pengguna')
@@ -19,10 +19,12 @@ return new class extends Migration
                   ->constrained('buku')
                   ->onDelete('cascade');
 
-            // Nilai rekomendasi diambil dari ERD (recommendation_score)
-            $table->float('skor_rekomendasi')->nullable();
+            $table->decimal('skor_rekomendasi', 5, 2)->nullable();
 
             $table->timestamps();
+
+            // Cegah rekomendasi duplikat
+            $table->unique(['pengguna_id', 'buku_id']);
         });
     }
 
