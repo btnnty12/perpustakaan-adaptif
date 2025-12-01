@@ -26,11 +26,6 @@ return new class extends Migration
                   ->default('wishlist')
                   ->comment('wishlist → sedang_dipinjam → dikembalikan');
 
-            $table->date('tanggal_pinjam')->nullable();
-            $table->date('tanggal_jatuh_tempo')->nullable();
-            $table->date('tanggal_kembali')->nullable();
-            $table->decimal('denda', 10, 2)->default(0);
-
             $table->timestamps();
 
             // $table->softDeletes();

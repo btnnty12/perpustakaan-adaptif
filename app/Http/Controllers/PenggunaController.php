@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengguna;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class PenggunaController extends Controller
 {
@@ -25,24 +23,24 @@ class PenggunaController extends Controller
     // Menambah pengguna baru
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string',
+        $request->validate([
+            'nama' => 'required',
             'email' => 'required|email|unique:pengguna,email',
             'password' => 'required|min:6',
             'peran' => 'nullable|in:admin,anggota,staff'
         ]);
 
         $pengguna = Pengguna::create([
-            'nama' => $validated['nama'],
-            'email' => $validated['email'],
-            'kata_sandi' => $validated['password'],
-            'peran' => $validated['peran'] ?? 'anggota'
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'peran' => $request->peran ?? 'anggota'
         ]);
 
         return response()->json([
             'message' => 'Pengguna berhasil ditambahkan',
             'data' => $pengguna
-        ], 201);
+        ]);
     }
 
     // Update data pengguna
@@ -50,29 +48,11 @@ class PenggunaController extends Controller
     {
         $pengguna = Pengguna::findOrFail($id);
 
-        $validated = $request->validate([
-            'nama' => 'sometimes|required|string',
-            'email' => [
-                'sometimes',
-                'required',
-                'email',
-                Rule::unique('pengguna', 'email')->ignore($pengguna->id),
-            ],
-            'password' => 'nullable|min:6',
-            'peran' => 'nullable|in:admin,anggota,staff'
+        $pengguna->update([
+            'nama' => $request->nama ?? $pengguna->nama,
+            'email' => $request->email ?? $pengguna->email,
+            'peran' => $request->peran ?? $pengguna->peran,
         ]);
-
-        $data = [
-            'nama' => $validated['nama'] ?? $pengguna->nama,
-            'email' => $validated['email'] ?? $pengguna->email,
-            'peran' => $validated['peran'] ?? $pengguna->peran,
-        ];
-
-        if (array_key_exists('password', $validated)) {
-            $data['kata_sandi'] = $validated['password'];
-        }
-
-        $pengguna->update($data);
 
         return response()->json([
             'message' => 'Data pengguna berhasil diperbarui',
