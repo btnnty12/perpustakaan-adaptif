@@ -24,28 +24,52 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="/register" method="POST">
             @csrf
 
             <div class="mb-4">
                 <label class="block font-semibold mb-1">Nama Lengkap</label>
                 <input type="text" name="name" 
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" 
-                       placeholder="Masukkan nama lengkap">
+                       value="{{ old('name') }}"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 @error('name') border-red-500 @enderror" 
+                       placeholder="Masukkan nama lengkap"
+                       required>
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label class="block font-semibold mb-1">Email</label>
                 <input type="email" name="email" 
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" 
-                       placeholder="Masukkan email aktif">
+                       value="{{ old('email') }}"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 @error('email') border-red-500 @enderror" 
+                       placeholder="Masukkan email aktif"
+                       required>
+                @error('email')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label class="block font-semibold mb-1">Kata Sandi</label>
                 <input type="password" name="password" 
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" 
-                       placeholder="Masukkan kata sandi">
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 @error('password') border-red-500 @enderror" 
+                       placeholder="Masukkan kata sandi (minimal 6 karakter)"
+                       required>
+                @error('password')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">

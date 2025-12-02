@@ -25,8 +25,11 @@ class Pengguna extends Authenticatable
         'remember_token',
     ];
 
+    protected $guarded = [];
+
     /**
      * Gunakan kolom kata_sandi untuk autentikasi
+     * Laravel Auth::attempt() akan memanggil method ini untuk mendapatkan password dari database
      */
     public function getAuthPassword()
     {
@@ -35,10 +38,16 @@ class Pengguna extends Authenticatable
 
     /**
      * Mutator hash password otomatis
+     * Hanya hash jika value belum ter-hash (untuk menghindari double hashing)
      */
     public function setKataSandiAttribute($value)
     {
-        $this->attributes['kata_sandi'] = bcrypt($value);
+        // Hanya hash jika value belum ter-hash (panjang hash bcrypt biasanya 60 karakter)
+        if (!empty($value) && strlen($value) < 60) {
+            $this->attributes['kata_sandi'] = bcrypt($value);
+        } else {
+            $this->attributes['kata_sandi'] = $value;
+        }
     }
 
     // RELASI
@@ -58,8 +67,8 @@ class Pengguna extends Authenticatable
         return $this->peran === 'staff';
     }
 
-    public function isAnggota()
+    public function isPengguna()
     {
-        return $this->peran === 'anggota';
+        return $this->peran === 'pengguna';
     }
 }

@@ -5,77 +5,65 @@ use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Halaman Umum
 |--------------------------------------------------------------------------
 */
 
-// =======================
-// HALAMAN UTAMA
-// =======================
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', fn() => view('welcome'));
 
-// =======================
-// AUTH (Login - Register)
-// =======================
+/*
+|--------------------------------------------------------------------------
+| AUTH (Login - Register)
+|--------------------------------------------------------------------------
+*/
 
-// Tampilan Login
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+// Login
+Route::get('/login', fn() => view('login'))->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
-// Proses Login
-Route::post('/login', [AuthController::class, 'login']);
+// Register
+Route::get('/register', fn() => view('register'))->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 
-// Tampilan Register
-Route::get('/register', function () {
-    return view('register'); 
-})->name('register');
+// Logout
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Proses Register
-Route::post('/register', function () {
-    return redirect('/login')->with('success', 'Pendaftaran berhasil! Silakan login.');
-});
+/*
+|--------------------------------------------------------------------------
+| HALAMAN SETELAH LOGIN
+|--------------------------------------------------------------------------
+|
+| Dibedakan berdasarkan role:
+| admin  -> /admin
+| staff  -> /staff
+| pengguna -> /home
+|--------------------------------------------------------------------------
+*/
 
-// =======================
-// HALAMAN USER
-// =======================
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/notifikasi', function () {
-    return view('notifikasi');   
-})->name('notifikasi');
+    // Pengguna
+    Route::get('/home', fn() => view('home'))->middleware('role:pengguna')->name('home');
+    Route::get('/notifikasi', fn() => view('notifikasi'))->middleware('role:pengguna')->name('notifikasi');
+    Route::get('/pesan', fn() => view('pesan'))->middleware('role:pengguna')->name('pesan');
+    Route::get('/search', fn() => view('search'))->middleware('role:pengguna')->name('search');
 
-Route::get('/pesan', function () {
-    return view('pesan');
-})->name('pesan');
+    // Admin
+    Route::get('/admin', fn() => view('admin'))->middleware('role:admin')->name('admin');
 
-Route::get('/search', function () {
-    return view('search');
-})->name('search');
+    // Staff (jika ada halaman staff)
+    Route::get('/staff', fn() => view('staff'))->middleware('role:staff')->name('staff');
 
-// =======================
-// PENGEMBALIAN BUKU
-// =======================
-Route::get('/pengembalian-buku', function () {
-    return view('index'); // sesuaikan jika file-nya index.blade.php
-})->name('pengembalian.index');
+    /*
+    |--------------------------------------------------------------------------
+    | PENGEMBALIAN BUKU (khusus Pengguna misalnya)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/pengembalian-buku', fn() => view('index'))
+        ->middleware('role:pengguna')
+        ->name('pengembalian.index');
 
-Route::get('/create', function () {
-    return view('create');
-})->name('pengembalian.create');
-
-// =======================
-// ADMIN
-// =======================
-Route::get('/admin', function () {
-    return view('admin');
-})->name('admin');
-
-//logout
-Route::get('/welcome', function () {
-    return view('welcome');
+    Route::get('/create', fn() => view('create'))
+        ->middleware('role:pengguna')
+        ->name('pengembalian.create');
 });

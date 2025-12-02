@@ -29,32 +29,59 @@
                 <div class="title">APLIKASI MANAJEMEN PERPUSTAKAAN</div>
                 <hr>
 
-                <form method="POST" action="/login">
+                @if(session('error'))
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        @foreach($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                @if(session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login.process') }}">
                     @csrf
 
                     <div class="text-left mb-3">
-                        <label class="font-bold">Nama Pengguna</label>
+                        <label class="font-bold">Email Pengguna</label>
                         <input 
-                            type="text" 
-                            name="username"
-                            class="input-custom w-full mt-1"
-                            placeholder="Masukkan nama pengguna"
+                            type="email" 
+                            name="email"
+                            value="{{ old('email') }}"
+                            class="input-custom w-full mt-1 @error('email') border-red-500 @enderror"
+                            placeholder="Email"
                             required
                         >
+                        @error('email')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="text-left mb-3">
                         <label class="font-bold">Kata Sandi</label>
                         <input 
                             type="password" 
-                            name="password"
-                            class="input-custom w-full mt-1"
+                            name="kata_sandi"
+                            class="input-custom w-full mt-1 @error('kata_sandi') border-red-500 @enderror"
                             placeholder="Masukkan kata sandi"
                             required
                         >
+                        @error('kata_sandi')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <button class="btn-custom w-full mt-4">
+                    <button type="submit" class="btn-custom w-full mt-4">
                         MASUK
                     </button>
 
