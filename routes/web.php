@@ -8,8 +8,20 @@ use App\Http\Controllers\AuthController;
 | Halaman Umum
 |--------------------------------------------------------------------------
 */
+/*
+|--------------------------------------------------------------------------
+| Halaman Umum (bebas akses)
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/', fn() => view('welcome'));
+// Admin (tanpa login dulu)
+Route::get('/admin', fn() => view('admin'))->name('admin');
+
+// Data Anggota (tanpa login dulu)
+Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
+
+// Kelola Buku (tanpa login dulu)
+Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +39,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.pr
 
 // Logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,8 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pesan', fn() => view('pesan'))->middleware('role:pengguna')->name('pesan');
     Route::get('/search', fn() => view('search'))->middleware('role:pengguna')->name('search');
 
-    // Admin
-    Route::get('/admin', fn() => view('admin'))->middleware('role:admin')->name('admin');
+    // Admin - nonaktifkan sementara
+    // Route::get('/admin', fn() => view('admin'))->middleware('role:admin')->name('admin');
 
     // Staff (jika ada halaman staff)
     Route::get('/staff', fn() => view('staff'))->middleware('role:staff')->name('staff');
@@ -66,4 +79,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create', fn() => view('create'))
         ->middleware('role:pengguna')
         ->name('pengembalian.create');
+
+       
 });
