@@ -23,6 +23,9 @@ Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
 // Kelola Buku (tanpa login dulu)
 Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
 
+// Laporan Peminjaman (tanpa login dulu)
+Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
+
 /*
 |--------------------------------------------------------------------------
 | AUTH (Login - Register)
