@@ -11,7 +11,7 @@
 #indicator {
     position: absolute;
     left: 0;
-    top: 310px;
+    top: 415px;
     width: 75px;
     height: 38px;
     background-color: #F7DE68;
@@ -40,7 +40,7 @@
 
 .stats-row {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 25px;
     margin-top: 25px;
 }

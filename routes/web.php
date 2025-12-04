@@ -8,23 +8,6 @@ use App\Http\Controllers\AuthController;
 | Halaman Umum
 |--------------------------------------------------------------------------
 */
-/*
-|--------------------------------------------------------------------------
-| Halaman Umum (bebas akses)
-|--------------------------------------------------------------------------
-*/
-
-// Admin (tanpa login dulu)
-Route::get('/admin', fn() => view('admin'))->name('admin');
-
-// Data Anggota (tanpa login dulu)
-Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
-
-// Kelola Buku (tanpa login dulu)
-Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
-
-// Laporan Peminjaman (tanpa login dulu)
-Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +68,23 @@ Route::middleware(['auth'])->group(function () {
 
        
 });
+
+//user biar bisa buka halaman tanpa login//
+
+// Admin (tanpa login dulu)
+Route::get('/admin', fn() => view('admin'))->name('admin');
+
+// Data Anggota (tanpa login dulu)
+Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
+
+// Kelola Buku (tanpa login dulu)
+Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
+
+// Laporan Peminjaman (tanpa login dulu)
+Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
+
+// Kelola User (tanpa login dulu)
+Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
+
+// Kelola User (tanpa login dulu)
+Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');

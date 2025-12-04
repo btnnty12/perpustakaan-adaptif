@@ -75,69 +75,72 @@
     <div id="indicator"></div>
 
     <!-- MENU ATAS -->
-  <div class="flex flex-col items-center space-y-20 pt-20">
+    <div class="flex flex-col items-center space-y-20 pt-20">
 
-    <div class="menu-item" data-index="0">
-        <img src="{{ asset('icons/home.png') }}" class="w-7">
+        <div class="menu-item" data-index="0">
+            <img src="{{ asset('icons/home.png') }}" class="w-7">
+        </div>
+
+        <div class="menu-item" data-index="1">
+            <img src="{{ asset('icons/data-anggota.png') }}" class="w-7">
+        </div>
+
+        <div class="menu-item" data-index="2">
+            <img src="{{ asset('icons/kelola-buku.png') }}" class="w-7">
+        </div>
+
+        <div class="menu-item" data-index="3">
+            <img src="{{ asset('icons/laporan-peminjaman.png') }}" class="w-7">
+        </div>
+
+        <div class="menu-item" data-index="4">
+            <img src="{{ asset('icons/user.png') }}" class="w-7">
+        </div>
+
+        <div class="menu-item" data-index="5">
+            <img src="{{ asset('icons/setting.png') }}" class="w-7">
+        </div>
+
     </div>
-
-    <div class="menu-item" data-index="1">
-        <img src="{{ asset('icons/data-anggota.png') }}" class="w-7">
-    </div>
-
-    <div class="menu-item" data-index="2">
-        <img src="{{ asset('icons/kelola-buku.png') }}" class="w-7">
-    </div>
-
-    <div class="menu-item" data-index="3">
-        <img src="{{ asset('icons/laporan-peminjaman.png') }}" class="w-7">
-    </div>
-
-    <div class="menu-item" data-index="4">
-        <img src="{{ asset('icons/user.png') }}" class="w-7">
-    </div>
-
-    <div class="menu-item" data-index="4">
-        <img src="{{ asset('icons/setting.png') }}" class="w-7">
-    </div>
-
-</div>
 
     <!-- LOGOUT PALING BAWAH -->
     <img src="{{ asset('icons/logout.png') }}" class="w-7 mt-auto mb-4">
 </div>
 
-        <!-- MAIN CONTENT -->
-        <div class="flex-1 py-6 px-10">
 
-<!-- TOPBAR -->
-<div class="flex justify-end items-center w-full py-4 px-10 text-white space-x-6">
+<!-- MAIN CONTENT -->
+<div class="flex-1 py-6 px-10">
 
-    <!-- Divider kiri -->
-    <div class="border-l border-white h-6"></div>
+    <!-- TOPBAR -->
+    <div class="flex justify-end items-center w-full py-4 px-10 text-white space-x-6">
 
-    <!-- Icon pesan -->
-    <img src="{{ asset('icons/mail.png') }}" class="w-6">
+        <!-- Divider kiri -->
+        <div class="border-l border-white h-6"></div>
 
-    <!-- Icon notif -->
-    <img src="{{ asset('icons/bell.png') }}" class="w-6">
+        <!-- Icon pesan -->
+        <img src="{{ asset('icons/mail.png') }}" class="w-6">
 
-    <!-- Divider kanan -->
-    <div class="border-l border-white h-6"></div>
+        <!-- Icon notif -->
+        <img src="{{ asset('icons/bell.png') }}" class="w-6">
 
-    <!-- Profile -->
-    <div class="flex items-center space-x-2">
-        <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">
-            FA
+        <!-- Divider kanan -->
+        <div class="border-l border-white h-6"></div>
+
+        <!-- Profile (model sama seperti kelola-user) -->
+        <div class="flex items-center space-x-2">
+            <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">
+                FA
+            </div>
+
+            <span class="text-black font-medium">Fayza Azzahra</span>
+
+            <img src="{{ asset('icons/arrow-down.png') }}" class="w-4 ml-1">
         </div>
-        <span class="text-black font-medium">Fayza Azzahra</span>
-        <img src="{{ asset('icons/arrow-down.png') }}" class="w-4 ml-1">
+
     </div>
 
-</div>
-
-<!-- GARIS PEMBATAS PANJANG -->
-<div class="w-full border-b-2 border-white mb-6"></div>
+    <!-- GARIS PEMBATAS PANJANG -->
+    <div class="w-full border-b-2 border-white mb-6"></div>
 
       <!-- BANNER -->
       <section class="px-8 pt-8 pb-6">
