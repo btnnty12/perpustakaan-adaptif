@@ -23,6 +23,25 @@
         .blue-pill {
             background: #d7edff;
         }
+
+        .kategori-tag {
+    position: relative;
+}
+
+.kategori-tag .x-btn {
+    background: #ff5757;
+    color: white;
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+}
     </style>
 </head>
 
@@ -97,224 +116,149 @@
     highlight.style.top = "0px";
 </script>
 
-    <!-- MAIN CONTENT -->
-<main class="flex-1 p-8">
+    <main class="flex">
 
-    <!-- TOP BAR -->
-<div class="flex justify-end items-center space-x-6 mb-6 relative">
+    <!-- ======== MAIN CONTENT (LEFT) ======== -->
+    <div class="flex-1 p-8">
 
+        <!-- SEARCH BAR -->
+        <div class="flex justify-center mb-8 relative w-2/3 mx-auto">
+            <input id="searchInput"
+                   class="w-full pl-12 pr-4 py-3 rounded-full shadow-lg border border-yellow-300 outline-none"
+                   placeholder="Cari buku...">
+            
+            <img src="{{ asset('icons/search.svg') }}" 
+                 class="w-5 absolute left-4 top-1/2 -translate-y-1/2 opacity-80">
 
-    <!-- NOTIFICATION BUTTON -->
-        <button id="notifBtn" class="text-2xl hover:opacity-80 relative">
-            🔔
-        </button>
-
-        <!-- MESSAGE BUTTON -->
-        <button id="msgBtn" class="text-2xl hover:opacity-80 relative">
-            ✉️
-        </button>
-
-        <div class="bg-blue-500 w-10 h-10 rounded-full text-white flex items-center justify-center font-bold">
-            FA
+            <!-- Search Results -->
+            <div id="searchResults"
+                 class="absolute top-full left-0 w-full mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto hidden z-50"></div>
         </div>
 
-        <span class="font-semibold text-lg cursor-pointer">Fayza Azzahra ▾</span>
-    </div>
+        <!-- ===== ROW: RIWAYAT + TOP KATEGORI ===== -->
+        <div class="flex items-start gap-10 px-3">
 
-<!-- POPUP NOTIF -->
-<div id="notifPopup" class="absolute right-10 top-20 w-64 bg-white shadow-xl rounded-xl p-4 hidden z-50">
-    <h3 class="font-semibold mb-3">Notifikasi</h3>
-
-    <div class="space-y-3">
-
-        <div class="p-3 bg-gray-100 rounded-lg">
-            <p class="font-semibold">Buku Baru Tersedia</p>
-            <p class="text-sm text-gray-600">“Clean Architecture” baru ditambahkan.</p>
-        </div>
-
-        <div class="p-3 bg-gray-100 rounded-lg">
-            <p class="font-semibold">Peringatan</p>
-            <p class="text-sm text-gray-600">Segera kembalikan buku “Machine Learning”.</p>
-        </div>
-
-    </div>
-</div>
-
-<!-- POPUP PESAN ADMIN -->
-<div id="msgPopup" class="absolute right-10 top-20 w-72 bg-white shadow-xl rounded-xl p-4 hidden z-50">
-
-    <h3 class="font-semibold mb-3">Pesan Admin</h3>
-
-    <div class="space-y-4">
-
-        <!-- PESAN -->
-        <div class="message-item flex items-start gap-3 bg-gray-100 p-3 rounded-xl relative">
-
-            <!-- ICON PROFIL -->
-            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                <i class="fa-solid fa-user text-gray-700"></i>
-            </div>
-
-            <!-- ISI PESAN -->
-            <div>
-                <p class="font-semibold text-[15px]">Admin Perpustakaan</p>
-                <p class="text-sm text-gray-700">
-                    Halo Fayza, peminjaman buku <b>Clean Code</b> kamu sudah disetujui. Silakan ambil di loket perpustakaan.
-                </p>
-
-                <div class="flex gap-4 mt-2">
-                    <button class="reply-btn text-blue-600 text-sm">Balas</button>
-                    <button class="delete-btn text-red-600 text-sm">Hapus</button>
+    <!-- RIWAYAT -->
+    <div class="flex-1 border-r pr-6">
+                <div class="flex justify-between items-center">
+                    <h4 class="font-semibold">Riwayat Pencarian</h4>
+                    <button onclick="clearAllHistory()" class="text-red-600 text-sm">Hapus Semua</button>
                 </div>
 
-                <!-- INPUT BALAS -->
-                <div class="reply-box hidden mt-2">
-                    <input type="text" class="w-full p-2 border rounded-lg text-sm" placeholder="Tulis balasan...">
-                    <button class="send-reply mt-1 bg-blue-600 text-white px-3 py-1 rounded-lg text-sm">Kirim</button>
-                </div>
+                <div id="historyWrapper" class="flex flex-wrap gap-3 mt-3"></div>
             </div>
+    </div>
 
-        </div>
+            <!-- TOP KATEGORI -->
+           <div class="flex-1">
+            <div class="flex-1 ml-6">
+    <h4 class="font-semibold mb-2">Top Kategori</h4>
+
+    <div id="topKategoriWrapper" class="flex flex-wrap gap-3">
+        <span class="kategori-tag px-4 py-1 rounded-full bg-white shadow text-sm cursor-pointer flex items-center gap-2">
+            Teknologi Informasi
+        </span>
+        <span class="kategori-tag px-4 py-1 rounded-full bg-white shadow text-sm cursor-pointer flex items-center gap-2">
+            AI & Machine Learning
+        </span>
+        <span class="kategori-tag px-4 py-1 rounded-full bg-white shadow text-sm cursor-pointer flex items-center gap-2">
+            Statistika
+        </span>
+        <span class="kategori-tag px-4 py-1 rounded-full bg-white shadow text-sm cursor-pointer flex items-center gap-2">
+            Manajemen
+        </span>
+        <span class="kategori-tag px-4 py-1 rounded-full bg-white shadow text-sm cursor-pointer flex items-center gap-2">
+            Psikologi
+        </span>
     </div>
 </div>
 
-
-       <div class="flex justify-center mb-4 relative w-2/3 mx-auto">
-    <input type="text" 
-           id="searchInput" 
-           class="w-full pl-12 pr-4 py-3 rounded-full shadow-lg border border-yellow-300 outline-none" 
-           placeholder="Cari buku...">
-    
-    <!-- ICON SEARCH -->
-    <img src="{{ asset('icons/search.svg') }}" 
-         class="w-5 absolute left-4 top-1/2 -translate-y-1/2 opacity-80">
-    
-    <!-- Dropdown Hasil Search -->
-    <div id="searchResults" class="absolute top-full left-0 w-full mt-1 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto hidden z-50">
-        <!-- Hasil search muncul di sini -->
-    </div>
-</div>
-
-        <!-- TOP KATEGORI (NEW) -->
-        <div class="px-3 mt-3">
-            <h4 class="font-semibold text-gray-700 mb-2">Top Kategori</h4>
-            <div class="flex gap-3 flex-wrap">
-                <span class="px-4 py-1 rounded-full bg-white shadow text-sm">Teknologi Informasi</span>
-                <span class="px-4 py-1 rounded-full bg-white shadow text-sm">AI & Machine Learning</span>
-                <span class="px-4 py-1 rounded-full bg-white shadow text-sm">Statistika</span>
-                <span class="px-4 py-1 rounded-full bg-white shadow text-sm">Manajemen</span>
-                <span class="px-4 py-1 rounded-full bg-white shadow text-sm">Psikologi</span>
-            </div>
         </div>
 
-        <!-- HASIL MINAT (NEW) -->
-        <div class="px-3 mt-6">
+        <!-- ===== HASIL PENCARIAN ===== -->
+        <div class="mt-12 px-3 hidden" id="searchSection">
+            <h3 class="font-bold text-lg mb-3">Hasil Pencarian</h3>
+            <div id="hasilPencarianList" class="grid grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- ===== ROW: CARD + FILTER ===== -->
+<div class="flex gap-6 mt-12 mx-3">
+
+    <!-- BAGIAN KIRI (Terakhir Dipinjam + Minat Kamu) -->
+    <div class="flex-1 bg-white rounded-2xl p-6 shadow-md border border-yellow-200">
+
+        <!-- TERAKHIR DIPINJAM -->
+        <div class="flex justify-between items-center">
+            <h3 class="font-bold text-lg">Terakhir Yang Dipinjam</h3>
+            <span class="text-sm text-gray-600 cursor-pointer">Lihat Lebih Banyak ↗</span>
+        </div>
+
+        <div class="flex gap-6 mt-6 overflow-x-auto pb-4 border-b">
+            @foreach(['Menulis Ilmiah','Deep Learning','SQL 2000','Penelitian Kualitatif','Pemrograman Web'] as $buku)
+            <div class="min-w-[130px]">
+                <img src="{{ asset('images/book1.jpg') }}" class="w-full rounded-lg shadow-md">
+                <p class="mt-2 text-sm font-semibold">{{ $buku }}</p>
+                <p class="text-xs text-gray-500">M.Pd | 2024</p>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- MINAT BACANMU -->
+        <div class="mt-6">
             <h4 class="font-semibold text-gray-700 mb-2">Hasil Minat Bacaan Kamu</h4>
-            <div class="flex gap-4 overflow-x-auto pb-2">
 
+            <div class="flex gap-4 overflow-x-auto pb-2">
                 @foreach([
                     ['AI Dasar','images/ai1.jpg'],
                     ['Cloud Intro','images/cloud.jpg'],
                     ['UI/UX Modern','images/uiux.jpg'],
                     ['Algoritma','images/algoritma.jpg'],
                 ] as $minat)
-
                 <div class="min-w-[130px]">
                     <img src="{{ asset($minat[1]) }}" class="w-full rounded-xl shadow-md">
                     <p class="mt-2 font-semibold text-sm">{{ $minat[0] }}</p>
                     <p class="text-xs text-gray-500">Minat Tinggi</p>
                 </div>
-
                 @endforeach
-
             </div>
         </div>
 
-        <!-- RIWAYAT PENCARIAN -->
-        <div class="flex items-center justify-between px-3 mt-8">
-            <h4 class="font-semibold text-gray-700">Riwayat Pencarian</h4>
-            <button onclick="clearAllHistory()" class="text-red-600 text-sm">Hapus Semua</button>
+    </div>
+
+    <!-- BAGIAN KANAN (FILTER) -->
+    <aside class="w-72 p-6 bg-white rounded-2xl border border-yellow-200 h-fit">
+
+        <h3 class="font-bold text-lg mb-4">Filter Buku</h3>
+
+        <!-- Jenis -->
+        <h4 class="font-semibold mb-2">Jenis Buku</h4>
+        <div class="flex flex-wrap gap-2 mb-4">
+            <span class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer filter-jenis" data-value="Fiksi">Fiksi</span>
+            <span class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer filter-jenis" data-value="Non-Fiksi">Non-Fiksi</span>
+            <span class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer filter-jenis" data-value="Referensi">Referensi</span>
         </div>
 
-        <div id="historyWrapper" class="flex flex-wrap gap-3 mb-4 px-3 mt-1"></div>
-
-        <!-- GRID -->
-        <div class="mt-8 grid grid-cols-3 gap-8">
-
-            <!-- LEFT CONTENT -->
-            <div class="col-span-2 space-y-10">
-
-                <!-- TERAKHIR DIPINJAM -->
-                <div class="bg-white rounded-2xl p-6 shadow-md border border-yellow-200">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg">Terakhir Yang Dipinjam</h3>
-                        <span class="text-sm text-gray-600 cursor-pointer">Lihat Lebih Banyak ↗</span>
-                    </div>
-
-                    <div class="flex gap-6 mt-6 overflow-x-auto">
-                        @foreach(['Menulis Ilmiah','Deep Learning','SQL 2000','Penelitian Kualitatif','Pemrograman Web'] as $buku)
-                        <div class="w-32">
-                            <img src="{{ asset('images/book1.jpg') }}" class="w-full rounded-lg shadow-md">
-                            <p class="mt-2 text-sm font-semibold">{{ $buku }}</p>
-                            <p class="text-xs text-gray-500">M.Pd | 2024</p>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- REKOMENDASI -->
-                <div class="bg-white rounded-2xl p-6 shadow-md border border-yellow-200">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg">Rekomendasi Yang Mungkin Kamu Sukai</h3>
-                        <span class="text-sm text-gray-600 cursor-pointer">Lihat Lebih Banyak ↗</span>
-                    </div>
-
-                    <div class="flex gap-6 mt-6 overflow-x-auto">
-                        @foreach(['AI Revolution','Java Dasar','SQL 2000','Aplikasi Web','Menulis Ilmiah'] as $buku)
-                        <div class="w-32">
-                            <img src="{{ asset('images/book2.jpg') }}" class="w-full rounded-lg shadow-md">
-                            <p class="mt-2 text-sm font-semibold">{{ $buku }}</p>
-                            <p class="text-xs text-gray-500">Dr. Skom, M.Kom</p>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT FILTER -->
-            <div class="bg-white rounded-2xl p-6 shadow-md h-fit border border-yellow-200">
-
-                <h3 class="font-bold text-lg mb-4">Filter Buku</h3>
-
-                <!-- Jenis Buku -->
-                <h4 class="font-semibold mb-2">Jenis Buku</h4>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <label class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer">Fiksi</label>
-                    <label class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer">Non-Fiksi</label>
-                    <label class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer">Referensi</label>
-                </div>
-
-                <!-- Bahasa -->
-                <h4 class="font-semibold mb-2">Bahasa</h4>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <label class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer">Indonesia</label>
-                    <label class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer">English</label>
-                </div>
-
-                <!-- Tahun Terbit -->
-<h4 class="font-semibold mb-3">Tahun Terbit</h4>
-<div class="flex items-center gap-4 mb-4">
-    <span id="yearMin" class="text-sm text-gray-600">1990</span>
-    <input type="range" id="yearRange" min="1990" max="2025" value="2025" class="flex-1">
-    <span id="yearMax" class="text-sm text-gray-600">2025</span>
-</div>
-
+        <!-- Bahasa -->
+        <h4 class="font-semibold mb-2">Bahasa</h4>
+        <div class="flex flex-wrap gap-2 mb-4">
+            <span class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer filter-bahasa" data-value="Indonesia">Indonesia</span>
+            <span class="blue-pill px-3 py-1 rounded-full text-sm cursor-pointer filter-bahasa" data-value="English">English</span>
         </div>
 
-    </main>
+        <!-- Tahun -->
+        <h4 class="font-semibold mb-3">Tahun Terbit</h4>
+        <div class="flex items-center gap-4 mb-4">
+            <span id="yearMin" class="text-sm text-gray-600">1990</span>
+            <input type="range" id="yearRange" min="1990" max="2025" value="2025" class="flex-1">
+            <span id="yearMax" class="text-sm text-gray-600">2025</span>
+        </div>
+
+    </aside>
 
 </div>
+
+</main>
+
 
 <!-- JAVASCRIPT RIWAYAT -->
 <script>
@@ -402,58 +346,6 @@
 </script>
 
 <script>
-    const books = [
-    "Deep Learning",
-    "AI Dasar",
-    "Cloud Intro",
-    "UI/UX Modern",
-    "Algoritma",
-    "SQL 2000",
-    "Pemrograman Web",
-    "Menulis Ilmiah"
-];
-
-const searchInput = document.getElementById("searchInput");
-const searchResults = document.getElementById("searchResults");
-
-searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase();
-    searchResults.innerHTML = "";
-
-    if(query === "") {
-        searchResults.classList.add("hidden");
-        return;
-    }
-
-    const filteredBooks = books.filter(book => book.toLowerCase().includes(query));
-
-    if(filteredBooks.length === 0) {
-        searchResults.innerHTML = `<p class="p-3 text-gray-500">Buku tidak ditemukan</p>`;
-    } else {
-        filteredBooks.forEach(book => {
-            const div = document.createElement("div");
-            div.textContent = book;
-            div.className = "p-3 cursor-pointer hover:bg-yellow-100 rounded-lg";
-            div.addEventListener("click", () => {
-                searchInput.value = book;
-                searchResults.classList.add("hidden");
-            });
-            searchResults.appendChild(div);
-        });
-    }
-
-    searchResults.classList.remove("hidden");
-});
-
-// Klik luar → tutup dropdown
-document.addEventListener("click", (e) => {
-    if(!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-        searchResults.classList.add("hidden");
-    }
-});
-</script>
-
-<script>
     const yearRange = document.getElementById("yearRange");
 const yearMin = document.getElementById("yearMin");
 const yearMax = document.getElementById("yearMax");
@@ -461,6 +353,300 @@ const yearMax = document.getElementById("yearMax");
 // Update label saat slider digeser
 yearRange.addEventListener("input", () => {
     yearMax.textContent = yearRange.value;
+});
+</script>
+
+<script>
+// ============ DATA DUMMY ============
+const allBooks = [
+    { title: "Deep Learning", jenis: "Non-Fiksi", bahasa: "English", tahun: 2018, img: "images/book1.jpg" },
+    { title: "AI Dasar", jenis: "Non-Fiksi", bahasa: "Indonesia", tahun: 2021, img: "images/book1.jpg" },
+    { title: "Cloud Intro", jenis: "Non-Fiksi", bahasa: "English", tahun: 2019, img: "images/book1.jpg" },
+    { title: "UI/UX Modern", jenis: "Referensi", bahasa: "Indonesia", tahun: 2020, img: "images/book2.jpg" },
+    { title: "Algoritma", jenis: "Referensi", bahasa: "Indonesia", tahun: 2016, img: "images/book3.jpg" },
+    { title: "Novel Fiksi A", jenis: "Fiksi", bahasa: "Indonesia", tahun: 2015, img: "images/book4.jpg" },
+    { title: "Novel Fantasi", jenis: "Fiksi", bahasa: "English", tahun: 2013, img: "images/book5.jpg" },
+];
+
+// ============ ELEMENT ============
+// Target hasil pencarian utama
+const hasilPencarianSection = document.getElementById("searchSection");
+const hasilPencarianList   = document.getElementById("hasilPencarianList");
+
+// Filter
+const jenisBtns  = document.querySelectorAll(".filter-jenis");
+const bahasaBtns = document.querySelectorAll(".filter-bahasa");
+const yearSlider = document.getElementById("yearRange");
+
+// Search
+const searchInput   = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+
+let selectedJenis  = null;
+let selectedBahasa = null;
+let selectedTahun  = 2025;
+
+
+// =========================================
+// RENDER BUKU KE GRID HASIL PENCARIAN
+// =========================================
+function renderBooks(list) {
+    hasilPencarianSection.classList.remove("hidden");
+
+    if (!list.length) {
+        hasilPencarianList.innerHTML =
+            `<p class="text-red-600 col-span-4">Buku tidak ditemukan.</p>`;
+        return;
+    }
+
+    hasilPencarianList.innerHTML = list.map(b => `
+        <div class="w-full">
+            <img src="/${b.img}" class="w-full rounded-lg shadow-md">
+            <p class="mt-2 text-sm font-semibold">${b.title}</p>
+            <p class="text-xs text-gray-500">${b.jenis} • ${b.bahasa}</p>
+            <p class="text-xs text-gray-500">Tahun: ${b.tahun}</p>
+        </div>
+    `).join("");
+}
+
+
+// =========================================
+// FILTER FUNGSI
+// =========================================
+function filterBooks() {
+    let f = allBooks;
+
+    if (selectedJenis)  f = f.filter(b => b.jenis === selectedJenis);
+    if (selectedBahasa) f = f.filter(b => b.bahasa === selectedBahasa);
+
+    f = f.filter(b => b.tahun <= selectedTahun);
+
+    renderBooks(f);
+}
+
+
+// =========================================
+// EVENT FILTER
+// =========================================
+
+// Jenis
+jenisBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        if (selectedJenis === btn.dataset.value) {
+            selectedJenis = null;
+            btn.classList.remove("bg-yellow-300");
+        } else {
+            selectedJenis = btn.dataset.value;
+            jenisBtns.forEach(b => b.classList.remove("bg-yellow-300"));
+            btn.classList.add("bg-yellow-300");
+        }
+        filterBooks();
+    });
+});
+
+// Bahasa
+bahasaBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        if (selectedBahasa === btn.dataset.value) {
+            selectedBahasa = null;
+            btn.classList.remove("bg-yellow-300");
+        } else {
+            selectedBahasa = btn.dataset.value;
+            bahasaBtns.forEach(b => b.classList.remove("bg-yellow-300"));
+            btn.classList.add("bg-yellow-300");
+        }
+        filterBooks();
+    });
+});
+
+// Tahun
+yearSlider.addEventListener("input", () => {
+    selectedTahun = parseInt(yearSlider.value);
+    document.getElementById("yearMax").textContent = selectedTahun;
+    filterBooks();
+});
+
+
+// =========================================
+// SEARCH BAR FUNGSI
+// =========================================
+searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase();
+
+    if (q === "") {
+        searchResults.classList.add("hidden");
+        hasilPencarianSection.classList.add("hidden");
+        return;
+    }
+
+    const matches = allBooks.filter(b =>
+        b.title.toLowerCase().includes(q)
+    );
+
+    searchResults.innerHTML = "";
+    if (!matches.length) {
+        searchResults.innerHTML = `<p class="p-3 text-gray-500">Tidak ditemukan</p>`;
+    } else {
+        matches.forEach(book => {
+            let d = document.createElement("div");
+            d.className = "p-3 cursor-pointer hover:bg-yellow-100 rounded-lg";
+            d.textContent = book.title;
+
+            d.addEventListener("click", () => {
+                searchInput.value = book.title;
+                searchResults.classList.add("hidden");
+                renderBooks([book]);
+            });
+
+            searchResults.appendChild(d);
+        });
+    }
+
+    searchResults.classList.remove("hidden");
+
+    renderBooks(matches);
+});
+
+
+// Klik di luar → tutup dropdown search
+document.addEventListener("click", (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.classList.add("hidden");
+    }
+});
+</script>
+
+<script>
+const books = allBooks; // ambil data buku dari array utama
+
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+const bookGrid = document.getElementById("rekomendasiList");
+
+function renderBooks(list) {
+    if (!list.length) {
+        bookGrid.innerHTML = `<p class='text-red-600'>Buku tidak ditemukan.</p>`;
+        return;
+    }
+
+    bookGrid.innerHTML = list.map(b => `
+        <div class="w-32">
+            <img src="/${b.img}" class="w-full rounded-lg shadow-md">
+            <p class="mt-2 text-sm font-semibold">${b.title}</p>
+            <p class="text-xs text-gray-500">${b.jenis} • ${b.bahasa}</p>
+            <p class="text-xs text-gray-500">Tahun: ${b.tahun}</p>
+        </div>
+    `).join("");
+}
+
+// EVENT SEARCH
+searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase();
+
+    if (q === "") {
+        searchResults.classList.add("hidden");
+        renderBooks(allBooks); // kembali tampilkan semua
+        return;
+    }
+
+    const matches = books.filter(b =>
+        b.title.toLowerCase().includes(q)
+    );
+
+    // tampilkan dropdown teks
+    searchResults.innerHTML = "";
+    if (!matches.length) {
+        searchResults.innerHTML = `<p class="p-3 text-gray-500">Tidak ditemukan</p>`;
+    } else {
+        matches.forEach(m => {
+            let div = document.createElement("div");
+            div.textContent = m.title;
+            div.className = "p-3 cursor-pointer hover:bg-yellow-100 rounded-lg";
+
+            // KLIK → tampilkan buku lengkap di rekomendasi
+            div.addEventListener("click", () => {
+                searchInput.value = m.title;
+                searchResults.classList.add("hidden");
+                renderBooks([m]);
+            });
+
+            searchResults.appendChild(div);
+        });
+    }
+
+    searchResults.classList.remove("hidden");
+
+    // auto render saat mengetik
+    renderBooks(matches);
+});
+
+// klik luar → tutup dropdown
+document.addEventListener("click", (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.classList.add("hidden");
+    }
+});
+</script>
+
+<script>
+const kategoriTags = document.querySelectorAll('.kategori-tag');
+
+kategoriTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+
+        const active = tag.classList.contains("bg-yellow-300");
+
+        // Jika aktif → matikan
+        if (active) {
+            tag.classList.remove("bg-yellow-300");
+            const closeBtn = tag.querySelector(".x-btn");
+            if (closeBtn) closeBtn.remove();
+            hasilPencarianSection.classList.add("hidden");
+            return;
+        }
+
+        // Reset semua tag lain
+        kategoriTags.forEach(t => {
+            t.classList.remove("bg-yellow-300");
+            const x = t.querySelector(".x-btn");
+            if (x) x.remove();
+        });
+
+        // Aktifkan tag
+        tag.classList.add("bg-yellow-300");
+
+        // Tambahkan tombol X
+        const closeButton = document.createElement("span");
+        closeButton.textContent = "×";
+        closeButton.classList.add("x-btn");
+        tag.appendChild(closeButton);
+
+        closeButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            tag.classList.remove("bg-yellow-300");
+            closeButton.remove();
+            hasilPencarianSection.classList.add("hidden");
+        });
+
+        // Filter berdasarkan teks kategori
+        const kategori = tag.innerText.replace("×","").trim().toLowerCase();
+
+        const filtered = allBooks.filter(b =>
+            b.title.toLowerCase().includes(kategori)
+        );
+
+        hasilPencarianSection.classList.remove("hidden");
+        hasilPencarianList.innerHTML = filtered.length
+            ? filtered.map(b => `
+                <div>
+                    <img src="/${b.img}" class="w-full rounded-lg shadow-md">
+                    <p class="mt-2 text-sm font-semibold">${b.title}</p>
+                    <p class="text-xs text-gray-500">${b.jenis} • ${b.bahasa}</p>
+                    <p class="text-xs text-gray-500">Tahun: ${b.tahun}</p>
+                </div>`
+            ).join("")
+            : `<p class="text-red-600">Tidak ada buku ditemukan.</p>`;
+    });
 });
 </script>
 

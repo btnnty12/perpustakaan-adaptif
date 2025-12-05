@@ -13,7 +13,6 @@
 </head>
 
 <body class="m-0 p-0">
-
     <div class="w-full min-h-screen flex flex-col md:flex-row">
 
         <!-- LEFT -->
@@ -21,13 +20,26 @@
             <img src="{{ asset('images/ilustration.png') }}" class="max-w-full" alt="gambar">
         </div>
 
-        <!-- RIGHT -->
-        <div class="right md:w-1/2 flex items-center justify-center p-6">
+       <!-- RIGHT -->
+<div class="right md:w-1/2 flex items-center justify-center p-6">
 
-            <div class="card-custom text-center w-full max-w-md">
+    <div class="card-custom text-center w-full max-w-md">
+        
+        <div class="flex items-center justify-between">
+            <div class="title">APLIKASI MANAJEMEN PERPUSTAKAAN</div>
 
-                <div class="title">APLIKASI MANAJEMEN PERPUSTAKAAN</div>
-                <hr>
+            <!-- Ikon silang dengan frame solid -->
+            <a href="{{ url('/') }}" 
+               class="flex items-center justify-center 
+                      w-8 h-8 rounded-full 
+                      bg-white text-yellow-600 
+                      hover:bg-gray-200 hover:text-yellow-700
+                      transition font-bold text-xl leading-none shadow">
+                &times;
+            </a>
+        </div>
+
+        <hr class="w-1/2 mx-auto border-white mt-2 mb-4">
 
                 @if(session('error'))
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">

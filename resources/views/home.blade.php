@@ -95,13 +95,31 @@
             ✉️
         </button>
 
-        <div class="bg-blue-500 w-10 h-10 rounded-full text-white flex items-center justify-center font-bold">
-            FA
-        </div>
+        <div id="profileBtn"
+     class="bg-blue-500 w-10 h-10 rounded-full text-white flex items-center justify-center font-bold cursor-pointer">
+    {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+</div>
 
-        <span class="font-semibold text-lg cursor-pointer">Fayza Azzahra ▾</span>
+<span id="profileBtn2" class="font-semibold text-lg cursor-pointer">
+    {{ Auth::user()->name }} ▾
+</span>
     </div>
 
+    <!-- PROFILE DROPDOWN -->
+<div id="profileDropdown"
+     class="hidden absolute top-14 right-0 w-40 bg-white shadow-xl rounded-xl py-2 z-50">
+
+    <a href="/settings"
+       class="block px-4 py-2 text-sm hover:bg-gray-100">
+        Pengaturan
+    </a>
+
+    <a href="/logout"
+       class="block px-4 py-2 text-sm hover:bg-gray-100 text-red-600 font-semibold">
+        Logout
+    </a>
+
+</div>
 
     <!-- ============================== -->
     <!--       POPUP NOTIF & PESAN      -->
@@ -171,12 +189,13 @@
     <!-- BANNER -->
     <div class="w-full bg-[#C4431E] rounded-3xl text-white p-10 flex justify-between shadow-xl relative overflow-hidden">
         <div class="w-2/3">
-            <h1 class="text-4xl font-bold">Hi, Fayza</h1>
+            <h1 class="text-4xl font-bold">Hi, {{ Str::title(Auth::user()->name) }}</h1>
             <p class="text-xl mt-2 mb-6">ada koleksi buku baru yang bisa kamu jelajahi hari ini!</p>
 
-            <button class="bg-white text-[#C4431E] px-6 py-2 rounded-full font-semibold shadow">
-                Jelajahi Sekarang!
-            </button>
+           <a href="{{ route('search') }}" 
+   class="px-8 py-3 bg-white text-black font-bold rounded-full shadow hover:bg-gray-100 transition">
+    Selajahi Sekarang
+</a>
         </div>
 
         <img src="https://i.ibb.co/4N95fxt/books.png" class="w-48 absolute right-12 bottom-6">
@@ -205,68 +224,86 @@
                     <div class="grid grid-cols-5 gap-x-6 gap-y-10">
 
                         <!-- Semua item buku kamu tetap sama -->
-                        <!-- (tidak saya ubah satupun) -->
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/hMncDr2/ml.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Machine<br>Learning</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/hMncDr2/ml.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Machine<br>Learning</p>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/9qsB1xB/ai.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Artificial<br>Intelligence</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+    <a href="{{ route('detail', ['buku' => 'Machine Learning']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/9nBNR4w/cyber.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Cyber<br>Security</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/9qsB1xB/ai.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Artificial<br>Intelligence</p>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/zmd5jJg/math.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Kalkulus<br>Book</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+    <a href="{{ route('detail', ['buku' => 'Artificial Intelligence']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/XFZwcNm/ux.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">UX Design<br>Thinking</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/9nBNR4w/cyber.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Cyber<br>Security</p>
 
-                        <!-- BARIS 2 -->
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/rGdm32f/web.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Pemrograman<br>Aplikasi Web</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+    <a href="{{ route('detail', ['buku' => 'Cyber Security']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/xDLMp7R/java.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Java<br>Book</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/zmd5jJg/math.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Kalkulus<br>Book</p>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/S6Wbn5p/python.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Python<br>Book</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+    <a href="{{ route('detail', ['buku' => 'Kalkulus Book']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/PYY8spf/docker.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Docker<br>Book</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/XFZwcNm/ux.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">UX Design<br>Thinking</p>
 
-                        <div class="flex flex-col items-center">
-                            <img src="https://i.ibb.co/Kxqs6bQ/statistika.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
-                            <p class="font-semibold text-center mt-2">Statistika<br>Buku</p>
-                            <button class="mt-1 text-xl font-bold">＋</button>
-                        </div>
+    <a href="{{ route('detail', ['buku' => 'UX Design Thinking']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
 
+<!-- BARIS 2 -->
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/rGdm32f/web.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Pemrograman<br>Aplikasi Web</p>
+
+    <a href="{{ route('detail', ['buku' => 'Pemrograman Aplikasi Web']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
+
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/xDLMp7R/java.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Java<br>Book</p>
+
+    <a href="{{ route('detail', ['buku' => 'Java Book']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
+
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/S6Wbn5p/python.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Python<br>Book</p>
+
+    <a href="{{ route('detail', ['buku' => 'Python Book']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
+
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/PYY8spf/docker.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Docker<br>Book</p>
+
+    <a href="{{ route('detail', ['buku' => 'Docker Book']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
+
+<div class="flex flex-col items-center">
+    <img src="https://i.ibb.co/Kxqs6bQ/statistika.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <p class="font-semibold text-center mt-2">Statistika<br>Buku</p>
+
+    <a href="{{ route('detail', ['buku' => 'Statistika Buku']) }}"
+       class="mt-1 text-xl font-bold">＋</a>
+</div>
                     </div>
                 </div>
             </div>
@@ -322,7 +359,6 @@
             </span>
 
             <div class="flex items-center gap-3">
-                <input id="searchInput" type="text" placeholder="Cari buku..."
                 <input id="searchInput" type="text" placeholder="Cari buku..."
        class="border rounded-full px-3 py-1.5 text-sm w-32 focus:ring-2 focus:ring-[#DDA08A]">
 
@@ -444,6 +480,42 @@ scrollBox.addEventListener("scroll", () => {
                 alert("Balasan terkirim:\n" + value);
                 input.value = "";
             }
+        });
+    });
+</script>
+
+<script>
+    const profileBtn = document.getElementById("profileBtn");
+    const profileBtn2 = document.getElementById("profileBtn2");
+    const profileDropdown = document.getElementById("profileDropdown");
+
+    function toggleProfileMenu(e) {
+        e.stopPropagation();
+        profileDropdown.classList.toggle("hidden");
+    }
+
+    profileBtn.addEventListener("click", toggleProfileMenu);
+    profileBtn2.addEventListener("click", toggleProfileMenu);
+
+    document.addEventListener("click", () => {
+        profileDropdown.classList.add("hidden");
+    });
+</script>
+
+<script>
+    // Ambil semua tombol + di grid
+    const addButtons = document.querySelectorAll(".grid button");
+
+    addButtons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            const parent = this.parentElement;
+            const title = parent.querySelector("p").innerText;
+
+            // Ubah judul jadi URL friendly
+            const encoded = encodeURIComponent(title);
+
+            // Redirect ke detail buku
+            window.location.href = `/detail?buku=${encoded}`;
         });
     });
 </script>
