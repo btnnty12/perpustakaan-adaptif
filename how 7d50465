@@ -1,0 +1,37 @@
+[33m77b9c1e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfrontend-fayza[m[33m, [m[1;31morigin/frontend-fayza[m[33m)[m update frontend 1
+[33m7d50465[m update frontend
+[33m3e42759[m menambahkan laporan peminjaman
+[33m12d3696[m menambahakan halaman admin,data anggota dan kelola buku
+[33mecb9965[m implementasi middleware dan roles
+[33m1886825[m add KNN rekomendasi service
+[33m0a0df99[m[33m ([m[1;31morigin/fix-string-matching[m[33m)[m Fix: String Matching & Controller
+[33mddf7f9c[m Fix: perbaikan algoritma string matching & optimasi SearchController
+[33mce7624b[m Merge pull request #3 from btnnty12/frontend-fayza
+[33m38e2382[m Update frontend: home, login, register, search, css, routes, controller
+[33mf9e7bba[m Merge branch 'main' of https://github.com/btnnty12/perpustakaan-adaptif into frontend-fayza
+[33m597cd52[m Resolve merge conflict in AuthController.php
+[33m6dedbe1[m Implementasi AuthController
+[33m3052142[m Merge pull request #2 from btnnty12/frontend-fayza
+[33md7905a2[m Merge branch 'main' of https://github.com/btnnty12/perpustakaan-adaptif into frontend-fayza
+[33ma104503[m Update frontend: home, login, register, search, css, routes, controller
+[33m28d655c[m controller
+[33mf4db70c[m selesaikan merge
+[33mcb26751[m string matching implementation
+[33mecfe4d5[m Update
+[33m4ae59de[m Update
+[33m60d8f93[m Add .env file
+[33m33e479c[m Merge pull request #1 from btnnty12/frontend-fayza
+[33m7489140[m Add frontend pages: home, search, peminjaman, form, login, register + update welcome
+[33m9930f53[m Update
+[33m7413aef[m Update
+[33mf0d731b[m Update migrations
+[33m4fe5958[m Add CRUD routes
+[33mc506d1c[m Add CRUD routes
+[33mef78369[m Merge branch 'main' from origin
+[33m7e4029a[m  clean migration tables
+[33m5763423[m seeder dan connection
+[33m379c239[m update migration
+[33med2bab5[m Clean up models and migrations
+[33m5aa2f09[m Add migrations for books and borrowings
+[33m574ff79[m Initial Laravel setup
+[33mfc32562[m Initial Laravel setup
