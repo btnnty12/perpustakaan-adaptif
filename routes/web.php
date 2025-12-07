@@ -3,16 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-<<<<<<< HEAD
-| Halaman Umum (bebas akses)
-|--------------------------------------------------------------------------
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+use App\Http\Controllers\ProfileController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+Route::get('/favorit', function () {
+    return view('favorit'); // akan mengarah ke resources/views/favorit.blade.php
+})->name('favorit');
 
 // Admin (tanpa login dulu)
 Route::get('/admin', fn() => view('admin'))->name('admin');
@@ -25,18 +30,7 @@ Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
 
 // Laporan Peminjaman
 Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
-=======
-| Halaman Umum
-|--------------------------------------------------------------------------
-*/
->>>>>>> 745e825e60e2de9fa1dc0049561a9e2abbc9a273
 
-
-/*
-|--------------------------------------------------------------------------
-| DETAIL BUKU (TANPA LOGIN — FIXED)
-|--------------------------------------------------------------------------
-*/
 Route::get('/detail/{buku}', function ($buku) {
 
     // Database sementara (array)
@@ -45,7 +39,7 @@ Route::get('/detail/{buku}', function ($buku) {
         "title"  => "Machine Learning",
         "author" => "Andrew Ng",
         "year"   => 2018,
-        "img"    => "https://i.ibb.co/hMncDr2/ml.jpg",
+        "img"    => "/images/machine Learning.jpegg",
         "desc"   => "Pengenalan komprehensif tentang machine learning dan algoritma modern.",
         "genre"  => "Teknologi",
         "stok"   => 12,
@@ -56,7 +50,7 @@ Route::get('/detail/{buku}', function ($buku) {
         "title"  => "Artificial Intelligence",
         "author" => "Stuart Russell",
         "year"   => 2020,
-        "img"    => "https://i.ibb.co/9qsB1xB/ai.jpg",
+        "img"    => "/images/download (1).jpe",
         "desc"   => "Dasar dan perkembangan AI dari klasik hingga deep learning.",
         "genre"  => "Teknologi",
         "stok"   => 9,
@@ -67,7 +61,7 @@ Route::get('/detail/{buku}', function ($buku) {
         "title"  => "Cyber Security",
         "author" => "Kevin Mitnick",
         "year"   => 2019,
-        "img"    => "https://i.ibb.co/9nBNR4w/cyber.jpg",
+        "img"    => "/images/download (2).jpeg",
         "desc"   => "Panduan keamanan digital bagi pengguna modern.",
         "genre"  => "Keamanan",
         "stok"   => 6,
@@ -78,7 +72,7 @@ Route::get('/detail/{buku}', function ($buku) {
         "title"  => "Kalkulus Book",
         "author" => "James Stewart",
         "year"   => 2015,
-        "img"    => "https://i.ibb.co/zmd5jJg/math.jpg",
+        "img"    => "images/download (2).jpeg",
         "desc"   => "Dasar-dasar kalkulus untuk mahasiswa dan profesional.",
         "genre"  => "Matematika",
         "stok"   => 11,
@@ -164,11 +158,6 @@ return view('detail', ['book' => $books[$buku]]);
 Route::get('/create', fn() => view('create'))->name('create');
 
 
-/*
-|--------------------------------------------------------------------------
-| AUTH (Login - Register)
-|--------------------------------------------------------------------------
-*/
 
 // Login
 Route::get('/login', fn() => view('login'))->name('login');
@@ -181,12 +170,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.pr
 // Logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
-/*
-|--------------------------------------------------------------------------
-| HALAMAN SETELAH LOGIN
-|--------------------------------------------------------------------------
-*/
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', fn() => view('home'))
@@ -209,12 +192,6 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('role:staff')
         ->name('staff');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | PENGEMBALIAN BUKU
-    |--------------------------------------------------------------------------
-    */
     Route::get('/pengembalian-buku', fn() => view('index'))
         ->middleware('role:pengguna')
         ->name('pengembalian.index');
@@ -222,16 +199,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create', fn() => view('create'))
         ->middleware('role:pengguna')
         ->name('pengembalian.create');
-<<<<<<< HEAD
-});
-=======
-
-       
-});
-
-//user biar bisa buka halaman tanpa login//
-
-// Admin (tanpa login dulu)
+   // Admin (tanpa login dulu)
 Route::get('/admin', fn() => view('admin'))->name('admin');
 
 // Data Anggota (tanpa login dulu)
@@ -248,4 +216,5 @@ Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
 
 // Kelola User (tanpa login dulu)
 Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');
->>>>>>> 745e825e60e2de9fa1dc0049561a9e2abbc9a273
+    
+});

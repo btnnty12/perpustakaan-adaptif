@@ -55,11 +55,6 @@
 
     <div id="menuWrapper" class="relative flex flex-col items-center space-y-8 flex-1">
 
-        <!-- Highlight -->
-        <div id="highlight"
-             class="absolute left-0 w-16 h-12 bg-white/30 rounded-xl transition-all duration-300 shadow-md -z-10"
-             style="top: 0;">
-        </div>
 
         <!-- HOME -->
         <button onclick="window.location.href='{{ url('/home') }}';"
@@ -89,9 +84,10 @@
         </button>
 
         <!-- SETTINGS -->
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-gear"></i>
-        </button>
+        <button onclick="window.location.href='/pengaturan';" 
+        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-gear"></i>
+</button>
 
     </div>
 
@@ -102,19 +98,6 @@
     </button>
 
 </aside>
-
-<script>
-    const items = document.querySelectorAll(".menu-item");
-    const highlight = document.getElementById("highlight");
-
-    items.forEach((btn, index) => {
-        btn.addEventListener("click", () => {
-            highlight.style.top = (index * 80) + "px"; // 80px = space-y-8
-        });
-    });
-
-    highlight.style.top = "0px";
-</script>
 
     <main class="flex">
 
@@ -181,49 +164,74 @@
             <div id="hasilPencarianList" class="grid grid-cols-4 gap-6"></div>
         </div>
 
-        <!-- ===== ROW: CARD + FILTER ===== -->
-<div class="flex gap-6 mt-12 mx-3">
+      <!-- ===== ROW: CARD + FILTER ===== -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-12 mx-3">
 
     <!-- BAGIAN KIRI (Terakhir Dipinjam + Minat Kamu) -->
-    <div class="flex-1 bg-white rounded-2xl p-6 shadow-md border border-yellow-200">
+    <div class="lg:col-span-3 bg-white rounded-2xl p-6 shadow-md border border-yellow-200">
 
-        <!-- TERAKHIR DIPINJAM -->
-        <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg">Terakhir Yang Dipinjam</h3>
-            <span class="text-sm text-gray-600 cursor-pointer">Lihat Lebih Banyak ↗</span>
-        </div>
+       <!-- TERAKHIR DIPINJAM -->
+<div class="flex justify-between items-center">
+    <h3 class="font-bold text-lg">Terakhir Yang Dipinjam</h3>
+    <span class="text-sm text-gray-600 cursor-pointer">Lihat Lebih Banyak ↗</span>
+</div>
 
-        <div class="flex gap-6 mt-6 overflow-x-auto pb-4 border-b">
-            @foreach(['Menulis Ilmiah','Deep Learning','SQL 2000','Penelitian Kualitatif','Pemrograman Web'] as $buku)
-            <div class="min-w-[130px]">
-                <img src="{{ asset('images/book1.jpg') }}" class="w-full rounded-lg shadow-md">
-                <p class="mt-2 text-sm font-semibold">{{ $buku }}</p>
-                <p class="text-xs text-gray-500">M.Pd | 2024</p>
-            </div>
-            @endforeach
-        </div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 pb-6 border-b">
+
+    @foreach([
+        ['Menulis Ilmiah','images/download (8).jpeg'],
+        ['Deep Learning','images/images (4).jpeg'],
+        ['SQL 2000','images/download (9).jpeg'],
+        ['Penelitian Kualitatif','images/download (16).jpeg'],
+        ['Pemrograman Web','images/images (1).jpeg'],
+    ] as $buku)
+
+    <div class="flex flex-col items-center"> <!-- DITAMBAHKAN items-center -->
+        <img src="{{ asset($buku[1]) }}"
+             class="w-full h-64 object-cover rounded-xl shadow-md">
+        
+        <p class="mt-2 text-sm font-semibold leading-tight text-center">
+            {{ $buku[0] }}
+        </p>
+        <p class="text-xs text-gray-500 text-center">M.Pd | 2024</p>
+    </div>
+
+    @endforeach
+
+</div>
 
         <!-- MINAT BACANMU -->
-        <div class="mt-6">
-            <h4 class="font-semibold text-gray-700 mb-2">Hasil Minat Bacaan Kamu</h4>
+<div class="mt-8">
+    <h4 class="font-semibold text-gray-700 mb-2">Hasil Minat Bacaan Kamu</h4>
 
-            <div class="flex gap-4 overflow-x-auto pb-2">
-                @foreach([
-                    ['AI Dasar','images/ai1.jpg'],
-                    ['Cloud Intro','images/cloud.jpg'],
-                    ['UI/UX Modern','images/uiux.jpg'],
-                    ['Algoritma','images/algoritma.jpg'],
-                ] as $minat)
-                <div class="min-w-[130px]">
-                    <img src="{{ asset($minat[1]) }}" class="w-full rounded-xl shadow-md">
-                    <p class="mt-2 font-semibold text-sm">{{ $minat[0] }}</p>
-                    <p class="text-xs text-gray-500">Minat Tinggi</p>
-                </div>
-                @endforeach
-            </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+        @foreach([
+            ['AI Dasar','images/download (1).jpeg'],
+            ['Cloud Intro','images/cloud.jpg'],
+            ['UI/UX Modern','images/download (11).jpeg'],
+            ['Algoritma','images/download (19).jpeg'],
+            ['Data Science','images/dw.jpg'],
+            ['Machine Learning','images/Machine Learning.jpeg'],
+        ] as $minat)
+
+        <div class="flex flex-col items-center"> <!-- DITAMBAHKAN items-center -->
+            <img src="{{ asset($minat[1]) }}"
+                 class="w-full h-64 object-cover rounded-xl shadow-md">
+
+            <p class="mt-2 font-semibold text-sm leading-tight text-center">
+                {{ $minat[0] }}
+            </p>
+            <p class="text-xs text-gray-500 text-center">Minat Tinggi</p>
         </div>
 
+        @endforeach
+
     </div>
+</div>
+
+    </div> <!-- END BOX PUTIH -->
+
 
     <!-- BAGIAN KANAN (FILTER) -->
     <aside class="w-72 p-6 bg-white rounded-2xl border border-yellow-200 h-fit">
@@ -248,8 +256,8 @@
         <!-- Tahun -->
         <h4 class="font-semibold mb-3">Tahun Terbit</h4>
         <div class="flex items-center gap-4 mb-4">
-            <span id="yearMin" class="text-sm text-gray-600">1990</span>
-            <input type="range" id="yearRange" min="1990" max="2025" value="2025" class="flex-1">
+            <span id="yearMin" class="text-sm text-gray-600">2000</span>
+            <input type="range" id="yearRange" min="2000" max="2025" value="2025" class="flex-1">
             <span id="yearMax" class="text-sm text-gray-600">2025</span>
         </div>
 

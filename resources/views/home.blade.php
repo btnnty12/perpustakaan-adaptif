@@ -46,17 +46,19 @@
             <i class="fa-solid fa-heart"></i>
         </button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-gear"></i>
-        </button>
+      <button onclick="window.location.href='/pengaturan';" 
+        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-gear"></i>
+</button>
+
     </div>
 
     <!-- LOGOUT PALING BAWAH -->
     <button 
-        onclick="window.location.href='/welcome';"
-        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
-        <i class="fa-solid fa-right-from-bracket"></i>
-    </button>
+    onclick="window.location.href='{{ url('/logout') }}'"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
+    <i class="fa-solid fa-right-from-bracket"></i>
+</button>
 
 </aside>
 
@@ -121,9 +123,6 @@
 
 </div>
 
-    <!-- ============================== -->
-    <!--       POPUP NOTIF & PESAN      -->
-    <!-- ============================== -->
 
     <!-- POPUP NOTIFIKASI -->
     <div id="notifPopup"
@@ -198,7 +197,8 @@
 </a>
         </div>
 
-        <img src="https://i.ibb.co/4N95fxt/books.png" class="w-48 absolute right-12 bottom-6">
+        <img src="images/book.png" 
+     class="w-48 absolute right-12 top-1/2 -translate-y-[55%]">
     </div>
 
     <!-- GRID 3 KOLOM (REVISI LAYOUT) -->
@@ -225,7 +225,7 @@
 
                         <!-- Semua item buku kamu tetap sama -->
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/hMncDr2/ml.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/machine Learning.jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Machine<br>Learning</p>
 
     <a href="{{ route('detail', ['buku' => 'Machine Learning']) }}"
@@ -233,7 +233,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/9qsB1xB/ai.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (1).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Artificial<br>Intelligence</p>
 
     <a href="{{ route('detail', ['buku' => 'Artificial Intelligence']) }}"
@@ -241,7 +241,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/9nBNR4w/cyber.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (2).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Cyber<br>Security</p>
 
     <a href="{{ route('detail', ['buku' => 'Cyber Security']) }}"
@@ -249,7 +249,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/zmd5jJg/math.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/Kalkulus.jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Kalkulus<br>Book</p>
 
     <a href="{{ route('detail', ['buku' => 'Kalkulus Book']) }}"
@@ -257,7 +257,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/XFZwcNm/ux.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (11).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">UX Design<br>Thinking</p>
 
     <a href="{{ route('detail', ['buku' => 'UX Design Thinking']) }}"
@@ -266,7 +266,7 @@
 
 <!-- BARIS 2 -->
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/rGdm32f/web.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (33).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Pemrograman<br>Aplikasi Web</p>
 
     <a href="{{ route('detail', ['buku' => 'Pemrograman Aplikasi Web']) }}"
@@ -274,7 +274,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/xDLMp7R/java.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (3).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Java<br>Book</p>
 
     <a href="{{ route('detail', ['buku' => 'Java Book']) }}"
@@ -282,7 +282,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/S6Wbn5p/python.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (4).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Python<br>Book</p>
 
     <a href="{{ route('detail', ['buku' => 'Python Book']) }}"
@@ -290,7 +290,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/PYY8spf/docker.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (5).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Docker<br>Book</p>
 
     <a href="{{ route('detail', ['buku' => 'Docker Book']) }}"
@@ -298,7 +298,7 @@
 </div>
 
 <div class="flex flex-col items-center">
-    <img src="https://i.ibb.co/Kxqs6bQ/statistika.jpg" class="w-36 h-48 object-cover rounded-xl shadow">
+    <img src="images/download (13).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Statistika<br>Buku</p>
 
     <a href="{{ route('detail', ['buku' => 'Statistika Buku']) }}"
@@ -309,12 +309,8 @@
             </div>
         </div>
 
-        <!-- ========================= -->
-        <!-- AKTIVITAS (kanan — atas) -->
-        <!-- ========================= -->
-       <!-- ========================= -->
+        
 <!-- KOLOM KANAN -->
-<!-- ========================= -->
 <div class="col-span-1 flex flex-col gap-8">
 
     <!-- AKTIVITAS -->
