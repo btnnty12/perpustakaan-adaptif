@@ -17,17 +17,6 @@ class Pinjaman extends Model
         'pengguna_id',
         'buku_id',
         'status',
-        'tanggal_pinjam',
-        'tanggal_jatuh_tempo',
-        'tanggal_kembali',
-        'denda',
-    ];
-
-    protected $casts = [
-        'tanggal_pinjam' => 'date',
-        'tanggal_jatuh_tempo' => 'date',
-        'tanggal_kembali' => 'date',
-        'denda' => 'float',
     ];
 
     protected $casts = [

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pengguna;
-use Illuminate\Support\Facades\Hash;
 
 class PenggunaController extends Controller
 {
@@ -35,7 +33,7 @@ class PenggunaController extends Controller
         $pengguna = Pengguna::create([
             'nama' => $request->nama,
             'email' => $request->email,
-            'kata_sandi' => Hash::make($request->password),
+            'password' => Hash::make($request->password),
             'peran' => $request->peran ?? 'anggota'
         ]);
 

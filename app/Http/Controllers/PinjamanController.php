@@ -6,7 +6,6 @@ use App\Models\Pinjaman;
 use App\Models\Buku;
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class PinjamanController extends Controller
 {
@@ -53,9 +52,6 @@ class PinjamanController extends Controller
             'pengguna_id' => $pengguna->id,
             'buku_id'     => $buku->id,
             'status'      => 'sedang_dipinjam',
-            'tanggal_pinjam' => Carbon::now()->toDateString(),
-            'tanggal_jatuh_tempo' => Carbon::now()->addDays(7)->toDateString(),
-            'denda' => 0,
         ]);
 
         // Kurangi stok buku
@@ -103,17 +99,7 @@ class PinjamanController extends Controller
         }
 
         // Update status & tambahkan stok buku
-        $tanggalKembali = Carbon::now();
-        $jatuhTempo = $pinjaman->tanggal_jatuh_tempo ? Carbon::parse($pinjaman->tanggal_jatuh_tempo) : $tanggalKembali;
-        $telatHari = max(0, $tanggalKembali->diffInDays($jatuhTempo, false));
-        $tarifPerHari = 2000;
-        $denda = $telatHari * $tarifPerHari;
-
-        $pinjaman->update([
-            'status' => 'dikembalikan',
-            'tanggal_kembali' => $tanggalKembali->toDateString(),
-            'denda' => $denda,
-        ]);
+        $pinjaman->update(['status' => 'dikembalikan']);
         Buku::where('id', $pinjaman->buku_id)->increment('stok');
 
         return response()->json(['message' => 'Buku berhasil dikembalikan']);
