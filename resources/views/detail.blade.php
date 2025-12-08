@@ -6,6 +6,10 @@
     <title>{{ $book['title'] }}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .fav-animate { transform: scale(1.25); transition: 0.15s; }
+    </style>
 </head>
 
 <body class="bg-gradient-to-b from-yellow-100 to-yellow-200 min-h-screen">
@@ -49,22 +53,63 @@
                 <p class="font-semibold">• Bahasa: {{ $book['bahasa'] }}</p>
             </div>
 
-           <button onclick="window.location.href='{{ route('pengembalian.create', [
-    'title' => $book['title'], 
-    'author' => $book['author'], 
-    'year' => $book['year']
-]) }}'"
-class="mt-10 w-full bg-[#C34722] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#B13C1D] transition shadow-lg">
-Pinjam Sekarang
-</button>
+            <!-- FAVORITE BUTTON -->
+            @php
+                $sessionFavs = session('favorites', []);
+                $isFav = in_array($book['id'], $sessionFavs);
+            @endphp
+
+            <form method="POST" action="{{ route('favorite.toggle', $book['id']) }}">
+                @csrf
+                <button type="submit"
+                    class="mt-6 w-full py-3 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3
+                           transition transform hover:scale-105
+                           {{ $isFav ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-600' }}">
+                    <i class="{{ $isFav ? 'fa-solid' : 'fa-regular' }} fa-heart"></i>
+                    {{ $isFav ? 'Favorit' : 'Tambah ke Favorit' }}
+                </button>
+            </form>
+
+            <!-- PINJAM BUTTON -->
+            <button onclick="window.location.href='{{ route('pengembalian.create', [
+                'title' => $book['title'], 
+                'author' => $book['author'], 
+                'year' => $book['year']
+            ]) }}'"
+                class="mt-6 w-full bg-[#C34722] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#B13C1D] transition shadow-lg">
+                Pinjam Sekarang
+            </button>
 
         </div>
     </div>
 
 </div>
 
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<!-- TOAST POP-UP FAVORITE -->
+@if(session('success'))
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg opacity-0 transition-opacity duration-500 z-50">
+        {{ session('success') }}
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const toast = document.getElementById('toast');
+            if(toast){
+                toast.style.opacity = '1';
+                setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+            }
+        });
+    </script>
+@endif
+
+<script>
+    // Animasi love button
+    document.querySelectorAll('form button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.add('fav-animate');
+            setTimeout(()=> btn.classList.remove('fav-animate'), 150);
+        });
+    });
+</script>
 
 </body>
 </html>

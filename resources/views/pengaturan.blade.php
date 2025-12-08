@@ -11,21 +11,35 @@
 
 <aside class="w-20 bg-[#C34722] text-white flex flex-col items-center py-6 shadow-lg relative">
     <div class="flex flex-col items-center space-y-8 flex-1">
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-home"></i>
+        <button onclick="window.location.href='{{ url('/home') }}';"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+            <i class="fa-solid fa-house"></i>
         </button>
+
         <button onclick="window.location.href='/search';" class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fas fa-magnifying-glass"></i>
         </button>
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-file-lines"></i>
-        </button>
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-book"></i>
-        </button>
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-heart"></i>
-        </button>
+        
+        <button onclick="window.location.href='/pengembalian-buku';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100"><i class="fa-solid fa-file-lines"></i></button>
+</button>
+
+        <button 
+    onclick="window.location.href='/pinjaman';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-book"></i>
+</button>
+
+        <button onclick="window.location.href='/favorit';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-heart"></i>
+</button>
+
+        <button onclick="window.location.href='/favorit';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-heart"></i>
+</button>
+
         <button onclick="window.location.href='/pengaturan';" 
         class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
     <i class="fa-solid fa-gear"></i>
