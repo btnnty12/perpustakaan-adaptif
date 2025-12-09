@@ -95,14 +95,14 @@
 <div class="w-20 bg-[#a63a2d] min-h-screen flex flex-col items-center py-6">
     <div id="indicator"></div>
     <div class="flex flex-col items-center space-y-20 pt-20">
-        <div class="menu-item"><img src="{{ asset('icons/home.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('icons/book.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('icons/list.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('icons/user.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('icons/user.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('icons/setting.png') }}" class="w-7"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}" class="w-7"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}" class="w-7"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}" class="w-7"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-grafik.png') }}" class="w-7"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-kelola-user.png') }}" class="w-7"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-setting.png') }}" class="w-7"></div>
     </div>
-    <img src="{{ asset('icons/logout.png') }}" class="w-7 mt-auto mb-4">
+    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
 </div>
 
 <!-- ============================ CONTENT ============================ -->
@@ -111,13 +111,13 @@
     <!-- TOPBAR -->
     <div class="flex justify-end items-center w-full py-4 px-10 text-white space-x-6">
         <div class="border-l border-white h-6"></div>
-        <img src="{{ asset('icons/mail.png') }}" class="w-6">
-        <img src="{{ asset('icons/bell.png') }}" class="w-6">
+        <img src="{{ asset('images/icon-email.png') }}" class="w-6">
+        <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
         <div class="border-l border-white h-6"></div>
         <div class="flex items-center space-x-2">
             <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">FA</div>
             <span class="text-black font-medium">Fayza Azzahra</span>
-            <img src="{{ asset('icons/arrow-down.png') }}" class="w-4 ml-1">
+            <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
         </div>
     </div>
 
@@ -272,5 +272,24 @@
         <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">›</button>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.menu-item').forEach((item, index) => {
+    item.addEventListener('click', function () {
+
+        // PINDAHKAN INDIKATOR
+        document.getElementById('indicator').style.top = (204 + index * 95) + 'px';
+
+        // ARAHKAN KE HALAMAN SESUAI MENU
+        if (index === 0) window.location.href = "/admin";              // Dashboard
+        if (index === 1) window.location.href = "/data-anggota";       // Data Anggota
+        if (index === 2) window.location.href = "/kelola-buku";        // Kelola Buku
+        if (index === 3) window.location.href = "/laporan-peminjaman"; // Laporan Grafik/Peminjaman
+        if (index === 4) window.location.href = "/kelola-user";        // Kelola User
+        if (index === 5) window.location.href = "/pengaturan";         // Pengaturan
+    });
+});
+</script>
+
 </body>
 </html>

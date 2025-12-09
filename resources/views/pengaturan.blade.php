@@ -6,38 +6,64 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-
 <body class="bg-[#f6d47f] flex">
 
-<aside class="w-20 bg-[#C34722] text-white flex flex-col items-center py-6 shadow-lg relative">
-    <div class="flex flex-col items-center space-y-8 flex-1">
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-home"></i>
-        </button>
-        <button onclick="window.location.href='/search';" class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-magnifying-glass"></i>
-        </button>
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-file-lines"></i>
-        </button>
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-book"></i>
-        </button>
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fas fa-heart"></i>
-        </button>
-        <button onclick="window.location.href='/pengaturan';" 
-        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-    <i class="fa-solid fa-gear"></i>
-</button>
+<style>
+#indicator {
+    position: absolute;
+    left: 0;
+    top: 628px;
+    width: 75px;
+    height: 38px;
+    background-color: #F7DE68;
+    border-radius: 0 20px 20px 0;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.35);
+    transition: 0.3s ease-in-out;
+    z-index: 0;
+}
+.menu-item { position: relative; z-index: 5; cursor: pointer; }
+.menu-item img, .menu-item i { width: 26px; height: 26px; }
+.section-wrapper { width: 100%; padding-left: 25px; padding-right: 40px; margin-top: 20px; }
+</style>
+
+<!-- ============================ SIDEBAR ============================ -->
+<div class="w-20 bg-[#a63a2d] min-h-screen flex flex-col items-center py-6">
+    <div id="indicator"></div>
+
+    <div class="flex flex-col items-center space-y-20 pt-20">
+        <a href="{{ route('admin') }}" class="menu-item" data-index="0"><img src="{{ asset('images/icon-home.png') }}"></a>
+        <a href="{{ route('data.anggota') }}" class="menu-item" data-index="1"><img src="{{ asset('images/icon-kelola-anggota.png') }}"></a>
+        <a href="{{ route('kelola.buku') }}" class="menu-item" data-index="2"><img src="{{ asset('images/icon-kelola-buku.png') }}"></a>
+        <a href="{{ route('laporan-peminjaman') }}" class="menu-item" data-index="3"><img src="{{ asset('images/icon-grafik.png') }}"></a>
+        <a href="{{ route('kelola-user') }}" class="menu-item" data-index="4"><img src="{{ asset('images/icon-kelola-user.png') }}"></a>
+        <a href="{{ route('pengaturan') }}" class="menu-item" data-index="5"><img src="{{ asset('images/icon-setting.png') }}"></a>
     </div>
 
-    <button onclick="window.location.href='{{ url('/logout') }}'" class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
-        <i class="fas fa-sign-out-alt"></i>
-    </button>
-</aside>
+    <img src="{{ asset('images/icon-logout.png') }}" 
+         class="w-7 mt-auto mb-4 cursor-pointer" 
+         onclick="window.location.href='{{ url('/logout') }}'">
+</div>
 
+<!-- ============================ CONTENT ============================ -->
 <div class="flex-1 py-6 px-10">
+
+ <!-- TOPBAR -->
+    <div class="flex justify-end items-center w-full py-4 px-10 text-white space-x-6">
+        <div class="border-l border-white h-6"></div>
+        <img src="{{ asset('images/icon-email.png') }}" class="w-6">
+        <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
+        <div class="border-l border-white h-6"></div>
+
+        <div class="flex items-center space-x-2">
+            <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">FA</div>
+            <span class="text-black font-medium">Fayza Azzahra</span>
+            <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
+        </div>
+    </div>
+
+    <div class="w-full border-b-2 border-white mb-6"></div>
+
+    <!-- ============================ MAIN CONTENT ============================ -->
     <div class="section-wrapper">
         <h1 class="text-4xl font-bold text-[#A63A2D]">Pengaturan Akun</h1>
         <p class="text-gray-700 mt-1">Kelola informasi akun dan data profil Anda.</p>
@@ -61,74 +87,72 @@
                 </div>
             @endif
 
-            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ Auth::check() ? route('profile.update') : '#' }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
+                @if(Auth::check()) @method('PUT') @endif
 
+                <!-- FOTO PROFIL -->
                 <div class="flex flex-col items-center text-center mb-10">
-                    <img src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : asset('icons/profile.png') }}" id="profilePreview" class="w-32 h-32 rounded-full shadow mb-4">
-
+                    <img src="{{ (Auth::check() && Auth::user()->profile_photo) ? asset('storage/' . Auth::user()->profile_photo) : asset('icons/profile.png') }}" id="profilePreview" class="w-32 h-32 rounded-full shadow mb-4">
+                    @if(Auth::check())
                     <label class="mt-2 cursor-pointer bg-[#A63A2D] hover:bg-[#923223] text-white px-4 py-2 rounded">
                         Ubah Foto
                         <input type="file" name="profile_photo" id="profilePhotoInput" class="hidden" accept="image/*">
                     </label>
+                    @endif
                 </div>
 
+                <!-- FORM PROFIL -->
                 <div class="grid grid-cols-2 gap-10">
-                    <!-- Semua role bisa edit -->
                     <div>
                         <label class="font-semibold">Nama Lengkap</label>
-                        <input type="text" name="nama" value="{{ old('nama', Auth::user()->nama) }}" class="mt-1 w-full p-3 rounded border shadow">
+                        <input type="text" name="nama" value="{{ Auth::check() ? old('nama', Auth::user()->nama) : '' }}" class="mt-1 w-full p-3 rounded border shadow" {{ Auth::check() ? '' : 'disabled' }}>
                     </div>
 
                     <div>
                         <label class="font-semibold">ID User</label>
-                        <input type="text" value="{{ Auth::user()->id }}" class="mt-1 w-full p-3 rounded border shadow" disabled>
+                        <input type="text" value="{{ Auth::check() ? Auth::user()->id : '' }}" class="mt-1 w-full p-3 rounded border shadow" disabled>
                     </div>
 
                     <div>
                         <label class="font-semibold">Kata Sandi</label>
-                        <input type="password" name="kata_sandi" placeholder="Isi jika ingin ganti" class="mt-1 w-full p-3 rounded border shadow">
+                        <input type="password" name="kata_sandi" placeholder="Isi jika ingin ganti" class="mt-1 w-full p-3 rounded border shadow" {{ Auth::check() ? '' : 'disabled' }}>
                     </div>
 
                     <div>
                         <label class="font-semibold">Tanggal Bergabung</label>
-                        <input type="text" value="{{ Auth::user()->created_at->format('d F Y') }}" class="mt-1 w-full p-3 rounded border shadow" disabled>
+                        <input type="text" value="{{ Auth::check() ? Auth::user()->created_at->format('d F Y') : '' }}" class="mt-1 w-full p-3 rounded border shadow" disabled>
                     </div>
 
                     <div>
                         <label class="font-semibold">Email</label>
-                        <input type="email" name="email" value="{{ old('email', Auth::user()->email) }}" class="mt-1 w-full p-3 rounded border shadow">
+                        <input type="email" name="email" value="{{ Auth::check() ? old('email', Auth::user()->email) : '' }}" class="mt-1 w-full p-3 rounded border shadow" {{ Auth::check() ? '' : 'disabled' }}>
                     </div>
 
                     <div>
                         <label class="font-semibold">No. Telepon</label>
-                        <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}" class="mt-1 w-full p-3 rounded border shadow">
+                        <input type="text" name="phone" value="{{ Auth::check() ? old('phone', Auth::user()->phone) : '' }}" class="mt-1 w-full p-3 rounded border shadow" {{ Auth::check() ? '' : 'disabled' }}>
                     </div>
 
-                    <!-- Hanya muncul untuk admin -->
-                    @if(Auth::user()->peran === 'admin')
+                    <!-- Role Admin -->
+                    @if(Auth::check() && Auth::user()->peran === 'admin')
                     <div>
                         <label class="font-semibold">Role User</label>
                         <select name="peran" class="mt-1 w-full p-3 rounded border shadow">
-                            <option value="admin" {{ Auth::user()->peran === 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="staff" {{ Auth::user()->peran === 'staff' ? 'selected' : '' }}>Staff</option>
-                            <option value="anggota" {{ Auth::user()->peran === 'anggota' ? 'selected' : '' }}>Anggota</option>
+                            <option value="admin" selected>Admin</option>
                         </select>
                     </div>
                     @endif
                 </div>
 
+                @if(Auth::check())
                 <div class="flex justify-center mt-12">
                     <button type="submit" class="bg-[#A63A2D] hover:bg-[#923223] transition text-white px-10 py-3 rounded-xl font-bold text-lg shadow">
                         Perbarui
                     </button>
                 </div>
+                @endif
             </form>
-
-            <p class="text-center text-gray-500 text-sm mt-5">
-                Hai {{ Auth::user()->nama }}, pastikan data profilmu selalu diperbarui agar layanan perpustakaan tetap lancar ya!
-            </p>
         </div>
     </div>
 </div>
@@ -137,15 +161,31 @@
 const input = document.getElementById('profilePhotoInput');
 const preview = document.getElementById('profilePreview');
 
-input.addEventListener('change', function() {
-    const file = this.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
+if(input){
+    input.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
-    }
+    });
+});
+
+document.querySelectorAll('.menu-item').forEach((item, index) => {
+    item.addEventListener('click', function () {
+        document.getElementById('indicator').style.top = (310 + index * 95) + 'px';
+        switch(index){
+            case 0: window.location.href = "/admin"; break;
+            case 1: window.location.href = "/data-anggota"; break;
+            case 2: window.location.href = "/kelola-buku"; break;
+            case 3: window.location.href = "/laporan-peminjaman"; break;
+            case 4: window.location.href = "/kelola-user"; break;
+            case 5: window.location.href = "/pengaturan"; break;
+        }
+    });
 });
 </script>
 

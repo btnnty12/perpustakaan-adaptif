@@ -24,45 +24,34 @@
     .scrollbar-thin::-webkit-scrollbar { height: 8px; width: 8px; }
     .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 999px; }
 
-.sidebar {
-    width: 80px;
-    background-color: #A24731; /* warna merah sidebar */
-    height: 100vh;
-    padding-top: 40px;
-    position: relative;
-}
+    /* indikator kuning */
+    #indicator {
+        position: absolute;
+        left: 0;
+        top: 98px; 
+        width: 75px;
+        height: 38px;
+        background-color: #F7DE68;
+        border-radius: 0 20px 20px 0;
+        box-shadow: 0 6px 10px rgba(0,0,0,0.35);
+        transition: 0.3s ease-in-out;
+        z-index: 0;
+    }
 
-/* Container menu icon */
-.menu-item {
-    position: relative;
-    margin: 25px 0;
-    display: flex;
-    justify-content: center;
-}
+    .menu-item {
+        position: relative;
+        z-index:    5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-#indicator {
-    position: absolute;
-    left: 0px;
-    top: 123px;              /* naik-turunkan dari sini */
+    .menu-item img {
+        width: 26px;
+        height: 26px;
+    }
+</style>
 
-    width: 75px;             /* ukuran indikator */
-    height: 38px;            /* tinggi indikator */
-
-    background-color: #F7DE68;
-    border-radius: 0 20px 20px 0;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35);   /* bayangan */
-    transition: 0.3s ease-in-out;
-    z-index: 1;
-}
-
-/* Icon */
-.menu-item img {
-    width: 26px;
-    height: 26px;
-    z-index: 2; /* supaya icon di atas indikator */
-}
-
-  </style>
 </head>
 <body class="page-gradient min-h-screen text-gray-800">
 
@@ -71,42 +60,22 @@
 <!-- SIDEBAR -->
 <div class="w-20 bg-[#a63a2d] min-h-screen flex flex-col items-center py-6 relative">
 
-    <!-- INDIKATOR -->
+    <!-- INDIKATOR AKTIF -->
     <div id="indicator"></div>
 
     <!-- MENU ATAS -->
-    <div class="flex flex-col items-center space-y-20 pt-20">
-
-        <div class="menu-item" data-index="0">
-            <img src="{{ asset('icons/home.png') }}" class="w-7">
-        </div>
-
-        <div class="menu-item" data-index="1">
-            <img src="{{ asset('icons/data-anggota.png') }}" class="w-7">
-        </div>
-
-        <div class="menu-item" data-index="2">
-            <img src="{{ asset('icons/kelola-buku.png') }}" class="w-7">
-        </div>
-
-        <div class="menu-item" data-index="3">
-            <img src="{{ asset('icons/laporan-peminjaman.png') }}" class="w-7">
-        </div>
-
-        <div class="menu-item" data-index="4">
-            <img src="{{ asset('icons/user.png') }}" class="w-7">
-        </div>
-
-        <div class="menu-item" data-index="5">
-            <img src="{{ asset('icons/setting.png') }}" class="w-7">
-        </div>
-
+    <div class="flex flex-col items-center space-y-20 pt-20 w-full">
+        <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-grafik.png') }}"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-kelola-user.png') }}"></div>
+        <div class="menu-item"><img src="{{ asset('images/icon-setting.png') }}"></div>
     </div>
 
     <!-- LOGOUT PALING BAWAH -->
-    <img src="{{ asset('icons/logout.png') }}" class="w-7 mt-auto mb-4">
+    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
 </div>
-
 
 <!-- MAIN CONTENT -->
 <div class="flex-1 py-6 px-10">
@@ -118,10 +87,10 @@
         <div class="border-l border-white h-6"></div>
 
         <!-- Icon pesan -->
-        <img src="{{ asset('icons/mail.png') }}" class="w-6">
+        <img src="{{ asset('images/icon-email.png') }}" class="w-6">
 
         <!-- Icon notif -->
-        <img src="{{ asset('icons/bell.png') }}" class="w-6">
+        <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
 
         <!-- Divider kanan -->
         <div class="border-l border-white h-6"></div>
@@ -134,9 +103,8 @@
 
             <span class="text-black font-medium">Fayza Azzahra</span>
 
-            <img src="{{ asset('icons/arrow-down.png') }}" class="w-4 ml-1">
+            <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
         </div>
-
     </div>
 
     <!-- GARIS PEMBATAS PANJANG -->
@@ -157,7 +125,7 @@
 
             <!-- right book illustration -->
             <div class="flex-1 flex justify-end">
-              <img src="{{ asset('images/banner-hero.png') }}" alt="hero" class="w-56 md:w-72 lg:w-80 object-contain">
+              <img src="{{ asset('images/icon-buku-halaman-admin.png') }}" alt="hero" class="w-72 md:w-80 lg:w-[380px] object-contain">
             </div>
           </div>
 
@@ -178,7 +146,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div class="stat-radius p-6 shadow-lg card-soft flex items-center gap-4 rounded-xl">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center" style="background:#ead3f8">
-                  <img src="{{ asset('images/stat-book.png') }}" class="w-8 h-8" alt="book">
+                  <img src="{{ asset('images/icon-buku-kecil.png') }}" class="w-11 h-11" alt="book">
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">Jumlah Buku</div>
@@ -188,7 +156,7 @@
 
               <div class="stat-radius p-6 shadow-lg card-soft flex items-center gap-4 rounded-xl">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center" style="background:#dbe7ff">
-                  <img src="{{ asset('images/stat-user.png') }}" class="w-8 h-8" alt="user">
+                  <img src="{{ asset('images/icon-user-kecil.png') }}" class="w-12 h-12" alt="user">
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">Jumlah User</div>
@@ -198,7 +166,7 @@
 
               <div class="stat-radius p-6 shadow-lg card-soft flex items-center gap-4 rounded-xl">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center" style="background:#dff3b8">
-                  <img src="{{ asset('images/stat-loan.png') }}" class="w-8 h-8" alt="loan">
+                  <img src="{{ asset('images/icon-buku-dipinjam.png') }}" class="w-10 h-10" alt="loan">
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">Buku Yang Sedang Dipinjam</div>
@@ -246,34 +214,63 @@
                 <!-- repeated activity items -->
                 @php
                   $activities = [
-                    ['name'=>'John Manuel', 'action'=>'Meminjam Buku', 'book'=>'Machine Learning', 'avatar'=>'avatar-1.png', 'note'=>''],
-                    ['name'=>'Mahesa Bianca', 'action'=>'Mengembalikan Buku', 'book'=>'Cyber Security', 'avatar'=>'avatar-2.png', 'note'=>'Telat 3 hari'],
-                    ['name'=>'Kimberlly Laurr', 'action'=>'Meminjam Buku', 'book'=>'Software Engineering', 'avatar'=>'avatar-3.png', 'note'=>''],
-                    ['name'=>'John Manuel', 'action'=>'Meminjam Buku', 'book'=>'Machine Learning', 'avatar'=>'avatar-1.png', 'note'=>''],
-                    ['name'=>'Mahesa Bianca', 'action'=>'Mengembalikan Buku', 'book'=>'Cyber Security', 'avatar'=>'avatar-2.png', 'note'=>'Telat 3 hari'],
-                    ['name'=>'Kimberlly Laurr', 'action'=>'Meminjam Buku', 'book'=>'Software Engineering', 'avatar'=>'avatar-3.png', 'note'=>''],
-                    ['name'=>'John Manuel', 'action'=>'Meminjam Buku', 'book'=>'Machine Learning', 'avatar'=>'avatar-1.png', 'note'=>''],
+                    ['name'=>'Ikbal Ramadan',   'action'=>'Ingin Meminjam',     'book'=>'Machine Learning',              'avatar'=>'icon-profil1.png', 'note'=>'',            'type'=>'pinjam'],
+                    ['name'=>'Siti Nurfadila Ilham', 'action'=>'Mengembalikan','book'=>'Cyber Security',                'avatar'=>'icon-profil3.png', 'note'=>'Telat 3 hari','type'=>'telat'],
+                    ['name'=>'Angie Palealu','action'=>'Ingin Meminjam',    'book'=>'Software Engineering',          'avatar'=>'icon-profil2.png', 'note'=>'',            'type'=>'pinjam'],
+                    ['name'=>'Jerome',      'action'=>'Ingin Meminjam',     'book'=>'Kriptografi',                   'avatar'=>'icon-profil4.png', 'note'=>'',            'type'=>'pinjam'],
+                    ['name'=>'Nuriyanti',       'action'=>'Mengembalikan','book'=>'E-bisnis',                      'avatar'=>'icon-profil5.png', 'note'=>'Telat 7 hari','type'=>'telat'],
+                    ['name'=>'Kaysa Dzikirya','action'=>'Menunggu Konfirmasi Peminjaman','book'=>'Pengembangan Perangkat Lunak', 'avatar'=>'icon-profil6.png', 'note'=>'',            'type'=>'kembali'],
                   ];
                 @endphp
 
                 @foreach($activities as $act)
-                  <div class="flex items-center gap-4 p-3 mb-3 rounded-lg activity-item shadow-sm">
-                    <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white/80">
-                      <img src="{{ asset('images/' . $act['avatar']) }}" alt="avatar" class="w-full h-full object-cover">
-                    </div>
+                <div class="flex items-center gap-4 p-3 mb-3 rounded-lg activity-item shadow-sm">
 
-                    <div class="flex-1">
-                      <div class="text-sm"><span class="font-semibold">{{ $act['name'] }}</span> <span class="text-gray-700"> {{ $act['action'] }} Buku <span class="font-bold">{{ $act['book'] }}</span></span></div>
-                      @if($act['note'])
-                        <div class="text-xs text-red-600 mt-1">{{ $act['note'] }}</div>
-                      @endif
-                    </div>
-
-                    <div class="flex flex-col items-center gap-2">
-                      <img src="{{ asset('images/icon-reminder.png') }}" alt="rem" class="w-5 h-5">
-                    </div>
+                  <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white/80">
+                    <img src="{{ asset('images/' . $act['avatar']) }}" class="w-full h-full object-cover">
                   </div>
-                @endforeach
+
+                  <div class="flex-1">
+                    <div class="text-sm">
+                      <span class="font-semibold">{{ $act['name'] }}</span>
+                      <span class="text-gray-700"> {{ $act['action'] }} Buku 
+                        <span class="font-bold">{{ $act['book'] }}</span>
+                      </span>
+                    </div>
+
+                    @if(!empty($act['note']))
+                      <div class="text-xs text-red-600 mt-1">{{ $act['note'] }}</div>
+                    @endif
+                  </div>
+
+                  <!-- ICON DENGAN DATA ATTRIBUTE UNTUK MODAL -->
+                  <div>
+                    @if($act['type'] === 'pinjam')
+                      <img src="{{ asset('images/icon-cekbuku.png') }}" class="w-5 h-5 cursor-pointer" 
+                          data-name="{{ $act['name'] }}" 
+                          data-action="{{ $act['action'] }}" 
+                          data-book="{{ $act['book'] }}" 
+                          data-note="{{ $act['note'] }}" 
+                          data-type="Pinjam">
+                    @elseif($act['type'] === 'telat')
+                      <img src="{{ asset('images/icon-denda.png') }}" class="w-5 h-5 cursor-pointer" 
+                          data-name="{{ $act['name'] }}" 
+                          data-action="{{ $act['action'] }}" 
+                          data-book="{{ $act['book'] }}" 
+                          data-note="{{ $act['note'] }}" 
+                          data-type="Denda">
+                    @elseif($act['type'] === 'kembali')
+                      <img src="{{ asset('images/icon-reminder.png') }}" class="w-5 h-5 cursor-pointer" 
+                          data-name="{{ $act['name'] }}" 
+                          data-action="{{ $act['action'] }}" 
+                          data-book="{{ $act['book'] }}" 
+                          data-note="{{ $act['note'] }}" 
+                          data-type="Reminder">
+                    @endif
+                  </div>
+
+                </div>
+              @endforeach
 
               </div>
             </div>
@@ -281,6 +278,7 @@
           </div>
 
         </div>
+        
 
         <!-- table lower section (optional) -->
         <div class="mt-8">
@@ -307,21 +305,45 @@
                     <td class="py-3 px-4">John Manuel</td>
                     <td class="py-3 px-4">10 Nov 2025</td>
                     <td class="py-3 px-4 text-amber-600 font-semibold">Dipinjam</td>
-                    <td class="py-3 px-4"><button class="text-sm text-amber-600">Detail</button></td>
+                    <td class="py-3 px-4">
+                      <button class="text-sm text-indigo-600 hover:underline detail-btn"
+                          data-book="Machine Learning"
+                          data-user="John Manuel"
+                          data-date="10 Nov 2025"
+                          data-status="Dipinjam">
+                        Detail
+                      </button>
+                    </td>
                   </tr>
                   <tr class="border-t">
                     <td class="py-3 px-4">Cyber Security</td>
                     <td class="py-3 px-4">Mahesa Bianca</td>
                     <td class="py-3 px-4">05 Nov 2025</td>
                     <td class="py-3 px-4 text-red-600 font-semibold">Terlambat</td>
-                    <td class="py-3 px-4"><button class="text-sm text-amber-600">Detail</button></td>
+                    <td class="py-3 px-4">
+                      <button class="text-sm text-indigo-600 hover:underline detail-btn"
+                          data-book="Cyber Security"
+                          data-user="Mahesa Bianca"
+                          data-date="05 Nov 2025"
+                          data-status="Terlambat">
+                        Detail
+                      </button>
+                    </td>
                   </tr>
                   <tr class="border-t">
                     <td class="py-3 px-4">Software Engineering</td>
                     <td class="py-3 px-4">Kimberlly Laurr</td>
                     <td class="py-3 px-4">01 Nov 2025</td>
                     <td class="py-3 px-4 text-amber-600 font-semibold">Dipinjam</td>
-                    <td class="py-3 px-4"><button class="text-sm text-amber-600">Detail</button></td>
+                    <td class="py-3 px-4">
+                      <button class="text-sm text-indigo-600 hover:underline detail-btn"
+                          data-book="Software Engineering"
+                          data-user="Kimberlly Laurr"
+                          data-date="01 Nov 2025"
+                          data-status="Dipinjam">
+                        Detail
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -376,6 +398,104 @@
       }
     });
   </script>
+
+ <!-- SCRIPT PINDAH INDIKATOR -->
+<script>
+const indicator = document.getElementById('indicator');
+const menuItems = document.querySelectorAll('.menu-item');
+
+menuItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+        // pindahkan indikator sesuai icon
+        const baseTop = 204; // top icon pertama
+        const spacing = 95; // jarak antar icon (sesuai data-anggota)
+        indicator.style.top = (baseTop + spacing * index) + 'px';
+
+        // arahkan ke halaman sesuai menu
+        if (index === 0) window.location.href = "/admin";
+        if (index === 1) window.location.href = "/data-anggota";
+        if (index === 2) window.location.href = "/kelola-buku";
+        if (index === 3) window.location.href = "/laporan-peminjaman";
+        if (index === 4) window.location.href = "/kelola-user";
+        if (index === 5) window.location.href = "/pengaturan";
+    });
+});
+</script>
+
+<!-- MODAL DETAIL AKTIVITAS -->
+<div id="activityModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-xl p-6 w-96 relative">
+    <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-900">&times;</button>
+    <h3 class="text-lg font-semibold mb-4">Detail Aktivitas</h3>
+    <div id="modalContent" class="text-gray-700"></div>
+  </div>
+</div>
+
+<script>
+const tableModal = document.getElementById('activityModal'); // pakai modal yang sama
+const tableModalContent = document.getElementById('modalContent');
+
+document.querySelectorAll('.detail-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const book = btn.dataset.book;
+    const user = btn.dataset.user;
+    const date = btn.dataset.date;
+    const status = btn.dataset.status;
+
+    tableModalContent.innerHTML = `
+      <p><span class="font-semibold">Buku:</span> ${book}</p>
+      <p><span class="font-semibold">Peminjam:</span> ${user}</p>
+      <p><span class="font-semibold">Tanggal Pinjam:</span> ${date}</p>
+      <p><span class="font-semibold">Status:</span> ${status}</p>
+    `;
+
+    tableModal.classList.remove('hidden');
+    tableModal.classList.add('flex');
+  });
+});
+</script>
+
+<!-- SCRIPT MODAL -->
+<script>
+const modal = document.getElementById('activityModal');
+const modalContent = document.getElementById('modalContent');
+const closeModal = document.getElementById('closeModal');
+
+const activityIcons = document.querySelectorAll('.activity-item img');
+
+activityIcons.forEach(icon => {
+  icon.addEventListener('click', () => {
+    const name = icon.dataset.name;
+    const action = icon.dataset.action;
+    const book = icon.dataset.book;
+    const note = icon.dataset.note;
+    const type = icon.dataset.type;
+
+    modalContent.innerHTML = `
+      <p><span class="font-semibold">Nama:</span> ${name}</p>
+      <p><span class="font-semibold">Aksi:</span> ${action}</p>
+      <p><span class="font-semibold">Buku:</span> ${book}</p>
+      ${note ? `<p><span class="font-semibold">Catatan:</span> ${note}</p>` : ''}
+      <p><span class="font-semibold">Jenis:</span> ${type}</p>
+    `;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  });
+});
+
+closeModal.addEventListener('click', () => {
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+});
+
+modal.addEventListener('click', (e) => {
+  if(e.target === modal){
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+});
+</script>
 
 </body>
 </html>
