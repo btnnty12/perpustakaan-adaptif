@@ -31,14 +31,14 @@
 <div class="w-20 bg-[#a63a2d] min-h-screen flex flex-col items-center py-6">
     <div id="indicator"></div>
     <div class="flex flex-col items-center space-y-20 pt-20">
-        <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-grafik.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-user.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-setting.png') }}" class="w-7"></div>
+        <a href="{{ route('admin') }}" class="menu-item"><x-icon name="home" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('data.anggota') }}" class="menu-item"><x-icon name="anggota" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola.buku') }}" class="menu-item"><x-icon name="buku" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('laporan-peminjaman') }}" class="menu-item"><x-icon name="grafik" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola-user') }}" class="menu-item"><x-icon name="user" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('pengaturan') }}" class="menu-item"><x-icon name="setting" class="w-7 h-7 text-white" /></a>
     </div>
-    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
+    <a href="{{ url('/logout') }}" class="menu-item mt-auto mb-4"><x-icon name="logout" class="w-7 h-7 text-white" /></a>
 </div>
 
 <!-- ============================ CONTENT ============================ -->
@@ -47,14 +47,14 @@
     <!-- TOPBAR -->
     <div class="flex justify-end items-center w-full py-4 px-10 text-white space-x-6">
         <div class="border-l border-white h-6"></div>
-        <img src="{{ asset('images/icon-email.png') }}" class="w-6">
-        <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
+        <x-icon name="email" class="w-6 h-6 text-black" />
+        <x-icon name="notification" class="w-6 h-6 text-black" />
         <div class="border-l border-white h-6"></div>
 
         <div class="flex items-center space-x-2">
             <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">FA</div>
             <span class="text-black font-medium">Fayza Azzahra</span>
-            <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
+            <x-icon name="arrow-down" class="w-4 h-4 ml-1 text-black" />
         </div>
     </div>
 

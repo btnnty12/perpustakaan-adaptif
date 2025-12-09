@@ -56,10 +56,10 @@
             <!-- FAVORITE BUTTON -->
             @php
                 $sessionFavs = session('favorites', []);
-                $isFav = in_array($book['id'], $sessionFavs);
+                $isFav = in_array($book['title'], $sessionFavs, true);
             @endphp
 
-            <form method="POST" action="{{ route('favorite.toggle', $book['id']) }}">
+            <form method="POST" action="{{ route('favorite.toggle', $book['title']) }}">
                 @csrf
                 <button type="submit"
                     class="mt-6 w-full py-3 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3
