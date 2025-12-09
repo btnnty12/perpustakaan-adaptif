@@ -65,16 +65,18 @@
 
     <!-- MENU ATAS -->
     <div class="flex flex-col items-center space-y-20 pt-20 w-full">
-        <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-grafik.png') }}"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-user.png') }}"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-setting.png') }}"></div>
+        <a href="{{ route('admin') }}" class="menu-item" aria-label="Dashboard"><x-icon name="home" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('data.anggota') }}" class="menu-item" aria-label="Data Anggota"><x-icon name="anggota" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola.buku') }}" class="menu-item" aria-label="Kelola Buku"><x-icon name="buku" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('laporan-peminjaman') }}" class="menu-item" aria-label="Laporan Peminjaman"><x-icon name="grafik" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola-user') }}" class="menu-item" aria-label="Kelola User"><x-icon name="user" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('pengaturan') }}" class="menu-item" aria-label="Pengaturan"><x-icon name="setting" class="w-7 h-7 text-white" /></a>
     </div>
 
     <!-- LOGOUT PALING BAWAH -->
-    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
+    <a href="{{ url('/logout') }}" class="menu-item mt-auto mb-4" aria-label="Logout">
+        <x-icon name="logout" class="w-7 h-7 text-white" />
+    </a>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -87,10 +89,10 @@
         <div class="border-l border-white h-6"></div>
 
         <!-- Icon pesan -->
-        <img src="{{ asset('images/icon-email.png') }}" class="w-6">
+        <x-icon name="email" class="w-6 h-6 text-black" />
 
         <!-- Icon notif -->
-        <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
+        <x-icon name="notification" class="w-6 h-6 text-black" />
 
         <!-- Divider kanan -->
         <div class="border-l border-white h-6"></div>
@@ -103,7 +105,7 @@
 
             <span class="text-black font-medium">Admin</span>
 
-            <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
+            <x-icon name="arrow-down" class="w-4 h-4 ml-1 text-black" />
         </div>
     </div>
 
@@ -125,7 +127,7 @@
 
             <!-- right book illustration -->
             <div class="flex-1 flex justify-end">
-              <img src="{{ asset('images/icon-buku-halaman-admin.png') }}" alt="hero" class="w-72 md:w-80 lg:w-[380px] object-contain">
+              <x-icon name="book-open" class="w-20 h-20 md:w-24 md:h-24 text-white" />
             </div>
           </div>
 
@@ -146,7 +148,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div class="stat-radius p-6 shadow-lg card-soft flex items-center gap-4 rounded-xl">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center" style="background:#ead3f8">
-                  <img src="{{ asset('images/icon-buku-kecil.png') }}" class="w-11 h-11" alt="book">
+                  <x-icon name="buku" class="w-11 h-11 text-gray-700" />
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">Jumlah Buku</div>
@@ -156,7 +158,7 @@
 
               <div class="stat-radius p-6 shadow-lg card-soft flex items-center gap-4 rounded-xl">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center" style="background:#dbe7ff">
-                  <img src="{{ asset('images/icon-user-kecil.png') }}" class="w-12 h-12" alt="user">
+                  <x-icon name="user" class="w-12 h-12 text-gray-700" />
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">Jumlah User</div>
@@ -166,7 +168,7 @@
 
               <div class="stat-radius p-6 shadow-lg card-soft flex items-center gap-4 rounded-xl">
                 <div class="w-16 h-16 rounded-lg flex items-center justify-center" style="background:#dff3b8">
-                  <img src="{{ asset('images/icon-buku-dipinjam.png') }}" class="w-10 h-10" alt="loan">
+                  <x-icon name="buku" class="w-10 h-10 text-gray-700" />
                 </div>
                 <div>
                   <div class="text-sm text-gray-600">Buku Yang Sedang Dipinjam</div>

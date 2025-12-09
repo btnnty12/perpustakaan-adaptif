@@ -29,7 +29,7 @@
         </div>
 
         <!-- Icons -->
-        <button onclick="window.location.href='/'"
+        <button onclick="window.location.href='/home'"
             class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-house"></i>
         </button>
@@ -39,25 +39,29 @@
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+        <button onclick="window.location.href='/pengembalian-buku'"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-file-lines"></i>
         </button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+        <button onclick="window.location.href='/pinjaman'"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-book"></i>
         </button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+        <button onclick="window.location.href='/favorit'"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-heart"></i>
         </button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+        <button onclick="window.location.href='/pengaturan'"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-gear"></i>
         </button>
     </div>
 
     <!-- LOGOUT -->
-    <button onclick="window.location.href='/welcome'"
+    <button onclick="window.location.href='/logout'"
             class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
         <i class="fa-solid fa-right-from-bracket"></i>
     </button>

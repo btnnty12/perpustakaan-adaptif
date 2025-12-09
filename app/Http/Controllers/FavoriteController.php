@@ -8,34 +8,39 @@ class FavoriteController extends Controller
 {
     public function index()
     {
-        // Ambil daftar favorit dari session (array ID buku)
+        $books = \App\Models\Buku::dummyData();
         $favorites = session('favorites', []);
 
-        // Dummy buku (harus ada 'id' supaya toggle bisa berfungsi)
-        $books = [
-            ['id' => 1, 'judul' => 'Laskar Pelangi', 'cover' => 'dummy1.jpg'],
-            ['id' => 2, 'judul' => 'Bumi Manusia', 'cover' => 'dummy2.jpg'],
-            ['id' => 3, 'judul' => 'Negeri 5 Menara', 'cover' => 'dummy3.jpg'],
-            ['id' => 4, 'judul' => 'UX Design Thinking', 'cover' => 'ux.jpg'],
-        ];
+        $favoriteBooks = [];
+        foreach ($favorites as $slug) {
+            if (isset($books[$slug])) {
+                $favoriteBooks[] = $books[$slug];
+            }
+        }
 
-        return view('favorit', compact('books', 'favorites'));
+        return view('favorit', [
+            'favorites' => $favorites,
+            'favoriteBooks' => $favoriteBooks,
+        ]);
     }
 
-    public function toggle($bookId)
+    public function toggle(string $slug)
     {
+        $books = \App\Models\Buku::dummyData();
+        if (!isset($books[$slug])) {
+            abort(404);
+        }
+
         $favorites = session()->get('favorites', []);
 
-        if (in_array($bookId, $favorites)) {
-            // Hapus dari favorit
-            $favorites = array_diff($favorites, [$bookId]);
+        if (in_array($slug, $favorites, true)) {
+            $favorites = array_values(array_diff($favorites, [$slug]));
             session()->put('favorites', $favorites);
 
             return redirect()->back()->with('success', 'Buku dihapus dari favorit!');
         }
 
-        // Tambahkan ke favorit
-        $favorites[] = $bookId;
+        $favorites[] = $slug;
         session()->put('favorites', $favorites);
 
         return redirect()->back()->with('success', 'Buku ditambahkan ke favorit!');

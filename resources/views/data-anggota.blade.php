@@ -47,17 +47,17 @@
     <!-- MENU ATAS -->
     <div class="flex flex-col items-center space-y-20 pt-20">
 
-    <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}" class="w-7"></div>
-    <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}" class="w-7"></div>
-    <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}" class="w-7"></div>
-    <div class="menu-item"><img src="{{ asset('images/icon-grafik.png') }}" class="w-7"></div>
-    <div class="menu-item"><img src="{{ asset('images/icon-kelola-user.png') }}" class="w-7"></div>
-    <div class="menu-item"><img src="{{ asset('images/icon-setting.png') }}" class="w-7"></div>
+    <a href="{{ route('admin') }}" class="menu-item"><x-icon name="home" class="w-7 h-7 text-white" /></a>
+    <a href="{{ route('data.anggota') }}" class="menu-item"><x-icon name="anggota" class="w-7 h-7 text-white" /></a>
+    <a href="{{ route('kelola.buku') }}" class="menu-item"><x-icon name="buku" class="w-7 h-7 text-white" /></a>
+    <a href="{{ route('laporan-peminjaman') }}" class="menu-item"><x-icon name="grafik" class="w-7 h-7 text-white" /></a>
+    <a href="{{ route('kelola-user') }}" class="menu-item"><x-icon name="user" class="w-7 h-7 text-white" /></a>
+    <a href="{{ route('pengaturan') }}" class="menu-item"><x-icon name="setting" class="w-7 h-7 text-white" /></a>
 
 </div>
 
     <!-- LOGOUT PALING BAWAH -->
-    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
+    <a href="{{ url('/logout') }}" class="menu-item mt-auto mb-4"><x-icon name="logout" class="w-7 h-7 text-white" /></a>
 </div>
 
         <!-- MAIN CONTENT -->
@@ -70,10 +70,10 @@
     <div class="border-l border-white h-6"></div>
 
     <!-- Icon pesan -->
-    <img src="{{ asset('images/icon-email.png') }}" class="w-6">
+    <x-icon name="email" class="w-6 h-6 text-black" />
 
     <!-- Icon notif -->
-    <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
+    <x-icon name="notification" class="w-6 h-6 text-black" />
 
     <!-- Divider kanan -->
     <div class="border-l border-white h-6"></div>
@@ -84,7 +84,7 @@
             FA
         </div>
         <span class="text-black font-medium">Fayza Azzahra</span>
-        <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
+        <x-icon name="arrow-down" class="w-4 h-4 ml-1 text-black" />
     </div>
 
 </div>
@@ -124,7 +124,7 @@
             <!-- SEARCH + FILTER -->
             <div class="grid grid-cols-3 gap-6 mb-6">
                 <div class="bg-white rounded-lg px-4 py-2 flex items-center">
-                    <img src="{{ asset('images/icon-search-kecil.png') }}" class="w-5 mr-3">
+                    <x-icon name="search" class="w-5 h-5 mr-3 text-gray-500" />
                     <input type="text" placeholder="Search" class="w-full outline-none">
                 </div>
 
@@ -316,6 +316,148 @@ document.querySelectorAll('.menu-item').forEach((item, index) => {
 
 
 <script>
+// ======================================================
+// ALGORITMA STRING MATCHING
+// ======================================================
+
+// 1. Brute Force Algorithm
+function bruteForce(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    for (let i = 0; i <= n - m; i++) {
+        let j = 0;
+        while (j < m && text[i + j] === pattern[j]) {
+            j++;
+        }
+        if (j === m) {
+            results.push(i);
+        }
+    }
+    return results;
+}
+
+// 2. Knuth-Morris-Pratt (KMP) Algorithm
+function kmpLps(pattern) {
+    const m = pattern.length;
+    const lps = new Array(m).fill(0);
+    let len = 0;
+    let i = 1;
+    
+    while (i < m) {
+        if (pattern[i] === pattern[len]) {
+            len++;
+            lps[i] = len;
+            i++;
+        } else {
+            if (len !== 0) {
+                len = lps[len - 1];
+            } else {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+    return lps;
+}
+
+function kmp(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    const lps = kmpLps(pattern);
+    let i = 0;
+    let j = 0;
+    
+    while (i < n) {
+        if (text[i] === pattern[j]) {
+            i++;
+            j++;
+            if (j === m) {
+                results.push(i - j);
+                j = lps[j - 1];
+            }
+        } else {
+            if (j !== 0) {
+                j = lps[j - 1];
+            } else {
+                i++;
+            }
+        }
+    }
+    return results;
+}
+
+// 3. Boyer-Moore Algorithm (Simplified)
+function boyerMoore(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    // Build bad character table
+    const bad = new Array(256).fill(-1);
+    for (let i = 0; i < m; i++) {
+        bad[pattern.charCodeAt(i)] = i;
+    }
+    
+    let shift = 0;
+    while (shift <= n - m) {
+        let j = m - 1;
+        
+        while (j >= 0 && pattern[j] === text[shift + j]) {
+            j--;
+        }
+        
+        if (j < 0) {
+            results.push(shift);
+            shift += (shift + m < n) ? m - (bad[text.charCodeAt(shift + m)] !== undefined ? bad[text.charCodeAt(shift + m)] : -1) : 1;
+        } else {
+            const bc = bad[text.charCodeAt(shift + j)];
+            shift += Math.max(1, j - bc);
+        }
+    }
+    return results;
+}
+
+// Fungsi untuk memilih algoritma terbaik berdasarkan panjang pattern
+function selectBestAlgorithm(pattern) {
+    if (!pattern) return 'bf';
+    const len = pattern.length;
+    if (len <= 3) return 'bf'; // Brute Force untuk pattern pendek
+    if (len <= 10) return 'kmp'; // KMP untuk pattern sedang
+    return 'bm'; // Boyer-Moore untuk pattern panjang
+}
+
+// Fungsi pencarian dengan algoritma
+function searchWithAlgorithm(text, pattern, algorithm) {
+    if (!text || !pattern) return [];
+    
+    switch(algorithm) {
+        case 'bf':
+            return bruteForce(text, pattern);
+        case 'kmp':
+            return kmp(text, pattern);
+        case 'bm':
+            return boyerMoore(text, pattern);
+        default:
+            return bruteForce(text, pattern);
+    }
+}
+
 // --- SEARCH, STATUS, TANGGAL FILTER ---
 const searchInput = document.querySelector('input[placeholder="Search"]');
 const statusFilter = document.querySelectorAll('.grid-cols-3 div:nth-child(2)');
@@ -336,11 +478,29 @@ dateFilter[0].innerHTML = `
     <input type="date" id="dateSelect" class="w-full outline-none text-gray-500">
 `;
 
-// Fungsi filter tabel
+// Fungsi filter tabel dengan algoritma string matching
+let searchTimeout;
 function filterTable() {
-    const searchValue = searchInput.value.toLowerCase();
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        executeSearch();
+    }, 150);
+}
+
+function executeSearch() {
+    const searchValue = searchInput.value.trim().toLowerCase();
     const statusValue = document.getElementById('statusSelect').value;
     const dateValue = document.getElementById('dateSelect').value; // format yyyy-mm-dd
+
+    if (!searchValue && !statusValue && !dateValue) {
+        tableRows.forEach(row => {
+            row.style.display = '';
+        });
+        return;
+    }
+
+    // Pilih algoritma terbaik berdasarkan panjang pattern
+    const algorithm = selectBestAlgorithm(searchValue);
 
     tableRows.forEach(row => {
         const name = row.cells[2].textContent.toLowerCase(); // kolom Nama
@@ -349,7 +509,13 @@ function filterTable() {
         const tanggalCell = row.cells[1].textContent; // kolom Tanggal
         const tanggal = new Date(tanggalCell.split('/').reverse().join('-')).toISOString().split('T')[0]; // convert ke yyyy-mm-dd
 
-        const matchesSearch = name.includes(searchValue) || email.includes(searchValue);
+        let matchesSearch = true;
+        if (searchValue) {
+            const nameMatches = searchWithAlgorithm(name, searchValue, algorithm);
+            const emailMatches = searchWithAlgorithm(email, searchValue, algorithm);
+            matchesSearch = nameMatches.length > 0 || emailMatches.length > 0;
+        }
+
         const matchesStatus = statusValue === "" || status === statusValue;
         const matchesDate = dateValue === "" || tanggal === dateValue;
 

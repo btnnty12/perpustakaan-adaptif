@@ -1,211 +1,48 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StaffBukuController;
+use App\Models\Buku;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-
 | Halaman Umum
 |--------------------------------------------------------------------------
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome')->name('welcome');
+Route::view('/welcome', 'welcome');
 
 /*
 |--------------------------------------------------------------------------
-| DETAIL BUKU (TANPA LOGIN — FIXED)
+| DETAIL BUKU (TANPA LOGIN)
 |--------------------------------------------------------------------------
 */
-Route::get('/detail/{buku}', function ($buku) {
+Route::get('/detail/{slug}', function (string $slug) {
+    $books = Buku::dummyData();
 
-$books = [
-    "Machine Learning" => [
-        "id"     => 1,
-        "title"  => "Machine Learning",
-        "author" => "Andrew Ng",
-        "year"   => 2018,
-        "img"    => "/images/machine Learning.jpegg",
-        "desc"   => "Pengenalan komprehensif tentang machine learning dan algoritma modern.",
-        "genre"  => "Teknologi",
-        "stok"   => 12,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Artificial Intelligence" => [
-        "id"     => 2,
-        "title"  => "Artificial Intelligence",
-        "author" => "Stuart Russell",
-        "year"   => 2020,
-        "img"    => "/images/download (1).jpe",
-        "desc"   => "Dasar dan perkembangan AI dari klasik hingga deep learning.",
-        "genre"  => "Teknologi",
-        "stok"   => 9,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Cyber Security" => [
-        "id"     => 3,
-        "title"  => "Cyber Security",
-        "author" => "Kevin Mitnick",
-        "year"   => 2019,
-        "img"    => "/images/download (2).jpeg",
-        "desc"   => "Panduan keamanan digital bagi pengguna modern.",
-        "genre"  => "Keamanan",
-        "stok"   => 6,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Kalkulus Book" => [
-        "id"     => 4,
-        "title"  => "Kalkulus Book",
-        "author" => "James Stewart",
-        "year"   => 2015,
-        "img"    => "images/download (2).jpeg",
-        "desc"   => "Dasar-dasar kalkulus untuk mahasiswa dan profesional.",
-        "genre"  => "Matematika",
-        "stok"   => 11,
-        "bahasa" => "Indonesia",
-    ],
-
-    "UX Design Thinking" => [
-        "id"     => 5,
-        "title"  => "UX Design Thinking",
-        "author" => "Don Norman",
-        "year"   => 2019,
-        "img"    => "https://i.ibb.co/XFZwcNm/ux.jpg",
-        "desc"   => "Pendekatan human centered design dalam pembuatan produk digital.",
-        "genre"  => "Desain",
-        "stok"   => 4,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Pemrograman Aplikasi Web" => [
-        "id"     => 6,
-        "title"  => "Pemrograman Aplikasi Web",
-        "author" => "Budi Santoso",
-        "year"   => 2020,
-        "img"    => "https://i.ibb.co/rGdm32f/web.jpg",
-        "desc"   => "Buku dasar dan lanjutan tentang pengembangan aplikasi web modern.",
-        "genre"  => "Teknologi",
-        "stok"   => 7,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Java Book" => [
-        "id"     => 7,
-        "title"  => "Java Book",
-        "author" => "Herbert Schildt",
-        "year"   => 2019,
-        "img"    => "https://i.ibb.co/xDLMp7R/java.jpg",
-        "desc"   => "Panduan lengkap bahasa pemrograman Java dari dasar hingga OOP.",
-        "genre"  => "Pemrograman",
-        "stok"   => 5,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Python Book" => [
-        "id"     => 8,
-        "title"  => "Python Book",
-        "author" => "Mark Lutz",
-        "year"   => 2021,
-        "img"    => "https://i.ibb.co/S6Wbn5p/python.jpg",
-        "desc"   => "Pembelajaran Python modern mulai dari sintaks hingga proyek nyata.",
-        "genre"  => "Pemrograman",
-        "stok"   => 8,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Docker Book" => [
-        "id"     => 9,
-        "title"  => "Docker Book",
-        "author" => "Adrian Mouat",
-        "year"   => 2018,
-        "img"    => "https://i.ibb.co/PYY8spf/docker.jpg",
-        "desc"   => "Panduan lengkap containerization menggunakan Docker untuk developer.",
-        "genre"  => "Teknologi",
-        "stok"   => 6,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Statistika Buku" => [
-        "id"     => 10,
-        "title"  => "Statistika Buku",
-        "author" => "Sudjana",
-        "year"   => 2017,
-        "img"    => "https://i.ibb.co/Kxqs6bQ/statistika.jpg",
-        "desc"   => "Pembahasan konsep dasar statistika, distribusi, dan analisis data.",
-        "genre"  => "Matematika",
-        "stok"   => 10,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Laskar Pelangi" => [
-        "id"     => 11,
-        "title"  => "Laskar Pelangi",
-        "author" => "Andrea Hirata",
-        "year"   => 2005,
-        "img"    => "laskar_pelangi.jpg",
-        "desc"   => "Cerita inspiratif tentang anak-anak di Belitung yang mengejar pendidikan.",
-        "genre"  => "Fiksi",
-        "stok"   => 10,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Bumi Manusia" => [
-        "id"     => 12,
-        "title"  => "Bumi Manusia",
-        "author" => "Pramoedya Ananta Toer",
-        "year"   => 1980,
-        "img"    => "bumi_manusia.jpg",
-        "desc"   => "Novel tentang kolonialisme Belanda dan kehidupan pribumi di Jawa.",
-        "genre"  => "Sejarah",
-        "stok"   => 8,
-        "bahasa" => "Indonesia",
-    ],
-
-    "Negeri 5 Menara" => [
-        "id"     => 13,
-        "title"  => "Negeri 5 Menara",
-        "author" => "Ahmad Fuadi",
-        "year"   => 2009,
-        "img"    => "negeri_5_menara.jpg",
-        "desc"   => "Perjalanan anak muda menempuh pendidikan di pesantren dan menara ilmu.",
-        "genre"  => "Fiksi",
-        "stok"   => 7,
-        "bahasa" => "Indonesia",
-    ],
-
-];
-
-    if (!isset($books[$buku])) {
+    if (!isset($books[$slug])) {
         abort(404);
     }
 
-    return view('detail', ['book' => $books[$buku]]);
+    return view('detail', ['book' => $books[$slug]]);
 })->name('detail');
-
-
 
 /*
 |--------------------------------------------------------------------------
-| AUTH (Login - Register)
+| AUTH (Login - Register - Logout)
 |--------------------------------------------------------------------------
 */
-
-// Login
-Route::get('/login', fn() => view('login'))->name('login');
+Route::get('/login', fn () => view('login'))->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
-Route::get('/register', fn() => view('register'))->name('register');
+Route::get('/register', fn () => view('register'))->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -222,56 +59,144 @@ Route::middleware(['auth'])->group(function () {
         ];
         return view('home', ['user' => $user]);
     })
-        ->middleware('role:pengguna')
+        ->middleware('role:pengguna,staff,admin')
         ->name('home');
 
-    Route::get('/notifikasi', fn() => view('notifikasi'))
-        ->middleware('role:pengguna')
+    Route::view('/notifikasi', 'notifikasi')
+        ->middleware('role:pengguna,staff,admin')
         ->name('notifikasi');
 
-    Route::get('/pesan', fn() => view('pesan'))
-        ->middleware('role:pengguna')
-        ->name('pesan');
-
-    Route::get('/search', fn() => view('search'))
-        ->middleware('role:pengguna')
+    Route::view('/search', 'search')
+        ->middleware('role:pengguna,staff,admin')
         ->name('search');
 
-    Route::get('/staff', fn() => view('staff'))
-        ->middleware('role:staff')
-        ->name('staff');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | PENGEMBALIAN BUKU
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/pengembalian-buku', fn() => view('index'))
+    Route::view('/pengembalian-buku', 'index')
         ->middleware('role:pengguna')
         ->name('pengembalian.index');
 
-    Route::get('/pengembalian/create', fn() => view('create'))
+    Route::view('/pengembalian/create', 'create')
         ->middleware('role:pengguna')
         ->name('pengembalian.create');
+
+    Route::get('/create', fn () => redirect()->route('pengembalian.create'))
+        ->middleware('role:pengguna');
+
+    Route::view('/pinjaman', 'peminjaman')
+        ->middleware('role:pengguna')
+        ->name('pinjaman.index');
+
+    Route::get('/favorit', [FavoriteController::class, 'index'])
+        ->middleware('role:pengguna')
+        ->name('favorite.index');
+
+    Route::post('/favorit/{slug}', [FavoriteController::class, 'toggle'])
+        ->middleware('role:pengguna')
+        ->name('favorite.toggle');
+
+    Route::view('/pengaturan', 'pengaturan')
+        ->middleware('role:pengguna,staff,admin')
+        ->name('pengaturan');
+
+    Route::put('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::redirect('/settings', '/pengaturan');
+
+    // Dashboard staff
+    Route::view('/staff', 'staff')
+        ->middleware('role:staff')
+        ->name('staff');
 });
 
-//user biar bisa buka halaman tanpa login//
+/*
+|--------------------------------------------------------------------------
+| ADMIN AREA
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+});
 
-// Admin (tanpa login dulu)
-Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+// Halaman operasional ADMIN
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::view('/data-anggota', 'data-anggota')->name('data.anggota');
+    Route::view('/kelola-buku', 'kelola-buku')->name('kelola.buku');
+    Route::view('/laporan-peminjaman', 'laporan-peminjaman')->name('laporan-peminjaman');
+    Route::view('/kelola-user', 'kelola-user')->name('kelola-user');
+});
 
-// Data Anggota (tanpa login dulu)
-Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
+// Halaman operasional STAFF (path terpisah tapi UI sama)
+Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {
+    Route::view('/', 'staff')->name('dashboard');
+    Route::view('/data-anggota', 'staff.data-anggota')->name('data-anggota');
+    Route::view('/kelola-buku', 'staff.kelola-buku')->name('kelola-buku');
+    Route::view('/kelola-buku/create', 'staff.kelola-buku-create')->name('kelola-buku.create');
+    Route::view('/kelola-buku/import', 'staff.kelola-buku-import')->name('kelola-buku.import');
+    Route::get('/kelola-buku/export', [StaffBukuController::class, 'export'])->name('kelola-buku.export');
+    Route::view('/laporan-peminjaman', 'staff.laporan-peminjaman')->name('laporan-peminjaman');
+    Route::view('/pengaturan', 'staff.pengaturan')->name('pengaturan');
+    
+    // Route untuk log performa pencarian (tanpa controller baru)
+    Route::post('/log-search', function (\Illuminate\Http\Request $request) {
+        if (!\Illuminate\Support\Facades\Auth::check()) {
+            return response()->json(['success' => false], 401);
+        }
+        
+        try {
+            \App\Models\LogPencarian::create([
+                'pengguna_id' => \Illuminate\Support\Facades\Auth::id(),
+                'kata_kunci' => $request->input('kata_kunci', ''),
+                'jumlah_hasil' => $request->input('jumlah_hasil', 0),
+                'algorithm' => $request->input('algorithm', 'bf'),
+                'process_time_ms' => $request->input('process_time_ms', 0),
+            ]);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false], 500);
+        }
+    })->name('log-search');
+});
 
-// Kelola Buku (tanpa login dulu)
-Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
+// Route untuk pencarian string matching (bisa digunakan oleh semua role yang sudah login)
+Route::middleware(['auth'])->group(function () {
+    Route::post('/api/string-match', function (\Illuminate\Http\Request $request) {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'text' => 'required|string',
+            'pattern' => 'required|string',
+            'algorithm' => 'string|in:bf,kmp,bm',
+        ]);
 
-// Laporan Peminjaman (tanpa login dulu)
-Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
 
-// Kelola User (tanpa login dulu)
-Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
+        try {
+            $text = $request->input('text');
+            $pattern = $request->input('pattern');
+            $algorithm = $request->input('algorithm', 'bm');
 
-// Pengaturan (tanpa login dulu)
-Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');
+            $startTime = microtime(true);
+            $positions = \App\Services\StringMatching::matchPositions($text, $pattern, $algorithm, true);
+            $processTime = (microtime(true) - $startTime) * 1000; // dalam ms
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'positions' => $positions,
+                    'hasMatch' => count($positions) > 0,
+                    'algorithm' => $algorithm,
+                    'process_time_ms' => $processTime,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat melakukan pencarian',
+            ], 500);
+        }
+    })->name('api.string-match');
+});

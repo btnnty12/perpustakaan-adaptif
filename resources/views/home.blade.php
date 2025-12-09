@@ -59,7 +59,7 @@
 
     <!-- LOGOUT PALING BAWAH -->
     <button 
-        onclick="window.location.href='/login';"
+        onclick="window.location.href='/logout';"
         class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
         <i class="fa-solid fa-right-from-bracket"></i>
     </button>
@@ -232,7 +232,7 @@
     <img src="images/machine Learning.jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Machine<br>Learning</p>
 
-    <a href="{{ route('detail', ['buku' => 'Machine Learning']) }}"
+    <a href="{{ route('detail', 'Machine Learning') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -240,7 +240,7 @@
     <img src="images/download (1).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Artificial<br>Intelligence</p>
 
-    <a href="{{ route('detail', ['buku' => 'Artificial Intelligence']) }}"
+    <a href="{{ route('detail', 'Artificial Intelligence') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -248,7 +248,7 @@
     <img src="images/download (2).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Cyber<br>Security</p>
 
-    <a href="{{ route('detail', ['buku' => 'Cyber Security']) }}"
+    <a href="{{ route('detail', 'Cyber Security') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -256,7 +256,7 @@
     <img src="images/Kalkulus.jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Kalkulus<br>Book</p>
 
-    <a href="{{ route('detail', ['buku' => 'Kalkulus Book']) }}"
+    <a href="{{ route('detail', 'Kalkulus Book') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -264,7 +264,7 @@
     <img src="images/download (11).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">UX Design<br>Thinking</p>
 
-    <a href="{{ route('detail', ['buku' => 'UX Design Thinking']) }}"
+    <a href="{{ route('detail', 'UX Design Thinking') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -273,7 +273,7 @@
     <img src="images/download (33).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Pemrograman<br>Aplikasi Web</p>
 
-    <a href="{{ route('detail', ['buku' => 'Pemrograman Aplikasi Web']) }}"
+    <a href="{{ route('detail', 'Pemrograman Aplikasi Web') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -281,7 +281,7 @@
     <img src="images/download (3).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Java<br>Book</p>
 
-    <a href="{{ route('detail', ['buku' => 'Java Book']) }}"
+    <a href="{{ route('detail', 'Java Book') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -289,7 +289,7 @@
     <img src="images/download (4).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Python<br>Book</p>
 
-    <a href="{{ route('detail', ['buku' => 'Python Book']) }}"
+    <a href="{{ route('detail', 'Python Book') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -297,7 +297,7 @@
     <img src="images/download (5).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Docker<br>Book</p>
 
-    <a href="{{ route('detail', ['buku' => 'Docker Book']) }}"
+    <a href="{{ route('detail', 'Docker Book') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
 
@@ -305,7 +305,7 @@
     <img src="images/download (13).jpeg" class="w-36 h-48 object-cover rounded-xl shadow">
     <p class="font-semibold text-center mt-2">Statistika<br>Buku</p>
 
-    <a href="{{ route('detail', ['buku' => 'Statistika Buku']) }}"
+    <a href="{{ route('detail', 'Statistika Buku') }}"
        class="mt-1 text-xl font-bold">＋</a>
 </div>
                     </div>

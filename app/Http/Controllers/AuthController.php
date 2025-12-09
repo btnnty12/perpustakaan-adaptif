@@ -19,20 +19,20 @@ class AuthController extends Controller
         // Cari user berdasarkan email
         $user = Pengguna::where('email', $request->email)->first();
 
-        // Debug: Log untuk melihat apakah user ditemukan
         if (!$user) {
             return back()->withErrors([
                 'email' => 'Email tidak ditemukan!'
             ])->withInput($request->only('email'));
         }
 
-        // Verifikasi password
+        // Verifikasi password dan login ke guard bawaan
         if (Hash::check($request->kata_sandi, $user->kata_sandi)) {
-            
+            Auth::login($user);
+
             // Regenerate session untuk keamanan
             $request->session()->regenerate();
-            
-            // Set session data
+
+            // Set session data (dipakai RoleMiddleware)
             $request->session()->put([
                 'email' => $user->email,
                 'nama'  => $user->nama,
@@ -44,7 +44,7 @@ class AuthController extends Controller
                 case 'admin':
                     return redirect()->route('admin')->with('success', 'Selamat datang Admin!');
                 case 'staff':
-                    return redirect()->route('staff')->with('success', 'Selamat datang Staff!');
+                    return redirect()->route('staff.dashboard')->with('success', 'Selamat datang Staff!');
                 case 'pengguna':
                     return redirect()->route('home')->with('success', 'Selamat datang!');
                 default:
@@ -79,11 +79,13 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        Auth::logout();
+
         // Hapus semua session data
         $request->session()->forget(['email', 'nama', 'role']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/login')->with('success', 'Anda telah logout.');
     }
 }

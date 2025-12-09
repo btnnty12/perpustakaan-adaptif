@@ -69,12 +69,14 @@
         </button>
 
         <!-- TRANSAKSI -->
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+        <button onclick="window.location.href='{{ url('/pengembalian-buku') }}';"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-file-lines"></i>
         </button>
 
         <!-- BUKU -->
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+        <button onclick="window.location.href='{{ url('/pinjaman') }}';"
+            class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
             <i class="fa-solid fa-book"></i>
         </button>
 
@@ -93,7 +95,7 @@
     </div>
 
     <!-- LOGOUT PALING BAWAH -->
-    <button onclick="window.location.href='{{ url('/welcome') }}';"
+    <button onclick="window.location.href='{{ url('/logout') }}';"
         class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
         <i class="fa-solid fa-right-from-bracket"></i>
     </button>

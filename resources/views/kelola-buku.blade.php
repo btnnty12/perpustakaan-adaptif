@@ -132,6 +132,7 @@
 
     <div class="flex flex-col items-center space-y-20 pt-20">
 
+<<<<<<< Updated upstream
         <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}" class="w-7"></div>
         <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}" class="w-7"></div>
         <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}" class="w-7"></div>
@@ -142,6 +143,18 @@
     </div>
 
     <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
+=======
+        <a href="{{ route('admin') }}" class="menu-item"><x-icon name="home" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('data.anggota') }}" class="menu-item"><x-icon name="anggota" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola.buku') }}" class="menu-item"><x-icon name="buku" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('laporan-peminjaman') }}" class="menu-item"><x-icon name="grafik" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola-user') }}" class="menu-item"><x-icon name="user" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('pengaturan') }}" class="menu-item"><x-icon name="setting" class="w-7 h-7 text-white" /></a>
+
+    </div>
+
+    <a href="{{ url('/logout') }}" class="menu-item mt-auto mb-4"><x-icon name="logout" class="w-7 h-7 text-white" /></a>
+>>>>>>> Stashed changes
 </div>
 
 <!-- ============================ CONTENT ============================ -->
@@ -154,10 +167,17 @@
     <div class="border-l border-white h-6"></div>
 
     <!-- Icon pesan -->
+<<<<<<< Updated upstream
     <img src="{{ asset('images/icon-email.png') }}" class="w-6">
 
     <!-- Icon notif -->
     <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
+=======
+    <x-icon name="email" class="w-6 h-6 text-black" />
+
+    <!-- Icon notif -->
+    <x-icon name="notification" class="w-6 h-6 text-black" />
+>>>>>>> Stashed changes
 
     <!-- Divider kanan -->
     <div class="border-l border-white h-6"></div>
@@ -168,7 +188,11 @@
             FA
         </div>
         <span class="text-black font-medium">Fayza Azzahra</span>
+<<<<<<< Updated upstream
         <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
+=======
+        <x-icon name="arrow-down" class="w-4 h-4 ml-1 text-black" />
+>>>>>>> Stashed changes
     </div>
 
 </div>
@@ -220,18 +244,28 @@
     <!-- FILTER BAR -->
     <div class="filter-row">
 
-        <input type="text" placeholder="Search"
-               class="filter-search shadow p-3 rounded-lg">
+        <input type="text" id="searchInput" placeholder="Search"
+               class="filter-search shadow p-3 rounded-lg" onkeyup="filterTable()">
 
-        <select class="filter-select shadow">
-            <option>Kategori</option>
+        <select id="kategoriFilter" class="filter-select shadow" onchange="filterTable()">
+            <option value="">Semua Kategori</option>
+            <option value="Bahasa">Bahasa</option>
+            <option value="Pemrograman">Pemrograman</option>
+            <option value="Psikologi">Psikologi</option>
+            <option value="Akuntansi">Akuntansi</option>
+            <option value="Manajemen">Manajemen</option>
+            <option value="Statistik">Statistik</option>
+            <option value="AI">AI</option>
+            <option value="Budaya">Budaya</option>
         </select>
 
-        <select class="filter-select shadow">
-            <option>Status</option>
+        <select id="statusFilter" class="filter-select shadow" onchange="filterTable()">
+            <option value="">Semua Status</option>
+            <option value="Tersedia">Tersedia</option>
+            <option value="Tidak Tersedia">Tidak Tersedia</option>
         </select>
 
-        <button class="btn-search">Search</button>
+        <button class="btn-search" onclick="filterTable()">Search</button>
     </div>
 
 </div>
@@ -255,7 +289,7 @@
         <tbody>
 
             <!-- 1 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="bahasa inggris untuk akademik" data-kategori="Bahasa" data-status="Tersedia">
                 <td class="px-6 py-3">BK-001</td>
                 <td class="px-6 py-3">Rak-001</td>
                 <td class="px-6 py-3">Bahasa Inggris untuk Akademik</td>
@@ -270,7 +304,7 @@
             </tr>
 
             <!-- 2 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="algoritma dan struktur data" data-kategori="Pemrograman" data-status="Tidak Tersedia">
                 <td class="px-6 py-3">BK-002</td>
                 <td class="px-6 py-3">Rak-002</td>
                 <td class="px-6 py-3">Algoritma dan Struktur Data</td>
@@ -285,7 +319,7 @@
             </tr>
 
             <!-- 3 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="psikologi remaja modern" data-kategori="Psikologi" data-status="Tersedia">
                 <td class="px-6 py-3">BK-003</td>
                 <td class="px-6 py-3">Rak-003</td>
                 <td class="px-6 py-3">Psikologi Remaja Modern</td>
@@ -300,7 +334,7 @@
             </tr>
 
             <!-- 4 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="dasar-dasar akuntansi" data-kategori="Akuntansi" data-status="Tersedia">
                 <td class="px-6 py-3">BK-004</td>
                 <td class="px-6 py-3">Rak-004</td>
                 <td class="px-6 py-3">Dasar-Dasar Akuntansi</td>
@@ -315,7 +349,7 @@
             </tr>
 
             <!-- 5 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="manajemen proyek ti" data-kategori="Manajemen" data-status="Tidak Tersedia">
                 <td class="px-6 py-3">BK-005</td>
                 <td class="px-6 py-3">Rak-005</td>
                 <td class="px-6 py-3">Manajemen Proyek TI</td>
@@ -330,7 +364,7 @@
             </tr>
 
             <!-- 6 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="statistika untuk penelitian" data-kategori="Statistik" data-status="Tersedia">
                 <td class="px-6 py-3">BK-006</td>
                 <td class="px-6 py-3">Rak-006</td>
                 <td class="px-6 py-3">Statistika untuk Penelitian</td>
@@ -345,7 +379,7 @@
             </tr>
 
             <!-- 7 -->
-            <tr class="border-b">
+            <tr class="border-b buku-row" data-judul="pengantar kecerdasan buatan" data-kategori="AI" data-status="Tersedia">
                 <td class="px-6 py-3">BK-007</td>
                 <td class="px-6 py-3">Rak-007</td>
                 <td class="px-6 py-3">Pengantar Kecerdasan Buatan</td>
@@ -360,7 +394,7 @@
             </tr>
 
             <!-- 8 -->
-            <tr>
+            <tr class="buku-row" data-judul="sejarah nusantara kuno" data-kategori="Budaya" data-status="Tidak Tersedia">
                 <td class="px-6 py-3">BK-008</td>
                 <td class="px-6 py-3">Rak-008</td>
                 <td class="px-6 py-3">Sejarah Nusantara Kuno</td>
@@ -376,6 +410,9 @@
 
         </tbody>
     </table>
+    <div id="noResults" class="hidden text-center py-8 text-gray-500">
+        <p>Tidak ada buku yang ditemukan.</p>
+    </div>
 </div>
 
     <!-- ============================ PAGINATION ============================ -->
@@ -415,6 +452,224 @@ document.querySelectorAll('.menu-item').forEach((item, index) => {
         if (index === 5) window.location.href = "/pengaturan";      // setting
     });
 });
+
+// ======================================================
+// ALGORITMA STRING MATCHING
+// ======================================================
+
+// 1. Brute Force Algorithm
+function bruteForce(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    for (let i = 0; i <= n - m; i++) {
+        let j = 0;
+        while (j < m && text[i + j] === pattern[j]) {
+            j++;
+        }
+        if (j === m) {
+            results.push(i);
+        }
+    }
+    return results;
+}
+
+// 2. Knuth-Morris-Pratt (KMP) Algorithm
+function kmpLps(pattern) {
+    const m = pattern.length;
+    const lps = new Array(m).fill(0);
+    let len = 0;
+    let i = 1;
+    
+    while (i < m) {
+        if (pattern[i] === pattern[len]) {
+            len++;
+            lps[i] = len;
+            i++;
+        } else {
+            if (len !== 0) {
+                len = lps[len - 1];
+            } else {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+    return lps;
+}
+
+function kmp(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    const lps = kmpLps(pattern);
+    let i = 0;
+    let j = 0;
+    
+    while (i < n) {
+        if (text[i] === pattern[j]) {
+            i++;
+            j++;
+            if (j === m) {
+                results.push(i - j);
+                j = lps[j - 1];
+            }
+        } else {
+            if (j !== 0) {
+                j = lps[j - 1];
+            } else {
+                i++;
+            }
+        }
+    }
+    return results;
+}
+
+// 3. Boyer-Moore Algorithm (Simplified)
+function boyerMoore(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    // Build bad character table
+    const bad = new Array(256).fill(-1);
+    for (let i = 0; i < m; i++) {
+        bad[pattern.charCodeAt(i)] = i;
+    }
+    
+    let shift = 0;
+    while (shift <= n - m) {
+        let j = m - 1;
+        
+        while (j >= 0 && pattern[j] === text[shift + j]) {
+            j--;
+        }
+        
+        if (j < 0) {
+            results.push(shift);
+            shift += (shift + m < n) ? m - (bad[text.charCodeAt(shift + m)] !== undefined ? bad[text.charCodeAt(shift + m)] : -1) : 1;
+        } else {
+            const bc = bad[text.charCodeAt(shift + j)];
+            shift += Math.max(1, j - bc);
+        }
+    }
+    return results;
+}
+
+// Fungsi untuk memilih algoritma terbaik berdasarkan panjang pattern
+function selectBestAlgorithm(pattern) {
+    if (!pattern) return 'bf';
+    const len = pattern.length;
+    if (len <= 3) return 'bf'; // Brute Force untuk pattern pendek
+    if (len <= 10) return 'kmp'; // KMP untuk pattern sedang
+    return 'bm'; // Boyer-Moore untuk pattern panjang
+}
+
+// Fungsi pencarian dengan algoritma
+function searchWithAlgorithm(text, pattern, algorithm) {
+    if (!text || !pattern) return [];
+    
+    switch(algorithm) {
+        case 'bf':
+            return bruteForce(text, pattern);
+        case 'kmp':
+            return kmp(text, pattern);
+        case 'bm':
+            return boyerMoore(text, pattern);
+        default:
+            return bruteForce(text, pattern);
+    }
+}
+
+// ======================================================
+// FUNGSI FILTER TABLE DENGAN ALGORITMA
+// ======================================================
+let searchTimeout;
+
+function filterTable() {
+    // Debounce untuk menghindari terlalu banyak eksekusi
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        executeSearch();
+    }, 150); // Delay 150ms
+}
+
+function executeSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const kategoriFilter = document.getElementById('kategoriFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const rows = document.querySelectorAll('.buku-row');
+    const noResults = document.getElementById('noResults');
+    
+    if (!searchInput || !rows.length) return;
+    
+    const searchValue = searchInput.value.trim().toLowerCase();
+    const kategoriValue = kategoriFilter ? kategoriFilter.value : '';
+    const statusValue = statusFilter ? statusFilter.value : '';
+    let visibleCount = 0;
+
+    // Jika tidak ada input search, tampilkan semua berdasarkan filter
+    if (!searchValue && !kategoriValue && !statusValue) {
+        rows.forEach(row => {
+            row.style.display = '';
+            visibleCount++;
+        });
+        if (noResults) noResults.classList.add('hidden');
+        return;
+    }
+
+    // Pilih algoritma terbaik berdasarkan panjang pattern
+    const algorithm = selectBestAlgorithm(searchValue);
+    
+    // Mulai timer untuk mengukur performa
+    const startTime = performance.now();
+
+    // Lakukan pencarian dengan algoritma string matching
+    rows.forEach(row => {
+        const judul = row.getAttribute('data-judul') || '';
+        const kategori = row.getAttribute('data-kategori') || '';
+        const status = row.getAttribute('data-status') || '';
+        
+        let matchesSearch = true;
+        if (searchValue) {
+            const judulMatches = searchWithAlgorithm(judul, searchValue, algorithm);
+            matchesSearch = judulMatches.length > 0;
+        }
+        
+        const matchesKategori = !kategoriValue || kategori === kategoriValue;
+        const matchesStatus = !statusValue || status === statusValue;
+        
+        if (matchesSearch && matchesKategori && matchesStatus) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Tampilkan pesan jika tidak ada hasil
+    if (noResults) {
+        if (visibleCount === 0) {
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+        }
+    }
+}
 </script>
 
 </body>

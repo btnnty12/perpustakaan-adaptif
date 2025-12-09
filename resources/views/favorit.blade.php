@@ -29,31 +29,15 @@
     </div>
 </aside>
 
+@php
+    $sessionFavs = $favorites ?? [];
+    $dataFavorit = $favoriteBooks ?? [];
+@endphp
+
 <!-- MAIN CONTENT -->
 <main class="flex-1 p-8">
     <h1 class="text-4xl font-bold mb-6 text-[#A63A2D]">Buku Favoritmu</h1>
     <p class="text-gray-700 mb-8">Lihat buku-buku yang sudah kamu tandai sebagai favorit.</p>
-
-   @php
-    use App\Models\Buku;
-
-    // Ambil semua data dummy
-    $books = Buku::dummyData();
-
-    // Ambil daftar favorit dari session
-    $sessionFavs = session('favorites', []);
-
-    // Hanya tampilkan buku yang ada di session favorites
-    $dataFavorit = [];
-    foreach($sessionFavs as $favTitle){
-        if(isset($books[$favTitle])){
-            $dataFavorit[] = $books[$favTitle];
-        }
-    }
-@endphp
-
-<main class="flex-1 p-8">
-    <h1 class="text-4xl font-bold mb-6 text-[#A63A2D]">Buku Favoritmu</h1>
     
     @if(empty($dataFavorit))
         <p class="text-gray-700">Belum ada buku yang kamu tandai sebagai favorit. Klik ❤️ di buku yang kamu suka!</p>
@@ -61,13 +45,12 @@
         <div class="flex gap-6 pb-4 flex-wrap">
             @foreach($dataFavorit as $fav)
                 @php
-                    $bookId    = $fav['id'];
                     $judul     = $fav['title'];
                     $pengarang = $fav['author'];
                     $tahun     = $fav['year'];
                     $cover     = $fav['img'];
                     $slug      = $fav['title'];
-                    $isFav     = in_array($slug, $sessionFavs);
+                    $isFav     = in_array($slug, $sessionFavs, true);
                 @endphp
 
                 <div class="flex flex-col items-center bg-white p-4 rounded-xl shadow-lg min-w-[200px] book-card cursor-pointer"

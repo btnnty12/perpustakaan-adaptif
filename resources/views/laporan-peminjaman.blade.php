@@ -95,14 +95,14 @@
 <div class="w-20 bg-[#a63a2d] min-h-screen flex flex-col items-center py-6">
     <div id="indicator"></div>
     <div class="flex flex-col items-center space-y-20 pt-20">
-        <div class="menu-item"><img src="{{ asset('images/icon-home.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-anggota.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-buku.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-grafik.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-kelola-user.png') }}" class="w-7"></div>
-        <div class="menu-item"><img src="{{ asset('images/icon-setting.png') }}" class="w-7"></div>
+        <a href="{{ route('admin') }}" class="menu-item"><x-icon name="home" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('data.anggota') }}" class="menu-item"><x-icon name="anggota" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola.buku') }}" class="menu-item"><x-icon name="buku" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('laporan-peminjaman') }}" class="menu-item"><x-icon name="grafik" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('kelola-user') }}" class="menu-item"><x-icon name="user" class="w-7 h-7 text-white" /></a>
+        <a href="{{ route('pengaturan') }}" class="menu-item"><x-icon name="setting" class="w-7 h-7 text-white" /></a>
     </div>
-    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
+    <a href="{{ url('/logout') }}" class="menu-item mt-auto mb-4"><x-icon name="logout" class="w-7 h-7 text-white" /></a>
 </div>
 
 <!-- ============================ CONTENT ============================ -->
@@ -111,13 +111,13 @@
     <!-- TOPBAR -->
     <div class="flex justify-end items-center w-full py-4 px-10 text-white space-x-6">
         <div class="border-l border-white h-6"></div>
-        <img src="{{ asset('images/icon-email.png') }}" class="w-6">
-        <img src="{{ asset('images/icon-notification.png') }}" class="w-6">
+        <x-icon name="email" class="w-6 h-6 text-black" />
+        <x-icon name="notification" class="w-6 h-6 text-black" />
         <div class="border-l border-white h-6"></div>
         <div class="flex items-center space-x-2">
             <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">FA</div>
             <span class="text-black font-medium">Fayza Azzahra</span>
-            <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
+            <x-icon name="arrow-down" class="w-4 h-4 ml-1 text-black" />
         </div>
     </div>
 
@@ -149,12 +149,15 @@
 
         <!-- FILTER BAR -->
         <div class="filter-row">
-            <input type="text" placeholder="Search" class="filter-search shadow p-3 rounded-lg">
-            <select class="filter-select shadow">
-                <option>Kategori</option>
+            <input type="text" id="searchInput" placeholder="Search" class="filter-search shadow p-3 rounded-lg" onkeyup="filterTable()">
+            <select id="statusFilter" class="filter-select shadow" onchange="filterTable()">
+                <option value="">Semua Status</option>
+                <option value="Dipinjam">Dipinjam</option>
+                <option value="Dikembalikan">Dikembalikan</option>
+                <option value="Terlambat">Terlambat</option>
             </select>
-            <input type="date" class="filter-select shadow">
-            <button class="btn-search">Search</button>
+            <input type="date" id="dateFilter" class="filter-select shadow" onchange="filterTable()">
+            <button class="btn-search" onclick="filterTable()">Search</button>
         </div>
     </div>
 
@@ -174,7 +177,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="simon sinek" data-judul="pemrograman web dengan" data-status="Dikembalikan" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-001</td>
                     <td class="px-6 py-3">Simon Sinek</td>
                     <td class="px-6 py-3">Pemrograman Web dengan ...</td>
@@ -186,7 +189,7 @@
                         <img src="{{ asset('icons/search.png') }}" class="w-5">
                     </td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="cal newport" data-judul="manajemen proyek ti" data-status="Terlambat" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-002</td>
                     <td class="px-6 py-3">Cal Newport</td>
                     <td class="px-6 py-3">Manajemen Proyek TI</td>
@@ -198,7 +201,7 @@
                         <img src="{{ asset('icons/search.png') }}" class="w-5">
                     </td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="yuval noah harari" data-judul="psikologi remaja modern" data-status="Dikembalikan" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-003</td>
                     <td class="px-6 py-3">Yuval Noah Harari</td>
                     <td class="px-6 py-3">Psikologi Remaja Modern</td>
@@ -208,7 +211,7 @@
                     <td class="px-6 py-3">-</td>
                     <td class="px-6 py-3 flex gap-3"><img src="{{ asset('icons/search.png') }}" class="w-5"></td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="malcolm gladwell" data-judul="dasar-dasar akuntansi" data-status="Dipinjam" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-004</td>
                     <td class="px-6 py-3">Malcolm Gladwell</td>
                     <td class="px-6 py-3">Dasar-Dasar Akuntansi</td>
@@ -218,7 +221,7 @@
                     <td class="px-6 py-3">-</td>
                     <td class="px-6 py-3 flex gap-3"><img src="{{ asset('icons/search.png') }}" class="w-5"></td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="cal newport" data-judul="manajemen proyek ti" data-status="Terlambat" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-005</td>
                     <td class="px-6 py-3">Cal Newport</td>
                     <td class="px-6 py-3">Manajemen Proyek TI</td>
@@ -228,7 +231,7 @@
                     <td class="px-6 py-3">Rp. 10.000</td>
                     <td class="px-6 py-3 flex gap-3"><img src="{{ asset('icons/search.png') }}" class="w-5"></td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="robert t. kiyosaki" data-judul="statistika untuk penelitian" data-status="Dikembalikan" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-006</td>
                     <td class="px-6 py-3">Robert T. Kiyosaki</td>
                     <td class="px-6 py-3">Statistika untuk Penelitian</td>
@@ -238,7 +241,7 @@
                     <td class="px-6 py-3">-</td>
                     <td class="px-6 py-3 flex gap-3"><img src="{{ asset('icons/search.png') }}" class="w-5"></td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="stephen r. covey" data-judul="etika profesi dan hukum siswa" data-status="Dipinjam" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-007</td>
                     <td class="px-6 py-3">Stephen R. Covey</td>
                     <td class="px-6 py-3">Etika Profesi dan Hukum Siswa</td>
@@ -248,7 +251,7 @@
                     <td class="px-6 py-3">-</td>
                     <td class="px-6 py-3 flex gap-3"><img src="{{ asset('icons/search.png') }}" class="w-5"></td>
                 </tr>
-                <tr class="border-b">
+                <tr class="border-b pinjaman-row" data-nama="haruki murakami" data-judul="desain ui/ux untuk pemula" data-status="Dikembalikan" data-tanggal="2025-11-01">
                     <td class="px-6 py-3">TRX-008</td>
                     <td class="px-6 py-3">Haruki Murakami</td>
                     <td class="px-6 py-3">Desain UI/UX untuk Pemula</td>
@@ -261,6 +264,9 @@
                 <!-- Tambahkan row lain sesuai data -->
             </tbody>
         </table>
+        <div id="noResults" class="hidden text-center py-8 text-gray-500">
+            <p>Tidak ada data peminjaman yang ditemukan.</p>
+        </div>
     </div>
 
     <!-- PAGINATION -->
@@ -289,6 +295,222 @@ document.querySelectorAll('.menu-item').forEach((item, index) => {
         if (index === 5) window.location.href = "/pengaturan";         // Pengaturan
     });
 });
+
+// ======================================================
+// ALGORITMA STRING MATCHING
+// ======================================================
+
+// 1. Brute Force Algorithm
+function bruteForce(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    for (let i = 0; i <= n - m; i++) {
+        let j = 0;
+        while (j < m && text[i + j] === pattern[j]) {
+            j++;
+        }
+        if (j === m) {
+            results.push(i);
+        }
+    }
+    return results;
+}
+
+// 2. Knuth-Morris-Pratt (KMP) Algorithm
+function kmpLps(pattern) {
+    const m = pattern.length;
+    const lps = new Array(m).fill(0);
+    let len = 0;
+    let i = 1;
+    
+    while (i < m) {
+        if (pattern[i] === pattern[len]) {
+            len++;
+            lps[i] = len;
+            i++;
+        } else {
+            if (len !== 0) {
+                len = lps[len - 1];
+            } else {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+    return lps;
+}
+
+function kmp(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    const lps = kmpLps(pattern);
+    let i = 0;
+    let j = 0;
+    
+    while (i < n) {
+        if (text[i] === pattern[j]) {
+            i++;
+            j++;
+            if (j === m) {
+                results.push(i - j);
+                j = lps[j - 1];
+            }
+        } else {
+            if (j !== 0) {
+                j = lps[j - 1];
+            } else {
+                i++;
+            }
+        }
+    }
+    return results;
+}
+
+// 3. Boyer-Moore Algorithm (Simplified)
+function boyerMoore(text, pattern) {
+    if (!text || !pattern) return [];
+    
+    const n = text.length;
+    const m = pattern.length;
+    const results = [];
+    
+    if (m === 0 || m > n) return results;
+    
+    // Build bad character table
+    const bad = new Array(256).fill(-1);
+    for (let i = 0; i < m; i++) {
+        bad[pattern.charCodeAt(i)] = i;
+    }
+    
+    let shift = 0;
+    while (shift <= n - m) {
+        let j = m - 1;
+        
+        while (j >= 0 && pattern[j] === text[shift + j]) {
+            j--;
+        }
+        
+        if (j < 0) {
+            results.push(shift);
+            shift += (shift + m < n) ? m - (bad[text.charCodeAt(shift + m)] !== undefined ? bad[text.charCodeAt(shift + m)] : -1) : 1;
+        } else {
+            const bc = bad[text.charCodeAt(shift + j)];
+            shift += Math.max(1, j - bc);
+        }
+    }
+    return results;
+}
+
+// Fungsi untuk memilih algoritma terbaik berdasarkan panjang pattern
+function selectBestAlgorithm(pattern) {
+    if (!pattern) return 'bf';
+    const len = pattern.length;
+    if (len <= 3) return 'bf'; // Brute Force untuk pattern pendek
+    if (len <= 10) return 'kmp'; // KMP untuk pattern sedang
+    return 'bm'; // Boyer-Moore untuk pattern panjang
+}
+
+// Fungsi pencarian dengan algoritma
+function searchWithAlgorithm(text, pattern, algorithm) {
+    if (!text || !pattern) return [];
+    
+    switch(algorithm) {
+        case 'bf':
+            return bruteForce(text, pattern);
+        case 'kmp':
+            return kmp(text, pattern);
+        case 'bm':
+            return boyerMoore(text, pattern);
+        default:
+            return bruteForce(text, pattern);
+    }
+}
+
+// ======================================================
+// FUNGSI FILTER TABLE DENGAN ALGORITMA
+// ======================================================
+let searchTimeout;
+
+function filterTable() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        executeSearch();
+    }, 150);
+}
+
+function executeSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const dateFilter = document.getElementById('dateFilter');
+    const rows = document.querySelectorAll('.pinjaman-row');
+    const noResults = document.getElementById('noResults');
+    
+    if (!searchInput || !rows.length) return;
+    
+    const searchValue = searchInput.value.trim().toLowerCase();
+    const statusValue = statusFilter ? statusFilter.value : '';
+    const dateValue = dateFilter ? dateFilter.value : '';
+    let visibleCount = 0;
+
+    // Jika tidak ada input search, tampilkan semua berdasarkan filter
+    if (!searchValue && !statusValue && !dateValue) {
+        rows.forEach(row => {
+            row.style.display = '';
+            visibleCount++;
+        });
+        if (noResults) noResults.classList.add('hidden');
+        return;
+    }
+
+    // Pilih algoritma terbaik berdasarkan panjang pattern
+    const algorithm = selectBestAlgorithm(searchValue);
+
+    // Lakukan pencarian dengan algoritma string matching
+    rows.forEach(row => {
+        const nama = row.getAttribute('data-nama') || '';
+        const judul = row.getAttribute('data-judul') || '';
+        const status = row.getAttribute('data-status') || '';
+        const tanggal = row.getAttribute('data-tanggal') || '';
+        
+        let matchesSearch = true;
+        if (searchValue) {
+            const namaMatches = searchWithAlgorithm(nama, searchValue, algorithm);
+            const judulMatches = searchWithAlgorithm(judul, searchValue, algorithm);
+            matchesSearch = namaMatches.length > 0 || judulMatches.length > 0;
+        }
+
+        const matchesStatus = !statusValue || status === statusValue;
+        const matchesDate = !dateValue || tanggal === dateValue;
+        
+        if (matchesSearch && matchesStatus && matchesDate) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Tampilkan pesan jika tidak ada hasil
+    if (noResults) {
+        if (visibleCount === 0) {
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+        }
+    }
+}
 </script>
 
 </body>
