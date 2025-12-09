@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Book;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Pengguna extends Authenticatable
 {
@@ -55,7 +57,10 @@ class Pengguna extends Authenticatable
     {
         return $this->hasMany(Pinjaman::class, 'pengguna_id');
     }
-
+    public function favorites(): BelongsToMany
+{
+    return $this->belongsToMany(\App\Models\Buku::class, 'favorites', 'user_id', 'book_id');
+}
     // HELPER ROLE
     public function isAdmin()
     {

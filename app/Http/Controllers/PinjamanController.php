@@ -29,8 +29,8 @@ class PinjamanController extends Controller
         $pengguna = Pengguna::findOrFail($request->pengguna_id);
         $buku     = Buku::findOrFail($request->buku_id);
 
-        // Validasi role (hanya anggota/staff)
-        if (!in_array($pengguna->peran, ['anggota', 'staff'])) {
+        // Validasi role (hanya pengguna/staff)
+        if (!in_array($pengguna->peran, ['pengguna', 'staff'])) {
             return response()->json(['message' => 'Pengguna tidak berhak meminjam buku'], 403);
         }
 

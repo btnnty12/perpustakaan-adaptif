@@ -79,9 +79,10 @@
         </button>
 
         <!-- FAVORIT -->
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-heart"></i>
-        </button>
+         <button onclick="window.location.href='/favorit';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-heart"></i>
+</button>
 
         <!-- SETTINGS -->
         <button onclick="window.location.href='/pengaturan';" 

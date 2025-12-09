@@ -15,10 +15,13 @@ class Rekomendasi extends Model
         'pengguna_id',
         'buku_id',
         'skor_rekomendasi',
+        'algorithm',       
+        'process_time_ms',  
     ];
 
     protected $casts = [
-        'skor_rekomendasi' => 'float', // agar auto jadi float
+        'skor_rekomendasi' => 'float',
+        'process_time_ms'  => 'float',
     ];
 
     // Relasi ke pengguna

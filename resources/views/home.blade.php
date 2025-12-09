@@ -24,9 +24,10 @@
         </div>
 
         <!-- Icons -->
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-house"></i>
-        </button>
+        <button onclick="window.location.href='/home';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-house"></i>
+</button>
 
         <button 
     onclick="window.location.href='/search';"
@@ -34,17 +35,20 @@
     <i class="fa-solid fa-magnifying-glass"></i>
 </button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-file-lines"></i>
-        </button>
+        <button onclick="window.location.href='/pengembalian-buku';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100"><i class="fa-solid fa-file-lines"></i></button>
+</button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-book"></i>
-        </button>
+        <button 
+    onclick="window.location.href='/pinjaman';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-book"></i>
+</button>
 
-        <button class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
-            <i class="fa-solid fa-heart"></i>
-        </button>
+        <button onclick="window.location.href='/favorit';"
+    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
+    <i class="fa-solid fa-heart"></i>
+</button>
 
       <button onclick="window.location.href='/pengaturan';" 
         class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100">
@@ -55,10 +59,10 @@
 
     <!-- LOGOUT PALING BAWAH -->
     <button 
-    onclick="window.location.href='{{ url('/logout') }}'"
-    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
-    <i class="fa-solid fa-right-from-bracket"></i>
-</button>
+        onclick="window.location.href='/login';"
+        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
+        <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
 
 </aside>
 
@@ -99,11 +103,11 @@
 
         <div id="profileBtn"
      class="bg-blue-500 w-10 h-10 rounded-full text-white flex items-center justify-center font-bold cursor-pointer">
-    {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+    {{ strtoupper(substr($user['nama'] ?? 'PU', 0, 2)) }}
 </div>
 
 <span id="profileBtn2" class="font-semibold text-lg cursor-pointer">
-    {{ Auth::user()->name }} ▾
+    {{ $user['nama'] ?? 'Pengguna' }} ▾
 </span>
     </div>
 
@@ -188,7 +192,7 @@
     <!-- BANNER -->
     <div class="w-full bg-[#C4431E] rounded-3xl text-white p-10 flex justify-between shadow-xl relative overflow-hidden">
         <div class="w-2/3">
-            <h1 class="text-4xl font-bold">Hi, {{ Str::title(Auth::user()->name) }}</h1>
+            <h1 class="text-4xl font-bold">Hai, {{ $user['nama'] ?? 'Pengguna' }}</h1>
             <p class="text-xl mt-2 mb-6">ada koleksi buku baru yang bisa kamu jelajahi hari ini!</p>
 
            <a href="{{ route('search') }}" 

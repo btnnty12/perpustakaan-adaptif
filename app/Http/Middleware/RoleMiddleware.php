@@ -4,38 +4,26 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string  $role
-     */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        // Cek apakah user login
-        if (!Auth::check()) {
+        // Jika user belum login (session kosong)
+        if (!session()->has('role')) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu');
         }
 
-        $userRole = session('role');
+        $userRole = session('role'); // Ambil peran user dari session
 
-        // Cek apakah role user sesuai
-        // 'anggota' di database sama dengan 'pengguna' di routes
-        $userPeran = Auth::user()->peran;
-        $allowedRoles = [$role];
-        
-        // Jika route meminta 'pengguna', terima juga 'anggota'
-        if ($role === 'pengguna') {
-            $allowedRoles = ['pengguna', 'anggota'];
-        }
-        
-        if (!in_array($userPeran, $allowedRoles)) {
-            return redirect('/login')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+        // Jika role user tidak ada dalam daftar role yang diizinkan
+        if (!in_array($userRole, $roles)) {
+            // Redirect sesuai role user
+            return match ($userRole) {
+                'admin' => redirect()->route('admin')->with('error', 'Tidak punya akses'),
+                'staff' => redirect()->route('staff')->with('error', 'Tidak punya akses'),
+                default => redirect()->route('home')->with('error', 'Tidak punya akses'),
+            };
         }
 
         return $next($request);

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\LogPencarian;
 use App\Services\StringMatching;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -30,14 +32,21 @@ class SearchController extends Controller
         }
 
         try {
-            $validated        = $validator->validated();
-            $searchQuery      = $validated['q'];
-            $algorithm        = $validated['algo'] ?? 'bm';
-            $caseInsensitive  = filter_var($validated['case'] ?? true, FILTER_VALIDATE_BOOL);
-            $perPage          = (int) ($validated['per_page'] ?? 10);
-            $currentPage      = (int) ($validated['page'] ?? 1);
+            $validated       = $validator->validated();
+            $searchQuery     = $validated['q'];
+            $algorithm       = $validated['algo'] ?? 'bm';
+            $caseInsensitive = filter_var($validated['case'] ?? true, FILTER_VALIDATE_BOOL);
+            $perPage         = (int) ($validated['per_page'] ?? 10);
+            $currentPage     = (int) ($validated['page'] ?? 1);
 
-            // Pre-filter menggunakan SQL LIKE untuk memperkecil dataset
+            // ======================================================
+            // START TIMER - untuk hitung waktu proses
+            // ======================================================
+            $startTime = microtime(true);
+
+            // ======================================================
+            // Pre-filter database
+            // ======================================================
             $books = Buku::query()
                 ->select(['id', 'judul', 'penulis', 'genre', 'tahun_terbit', 'deskripsi'])
                 ->where(function ($q) use ($searchQuery) {
@@ -69,7 +78,7 @@ class SearchController extends Controller
                     if (!empty($positions)) {
                         $matches[$fieldName] = [
                             'positions' => $positions,
-                            'snippet'   => $this->getSnippet($fieldValue, $searchQuery, $caseInsensitive)
+                            'snippet'   => $this->getSnippet($fieldValue, $searchQuery, $caseInsensitive),
                         ];
                     }
                 }
@@ -86,15 +95,34 @@ class SearchController extends Controller
                 }
             }
 
-            // Manual pagination
+            // Pagination manual
             $total = count($results);
-            $results = array_slice($results, ($currentPage - 1) * $perPage, $perPage);
+            $resultsPaginated = array_slice($results, ($currentPage - 1) * $perPage, $perPage);
+
+            // ======================================================
+            // END TIMER — hitung durasi proses
+            // ======================================================
+            $processTime = (microtime(true) - $startTime) * 1000; // dalam ms
+
+            // ======================================================
+            // SIMPAN LOG PENCARIAN
+            // ======================================================
+            if (Auth::check()) {
+                LogPencarian::create([
+                    'pengguna_id'      => Auth::id(),
+                    'kata_kunci'       => $searchQuery,
+                    'jumlah_hasil'     => $total,
+                    'algorithm'        => $algorithm,
+                    'process_time_ms'  => $processTime,
+                ]);
+            }
 
             return response()->json([
                 'success' => true,
                 'data' => [
                     'query'            => $searchQuery,
                     'algorithm'        => $algorithm,
+                    'process_time_ms'  => $processTime,
                     'case_insensitive' => $caseInsensitive,
                     'pagination' => [
                         'total'        => $total,
@@ -102,7 +130,7 @@ class SearchController extends Controller
                         'current_page' => $currentPage,
                         'last_page'    => ceil($total / $perPage),
                     ],
-                    'results' => $results
+                    'results' => $resultsPaginated
                 ]
             ]);
 
@@ -120,9 +148,6 @@ class SearchController extends Controller
         }
     }
 
-    /**
-     * Membuat snippet teks di sekitar kata yang cocok
-     */
     private function getSnippet(string $text, string $query, bool $caseInsensitive): string
     {
         $length = 100;

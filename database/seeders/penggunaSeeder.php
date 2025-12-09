@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class penggunaSeeder extends Seeder
 {
@@ -12,18 +14,46 @@ class penggunaSeeder extends Seeder
      */
     public function run(): void
     {
-    \App\Models\Pengguna::create([
-        'nama' => 'Admin Perpustakaan',
-        'email' => 'admin@mail.com',
-        'kata_sandi' => bcrypt('password'),
-        'peran' => 'admin'
-    ]);
+        $this->createOrUpdateDefaultUser(
+            'Admin Perpustakaan',
+            'admin@mail.com',
+            'password',
+            'admin'
+        );
 
-    \App\Models\Pengguna::create([
-        'nama' => 'Member Satu',
-        'email' => 'member1@mail.com',
-        'kata_sandi' => bcrypt('password'),
-        'peran' => 'anggota'
-    ]);
+        $this->createOrUpdateDefaultUser(
+            'Staff Perpustakaan',
+            'staff@mail.com',
+            'password',
+            'staff'
+        );
+    }
+
+    /**
+     * Create or update default user (admin/staff only)
+     */
+    private function createOrUpdateDefaultUser($nama, $email, $password, $peran)
+    {
+        $check = DB::table('pengguna')->where('email', $email)->exists();
+
+        if (!$check) {
+            DB::table('pengguna')->insert([
+                'nama'       => $nama,
+                'email'      => $email,
+                'kata_sandi' => Hash::make($password),
+                'peran'      => $peran,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            DB::table('pengguna')
+                ->where('email', $email)
+                ->update([
+                    'nama'       => $nama,
+                    'kata_sandi' => Hash::make($password),
+                    'peran'      => $peran,
+                    'updated_at' => now(),
+                ]);
+        }
     }
 }

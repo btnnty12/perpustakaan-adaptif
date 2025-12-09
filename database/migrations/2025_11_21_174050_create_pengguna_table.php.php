@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('email', 191)->unique();
             $table->string('kata_sandi');
 
-            $table->enum('peran', ['admin', 'anggota', 'staff'])
-                  ->default('anggota');
+            $table->enum('peran', ['admin', 'pengguna', 'staff'])
+                  ->default('pengguna');
 
             $table->rememberToken();
 
