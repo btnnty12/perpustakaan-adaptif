@@ -185,34 +185,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <div class="top-buttons">
-    <button class="btn-green">
+    <a href="#form-tambah" class="btn-green">
         <i class="fa-solid fa-plus"></i> Tambah Buku
-    </button>
+    </a>
 
-    <button class="btn-white">
-        <i class="fa-solid fa-file-import"></i> Import Excel
-    </button>
+    <a href="#form-import" class="btn-white">
+        <i class="fa-solid fa-file-import"></i> Import Excel (CSV)
+    </a>
 </div>
 
     <!-- 4 KOTAK STATISTIK -->
     <div class="stats-row">
         <div class="stat-card">
-            <h2 class="text-4xl font-bold">255</h2>
+            <h2 class="text-4xl font-bold">{{ $totalBuku ?? 0 }}</h2>
             <p>Total Buku</p>
         </div>
 
         <div class="stat-card">
-            <h2 class="text-4xl font-bold">224</h2>
+            <h2 class="text-4xl font-bold">{{ $bukuTersedia ?? 0 }}</h2>
             <p>Buku Tersedia</p>
         </div>
 
         <div class="stat-card">
-            <h2 class="text-4xl font-bold">150</h2>
+            <h2 class="text-4xl font-bold">{{ $sedangDipinjam ?? 0 }}</h2>
             <p>Sedang Dipinjam</p>
         </div>
 
         <div class="stat-card">
-            <h2 class="text-4xl font-bold">10</h2>
+            <h2 class="text-4xl font-bold">{{ $bukuBaruBulanIni ?? 0 }}</h2>
             <p>Buku Baru Bulan Ini</p>
         </div>
     </div>
@@ -220,21 +220,61 @@
     <!-- FILTER BAR -->
     <div class="filter-row">
 
-        <input type="text" placeholder="Search"
-               class="filter-search shadow p-3 rounded-lg">
+        <form method="GET" action="{{ route('kelola.buku') }}" class="flex gap-3 items-center">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search" class="filter-search shadow p-3 rounded-lg">
+            <select class="filter-select shadow">
+                <option>Kategori</option>
+            </select>
+            <select class="filter-select shadow">
+                <option>Status</option>
+            </select>
+            <button type="submit" class="btn-search">Search</button>
+        </form>
 
-        <select class="filter-select shadow">
-            <option>Kategori</option>
-        </select>
-
-        <select class="filter-select shadow">
-            <option>Status</option>
-        </select>
-
-        <button class="btn-search">Search</button>
     </div>
 
 </div>
+
+<!-- ============================ FORM TAMBAH & IMPORT ============================ -->
+<div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8" id="form-tambah">
+    <form method="POST" action="{{ route('kelola.buku.store') }}" class="bg-white rounded-xl shadow p-6 space-y-4">
+        @csrf
+        <h3 class="text-xl font-bold">Tambah Buku</h3>
+        <input name="judul" value="{{ old('judul') }}" placeholder="Judul" class="w-full border rounded p-3" required>
+        <input name="penulis" value="{{ old('penulis') }}" placeholder="Penulis" class="w-full border rounded p-3" required>
+        <input name="genre" value="{{ old('genre') }}" placeholder="Genre" class="w-full border rounded p-3">
+        <textarea name="deskripsi" placeholder="Deskripsi" class="w-full border rounded p-3">{{ old('deskripsi') }}</textarea>
+        <div class="grid grid-cols-2 gap-4">
+            <input name="tahun_terbit" type="number" value="{{ old('tahun_terbit') }}" placeholder="Tahun Terbit" class="w-full border rounded p-3" required>
+            <input name="stok" type="number" min="0" value="{{ old('stok') }}" placeholder="Stok" class="w-full border rounded p-3" required>
+        </div>
+        <button type="submit" class="btn-green w-full text-center">Simpan Buku</button>
+    </form>
+
+    <form id="form-import" method="POST" action="{{ route('kelola.buku.import') }}" enctype="multipart/form-data" class="bg-white rounded-xl shadow p-6 space-y-4">
+        @csrf
+        <h3 class="text-xl font-bold">Import Buku (CSV)</h3>
+        <p class="text-sm text-gray-600">Header wajib: judul, penulis, genre, deskripsi, tahun_terbit, stok</p>
+        <input type="file" name="file" accept=".csv,text/csv" class="w-full border rounded p-3" required>
+        <button type="submit" class="btn-white w-full text-center">Upload & Import</button>
+    </form>
+</div>
+
+@if ($errors->any())
+    <div class="mt-4 bg-red-100 text-red-700 rounded-lg p-4">
+        <ul class="list-disc ml-4">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if (session('success'))
+    <div class="mt-4 bg-green-100 text-green-700 rounded-lg p-4">
+        {{ session('success') }}
+    </div>
+@endif
 
 <!-- ============================ TABLE ============================ -->
 <div class="mt-8 bg-white rounded-lg shadow overflow-hidden w-[97%]">
@@ -253,149 +293,41 @@
         </thead>
 
         <tbody>
-
-            <!-- 1 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-001</td>
-                <td class="px-6 py-3">Rak-001</td>
-                <td class="px-6 py-3">Bahasa Inggris untuk Akademik</td>
-                <td class="px-6 py-3">Bahasa</td>
-                <td class="px-6 py-3">8</td>
-                <td class="px-6 py-3 text-green-600 font-semibold">Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 2 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-002</td>
-                <td class="px-6 py-3">Rak-002</td>
-                <td class="px-6 py-3">Algoritma dan Struktur Data</td>
-                <td class="px-6 py-3">Pemrograman</td>
-                <td class="px-6 py-3">3</td>
-                <td class="px-6 py-3 text-red-600 font-semibold">Tidak Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 3 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-003</td>
-                <td class="px-6 py-3">Rak-003</td>
-                <td class="px-6 py-3">Psikologi Remaja Modern</td>
-                <td class="px-6 py-3">Psikologi</td>
-                <td class="px-6 py-3">6</td>
-                <td class="px-6 py-3 text-green-600 font-semibold">Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 4 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-004</td>
-                <td class="px-6 py-3">Rak-004</td>
-                <td class="px-6 py-3">Dasar-Dasar Akuntansi</td>
-                <td class="px-6 py-3">Akuntansi</td>
-                <td class="px-6 py-3">10</td>
-                <td class="px-6 py-3 text-green-600 font-semibold">Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 5 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-005</td>
-                <td class="px-6 py-3">Rak-005</td>
-                <td class="px-6 py-3">Manajemen Proyek TI</td>
-                <td class="px-6 py-3">Manajemen</td>
-                <td class="px-6 py-3">-</td>
-                <td class="px-6 py-3 text-red-600 font-semibold">Tidak Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 6 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-006</td>
-                <td class="px-6 py-3">Rak-006</td>
-                <td class="px-6 py-3">Statistika untuk Penelitian</td>
-                <td class="px-6 py-3">Statistik</td>
-                <td class="px-6 py-3">14</td>
-                <td class="px-6 py-3 text-green-600 font-semibold">Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 7 -->
-            <tr class="border-b">
-                <td class="px-6 py-3">BK-007</td>
-                <td class="px-6 py-3">Rak-007</td>
-                <td class="px-6 py-3">Pengantar Kecerdasan Buatan</td>
-                <td class="px-6 py-3">AI</td>
-                <td class="px-6 py-3">23</td>
-                <td class="px-6 py-3 text-green-600 font-semibold">Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
-            <!-- 8 -->
-            <tr>
-                <td class="px-6 py-3">BK-008</td>
-                <td class="px-6 py-3">Rak-008</td>
-                <td class="px-6 py-3">Sejarah Nusantara Kuno</td>
-                <td class="px-6 py-3">Budaya</td>
-                <td class="px-6 py-3">8</td>
-                <td class="px-6 py-3 text-red-600 font-semibold">Tidak Tersedia</td>
-                <td class="px-6 py-3 flex gap-3">
-                    <img src="{{ asset('icons/info.png') }}" class="w-5">
-                    <img src="{{ asset('icons/edit.png') }}" class="w-5">
-                    <img src="{{ asset('icons/delete.png') }}" class="w-5">
-                </td>
-            </tr>
-
+            @forelse ($books as $book)
+                <tr class="border-b">
+                    <td class="px-6 py-3">{{ $book->id }}</td>
+                    <td class="px-6 py-3">-</td>
+                    <td class="px-6 py-3">{{ $book->judul }}</td>
+                    <td class="px-6 py-3">{{ $book->genre ?? '-' }}</td>
+                    <td class="px-6 py-3">{{ $book->stok }}</td>
+                    <td class="px-6 py-3 {{ $book->stok > 0 ? 'text-green-600' : 'text-red-600' }} font-semibold">
+                        {{ $book->stok > 0 ? 'Tersedia' : 'Tidak Tersedia' }}
+                    </td>
+                    <td class="px-6 py-3 flex gap-3">
+                        <img src="{{ asset('icons/info.png') }}" class="w-5" title="Detail">
+                        <img src="{{ asset('icons/edit.png') }}" class="w-5" title="Edit">
+                        <img src="{{ asset('icons/delete.png') }}" class="w-5" title="Hapus">
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">Belum ada buku.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
 
     <!-- ============================ PAGINATION ============================ -->
-    <div class="flex items-center justify-center space-x-4 mt-6">
-
-        <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">
-            ‹
-        </button>
-
-        <div class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">
-            1
+    <div class="flex flex-col items-center justify-center space-y-3 mt-6">
+        <div class="flex items-center space-x-2">
+            {{ $books->links('pagination::simple-tailwind') }}
         </div>
-
-        <span class="text-gray-800 text-lg">2</span>
-        <span class="text-gray-800 text-lg">...</span>
-
-        <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">
-            ›
-        </button>
-
+        <div class="flex items-center space-x-2">
+            @for ($page = 1; $page <= $books->lastPage(); $page++)
+                <div class="w-3 h-3 rounded-full {{ $books->currentPage() === $page ? 'bg-[#A63A2D]' : 'bg-gray-300' }}"></div>
+            @endfor
+        </div>
     </div>
     
 </div>

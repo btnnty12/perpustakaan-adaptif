@@ -106,14 +106,14 @@
 
         <!-- FILTER -->
         <div class="flex justify-center gap-4 mt-8">
-            <input type="text" placeholder="Search user..." class="w-80 p-3 rounded-lg shadow">
-            <select class="p-3 w-48 rounded-lg shadow">
-                <option>Filter Role</option>
+            <input id="userSearch" type="text" placeholder="Search user..." class="w-80 p-3 rounded-lg shadow">
+            <select id="roleFilter" class="p-3 w-48 rounded-lg shadow">
+                <option value="">Filter Role</option>
                 <option>Admin</option>
                 <option>Staff</option>
-                <option>User (Mahasiswa)</option>
+                <option>User</option>
             </select>
-            <button class="bg-[#2476FF] text-white px-6 py-3 rounded-lg font-bold">Search</button>
+            <button id="userSearchBtn" class="bg-[#2476FF] text-white px-6 py-3 rounded-lg font-bold">Search</button>
         </div>
     </div>
 
@@ -171,12 +171,14 @@
     </div>
 
     <!-- PAGINATION -->
-    <div class="flex items-center justify-center space-x-4 mt-6">
-        <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">‹</button>
-        <div class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">1</div>
-        <span class="text-gray-800 text-lg">2</span>
-        <span class="text-gray-800 text-lg">...</span>
-        <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">›</button>
+    <div class="flex flex-col items-center justify-center space-y-3 mt-6">
+        <div class="flex items-center space-x-4">
+            <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">‹</button>
+            <button class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">1</button>
+            <button class="w-7 h-7 flex items-center justify-center bg-gray-300 rounded-full text-gray-800">2</button>
+            <button class="w-7 h-7 flex items-center justify-center bg-gray-300 rounded-full text-gray-800">3</button>
+            <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">›</button>
+        </div>
     </div>
 
 </div>
@@ -198,5 +200,35 @@ document.querySelectorAll('.menu-item').forEach((item, index) => {
 });
 </script>
 
+<!-- FILTER & SEARCH KELOLA USER -->
+<script>
+(function(){
+  const searchInput = document.getElementById('userSearch');
+  const roleSelect  = document.getElementById('roleFilter');
+  const btnSearch   = document.getElementById('userSearchBtn');
+  const rows        = Array.from(document.querySelectorAll('tbody tr'));
+
+  function filter(){
+    const q    = (searchInput?.value || '').toLowerCase();
+    const role = (roleSelect?.value || '').toLowerCase();
+
+    rows.forEach(row => {
+      const nama    = row.children[1].textContent.toLowerCase();
+      const user    = row.children[2].textContent.toLowerCase();
+      const email   = row.children[3].textContent.toLowerCase();
+      const rText   = row.children[4].textContent.trim().toLowerCase();
+
+      const matchSearch = !q || nama.includes(q) || user.includes(q) || email.includes(q) || rText.includes(q);
+      const matchRole   = !role || rText === role; // role dropdown kini memakai "User" agar sama dengan tabel
+
+      row.style.display = (matchSearch && matchRole) ? '' : 'none';
+    });
+  }
+
+  searchInput?.addEventListener('input', filter);
+  roleSelect?.addEventListener('change', filter);
+  btnSearch?.addEventListener('click', (e)=>{ e.preventDefault(); filter(); });
+})();
+</script>
 </body>
 </html>

@@ -35,7 +35,7 @@
 
         <!-- TITLE -->
         <h1 class="text-3xl font-bold mt-16">Data Pengembalian Buku</h1>
-        <p class="text-sm text-gray-700 mb-6">Hai Fayza, pastikan kamu mengembalikan buku tepat waktu, ya.</p>
+        <p class="text-sm text-gray-700 mb-6">Hai {{ $user['nama'] ?? 'Pengguna' }}, pastikan kamu mengembalikan buku tepat waktu, ya.</p>
 
         <!-- STATISTIK CARDS -->
         <div class="grid grid-cols-4 gap-6 mt-6">

@@ -271,29 +271,19 @@
             </div>
 
             <!-- PAGINATION -->
-            <div class="flex items-center justify-center space-x-4 mt-6">
-
-    <!-- Tombol Prev -->
-    <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">
-        ‹
-    </button>
-
-    <!-- Halaman Aktif -->
-    <div class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">
-        1
-    </div>
-
-    <!-- Halaman Lain -->
+            <div class="flex flex-col items-center justify-center space-y-3 mt-6">
+                <div class="flex items-center space-x-4">
+                    <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">‹</button>
+                    <div class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">1</div>
     <span class="text-gray-800 text-lg">2</span>
-
-    <!-- Titik Titik -->
     <span class="text-gray-800 text-lg">...</span>
-
-    <!-- Tombol Next -->
-    <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">
-        ›
-    </button>
-
+                    <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">›</button>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-[#A63A2D]"></div>
+                    <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                    <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                </div>
 </div>
 
 <script>

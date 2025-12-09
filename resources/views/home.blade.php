@@ -161,7 +161,7 @@
                     <div class="font-semibold text-sm">Admin Perpustakaan</div>
 
                     <div class="text-sm text-gray-600 mt-1">
-                        Halo Fayza, peminjaman buku <b>Clean Code</b> kamu sudah disetujui.
+                        Halo {{ $user['nama'] ?? 'Pengguna' }}, peminjaman buku <b>Clean Code</b> kamu sudah disetujui.
                         Silakan ambil di loket perpustakaan.
                     </div>
 
@@ -197,7 +197,7 @@
 
            <a href="{{ route('search') }}" 
    class="px-8 py-3 bg-white text-black font-bold rounded-full shadow hover:bg-gray-100 transition">
-    Selajahi Sekarang
+    Jelajahi Sekarang
 </a>
         </div>
 

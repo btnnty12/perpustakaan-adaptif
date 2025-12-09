@@ -116,7 +116,7 @@
         <div class="border-l border-white h-6"></div>
         <div class="flex items-center space-x-2">
             <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">FA</div>
-            <span class="text-black font-medium">Fayza Azzahra</span>
+            <span class="text-black font-medium">Admin</span>
             <img src="{{ asset('images/icon-down-arrow.png') }}" class="w-4 ml-1">
         </div>
     </div>
@@ -149,12 +149,15 @@
 
         <!-- FILTER BAR -->
         <div class="filter-row">
-            <input type="text" placeholder="Search" class="filter-search shadow p-3 rounded-lg">
-            <select class="filter-select shadow">
-                <option>Kategori</option>
+            <input id="lpSearch" type="text" placeholder="Search" class="filter-search shadow p-3 rounded-lg">
+            <select id="lpStatus" class="filter-select shadow">
+                <option value="">Semua Status</option>
+                <option value="Dipinjam">Dipinjam</option>
+                <option value="Dikembalikan">Dikembalikan</option>
+                <option value="Terlambat">Terlambat</option>
             </select>
-            <input type="date" class="filter-select shadow">
-            <button class="btn-search">Search</button>
+            <input id="lpDate" type="date" class="filter-select shadow">
+            <button id="lpBtn" class="btn-search">Search</button>
         </div>
     </div>
 
@@ -264,12 +267,15 @@
     </div>
 
     <!-- PAGINATION -->
-    <div class="flex items-center justify-center space-x-4 mt-6">
-        <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">‹</button>
-        <div class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">1</div>
-        <span class="text-gray-800 text-lg">2</span>
-        <span class="text-gray-800 text-lg">...</span>
-        <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">›</button>
+    <div class="flex flex-col items-center justify-center space-y-3 mt-6">
+        <div class="flex items-center space-x-4">
+            <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">‹</button>
+            <button class="w-7 h-7 flex items-center justify-center bg-[#A63A2D] text-white rounded-full">1</button>
+            <button class="w-7 h-7 flex items-center justify-center bg-gray-300 rounded-full text-gray-800">2</button>
+            <button class="w-7 h-7 flex items-center justify-center bg-gray-300 rounded-full text-gray-800">3</button>
+            <button class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-gray-700">›</button>
+        </div>
+        
     </div>
 </div>
 
@@ -289,6 +295,53 @@ document.querySelectorAll('.menu-item').forEach((item, index) => {
         if (index === 5) window.location.href = "/pengaturan";         // Pengaturan
     });
 });
+</script>
+
+<!-- FILTER & SEARCH LAPORAN PEMINJAMAN -->
+<script>
+(function(){
+  const searchInput = document.getElementById('lpSearch');
+  const statusSelect = document.getElementById('lpStatus');
+  const dateInput    = document.getElementById('lpDate');
+  const btnSearch    = document.getElementById('lpBtn');
+  const rows         = Array.from(document.querySelectorAll('tbody tr'));
+
+  function toISO(d){
+    // format teks di table: DD/MM/YYYY -> YYYY-MM-DD
+    if(!d) return '';
+    const parts = d.split('/');
+    if(parts.length!==3) return '';
+    const [dd, mm, yyyy] = parts;
+    const pad = (s)=> s.toString().padStart(2,'0');
+    return `${yyyy}-${pad(mm)}-${pad(dd)}`;
+  }
+
+  function filter(){
+    const q = (searchInput?.value || '').toLowerCase();
+    const status = statusSelect?.value || '';
+    const date = dateInput?.value || ''; // YYYY-MM-DD
+
+    rows.forEach(row=>{
+      const id      = row.children[0].textContent.toLowerCase();
+      const nama    = row.children[1].textContent.toLowerCase();
+      const judul   = row.children[2].textContent.toLowerCase();
+      const tPinjam = toISO(row.children[3].textContent.trim());
+      const tKembali= toISO(row.children[4].textContent.trim());
+      const st      = row.children[5].textContent.trim();
+
+      const matchSearch = !q || id.includes(q) || nama.includes(q) || judul.includes(q);
+      const matchStatus = !status || st.includes(status);
+      const matchDate   = !date || tPinjam===date || tKembali===date;
+
+      row.style.display = (matchSearch && matchStatus && matchDate) ? '' : 'none';
+    });
+  }
+
+  searchInput?.addEventListener('input', filter);
+  statusSelect?.addEventListener('change', filter);
+  dateInput?.addEventListener('change', filter);
+  btnSearch?.addEventListener('click', (e)=>{ e.preventDefault(); filter(); });
+})();
 </script>
 
 </body>

@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KelolaBukuController;
+use App\Models\Pengguna;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -222,56 +225,158 @@ Route::middleware(['auth'])->group(function () {
         ];
         return view('home', ['user' => $user]);
     })
-        ->middleware('role:pengguna')
+        ->middleware('role:pengguna,staff')
         ->name('home');
 
-    Route::get('/notifikasi', fn() => view('notifikasi'))
-        ->middleware('role:pengguna')
+    Route::get('/notifikasi', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('notifikasi', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
         ->name('notifikasi');
 
-    Route::get('/pesan', fn() => view('pesan'))
-        ->middleware('role:pengguna')
+    Route::get('/pesan', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('pesan', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
         ->name('pesan');
 
-    Route::get('/search', fn() => view('search'))
-        ->middleware('role:pengguna')
+    Route::get('/search', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('search', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
         ->name('search');
 
-    Route::get('/staff', fn() => view('staff'))
+    Route::get('/staff', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('staff', ['user' => $user]);
+    })
         ->middleware('role:staff')
         ->name('staff');
 
+    /*
+    |--------------------------------------------------------------------------
+    | PEMINJAMAN BUKU
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/pinjaman', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('peminjaman', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
+        ->name('peminjaman.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | FAVORIT BUKU
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/favorit', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('favorit', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
+        ->name('favorit.index');
 
     /*
     |--------------------------------------------------------------------------
     | PENGEMBALIAN BUKU
     |--------------------------------------------------------------------------
     */
-    Route::get('/pengembalian-buku', fn() => view('index'))
-        ->middleware('role:pengguna')
+    Route::get('/pengembalian-buku', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('pengembalian', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
         ->name('pengembalian.index');
 
-    Route::get('/pengembalian/create', fn() => view('create'))
-        ->middleware('role:pengguna')
+    Route::get('/pengembalian/create', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('create', ['user' => $user]);
+    })
+        ->middleware('role:pengguna,staff')
         ->name('pengembalian.create');
 });
 
-//user biar bisa buka halaman tanpa login//
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES (Protected)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Admin Dashboard
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
 
-// Admin (tanpa login dulu)
-Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+    // Data Anggota
+    Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
 
-// Data Anggota (tanpa login dulu)
-Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
+    // Kelola Buku
+    Route::get('/kelola-buku', [KelolaBukuController::class, 'index'])->name('kelola.buku');
+    Route::post('/kelola-buku', [KelolaBukuController::class, 'store'])->name('kelola.buku.store');
+    Route::post('/kelola-buku/import', [KelolaBukuController::class, 'import'])->name('kelola.buku.import');
 
-// Kelola Buku (tanpa login dulu)
-Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
+    // Laporan Peminjaman
+    Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
 
-// Laporan Peminjaman (tanpa login dulu)
-Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
+    // Kelola User
+    Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
 
-// Kelola User (tanpa login dulu)
-Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
+    // Pengaturan
+    Route::get('/pengaturan', function () {
+        $user = [
+            'nama' => session('nama', 'Admin'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('pengaturan', ['user' => $user]);
+    })->name('pengaturan');
+});
 
-// Pengaturan (tanpa login dulu)
-Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');
+
+if (app()->environment('local')) {
+    Route::get('/dev/delete-user-baity', function () {
+        $user = Pengguna::where('email', 'baity@gmail.com')->first();
+        if (!$user) {
+            return response('User tidak ditemukan', 404);
+        }
+        if (!Hash::check('baity1203', $user->kata_sandi)) {
+            return response('Kata sandi tidak cocok', 403);
+        }
+        $user->delete();
+        return redirect('/login')->with('success', 'Akun baity@gmail.com telah dihapus. Silakan daftar ulang.');
+    })->name('dev.delete.user.baity');
+}

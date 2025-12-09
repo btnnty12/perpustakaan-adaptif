@@ -74,7 +74,7 @@
     </div>
 
     <!-- LOGOUT PALING BAWAH -->
-    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4">
+    <img src="{{ asset('images/icon-logout.png') }}" class="w-7 mt-auto mb-4 cursor-pointer" onclick="window.location.href='{{ url('/logout') }}'">
 </div>
 
 <!-- MAIN CONTENT -->

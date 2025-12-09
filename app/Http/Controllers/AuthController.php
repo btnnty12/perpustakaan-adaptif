@@ -28,7 +28,9 @@ class AuthController extends Controller
 
         // Verifikasi password
         if (Hash::check($request->kata_sandi, $user->kata_sandi)) {
-            
+            // Login ke guard Laravel agar middleware auth bekerja
+            Auth::login($user);
+
             // Regenerate session untuk keamanan
             $request->session()->regenerate();
             
@@ -79,6 +81,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // Logout dari guard Laravel
+        Auth::logout();
+        
         // Hapus semua session data
         $request->session()->forget(['email', 'nama', 'role']);
         $request->session()->invalidate();

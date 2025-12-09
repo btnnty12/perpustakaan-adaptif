@@ -33,7 +33,7 @@
 
     <!-- TITLE -->
     <h1 class="text-3xl font-bold mt-16">Data Peminjaman Buku</h1>
-    <p class="text-sm text-gray-700 mb-6">Hai Fayza, pantau status peminjaman bukumu di sini.</p>
+    <p class="text-sm text-gray-700 mb-6">Hai {{ $user['nama'] ?? 'Pengguna' }}, pantau status peminjaman bukumu di sini.</p>
 
     <!-- STATISTIK CARDS -->
     <div class="grid grid-cols-4 gap-6 mt-6">
