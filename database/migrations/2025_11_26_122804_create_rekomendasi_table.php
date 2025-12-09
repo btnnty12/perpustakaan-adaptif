@@ -12,16 +12,18 @@ return new class extends Migration
             $table->id();
 
             // Relasi ke tabel pengguna
-            $table->foreignId('pengguna_id')
-                  ->constrained('pengguna')
-                  ->onDelete('cascade')
-                  ->index();
+            $table->unsignedBigInteger('pengguna_id');
+            $table->foreign('pengguna_id')
+                  ->references('id')
+                  ->on('pengguna')
+                  ->onDelete('cascade');
 
             // Relasi ke tabel buku
-            $table->foreignId('buku_id')
-                  ->constrained('buku')
-                  ->onDelete('cascade')
-                  ->index();
+            $table->unsignedBigInteger('buku_id');
+            $table->foreign('buku_id')
+                  ->references('id')
+                  ->on('buku')
+                  ->onDelete('cascade');
 
             // Skor dapat berupa desimal (misal KNN similarity)
             $table->decimal('skor_rekomendasi', 5, 2)->nullable();

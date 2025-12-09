@@ -15,13 +15,18 @@ class pinjamanSeeder extends Seeder
     \App\Models\Pinjaman::create([
         'pengguna_id' => 1,
         'buku_id' => 1,
-        'status' => 'dibaca'
+        'status' => 'sedang_dipinjam',
+        'tanggal_pinjam' => now()->subDays(5),
+        'tanggal_jatuh_tempo' => now()->addDays(9)
     ]);
 
     \App\Models\Pinjaman::create([
         'pengguna_id' => 2,
         'buku_id' => 2,
-        'status' => 'sedang_dibaca'
+        'status' => 'dikembalikan',
+        'tanggal_pinjam' => now()->subDays(15),
+        'tanggal_jatuh_tempo' => now()->subDays(5),
+        'tanggal_kembali' => now()->subDays(3)
     ]);
     }
 }
