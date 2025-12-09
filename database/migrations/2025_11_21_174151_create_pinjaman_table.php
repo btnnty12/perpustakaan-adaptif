@@ -8,32 +8,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pinjaman', function (Blueprint $table) {
-            $table->id();
-
-            // Relasi pengguna
-            $table->foreignId('pengguna_id')
-                  ->constrained('pengguna')
-                  ->onDelete('cascade');
-
-            // Relasi buku
-            $table->foreignId('buku_id')
-                  ->constrained('buku')
-                  ->onDelete('cascade');
-
-            // Status konsisten dengan controller
-            $table->enum('status', ['wishlist', 'sedang_dipinjam', 'dikembalikan'])
-                  ->default('wishlist')
-                  ->comment('wishlist → sedang_dipinjam → dikembalikan');
-
-            $table->timestamps();
-
-            // $table->softDeletes();
+        Schema::table('pinjaman', function (Blueprint $table) {
+            $table->date('tanggal_pinjam')->nullable()->after('buku_id');
+            $table->date('tanggal_jatuh_tempo')->nullable()->after('tanggal_pinjam');
+            $table->date('tanggal_kembali')->nullable()->after('tanggal_jatuh_tempo');
+            $table->decimal('denda', 10, 2)->nullable()->after('tanggal_kembali');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('pinjaman');
+        Schema::table('pinjaman', function (Blueprint $table) {
+            $table->dropColumn([
+                'tanggal_pinjam',
+                'tanggal_jatuh_tempo',
+                'tanggal_kembali',
+                'denda'
+            ]);
+        });
     }
 };
