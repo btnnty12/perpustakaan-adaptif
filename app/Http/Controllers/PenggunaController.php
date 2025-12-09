@@ -29,14 +29,14 @@ class PenggunaController extends Controller
             'nama' => 'required',
             'email' => 'required|email|unique:pengguna,email',
             'password' => 'required|min:6',
-            'peran' => 'nullable|in:admin,anggota,staff'
+            'peran' => 'nullable|in:admin,pengguna,staff'
         ]);
 
         $pengguna = Pengguna::create([
             'nama' => $request->nama,
             'email' => $request->email,
             'kata_sandi' => Hash::make($request->password),
-            'peran' => $request->peran ?? 'anggota'
+            'peran' => $request->peran ?? 'pengguna'
         ]);
 
         return response()->json([

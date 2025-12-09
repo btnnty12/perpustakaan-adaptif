@@ -23,7 +23,7 @@ class penggunaSeeder extends Seeder
         'nama' => 'Member Satu',
         'email' => 'member1@mail.com',
         'kata_sandi' => bcrypt('password'),
-        'peran' => 'anggota'
+        'peran' => 'pengguna'
     ]);
     }
 }

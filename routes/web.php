@@ -1,44 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\FavoriteController;
 
-Route::get('/', fn() => view('welcome'));
+/*
+|--------------------------------------------------------------------------
 
-Route::middleware(['auth'])->group(function () {
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-});
-
-
-Route::middleware(['auth'])->group(function () {
-
-    // halaman favorit
-    Route::get('/favorit', [FavoriteController::class, 'index'])->name('favorit');
-
-    // hapus favorit
-    Route::delete('/favorit/{bookId}', [FavoriteController::class, 'destroy'])->name('favorite.remove');
-
-});
+| Halaman Umum
+|--------------------------------------------------------------------------
+*/
 
 
-Route::get('/admin', fn() => view('admin'))->name('admin');
-Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
-Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
-Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
-Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
-Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');
-
-Route::get('/pinjaman', function () {
-    return view('peminjaman'); // pastikan file resources/views/peminjaman.blade.php ada
-});
-Route::get('/favorit', [FavoriteController::class, 'index'])->name('favorit');
-
-// Toggle favorit (tambah/hapus)
-Route::post('/favorite/toggle/{bookId}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
-
-
+/*
+|--------------------------------------------------------------------------
+| DETAIL BUKU (TANPA LOGIN — FIXED)
+|--------------------------------------------------------------------------
+*/
 Route::get('/detail/{buku}', function ($buku) {
 
 $books = [
@@ -207,6 +185,16 @@ $books = [
     return view('detail', ['book' => $books[$buku]]);
 })->name('detail');
 
+Route::get('/create', fn() => view('create'))->name('create');
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTH (Login - Register)
+|--------------------------------------------------------------------------
+*/
+
+// Login
 Route::get('/login', fn() => view('login'))->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
@@ -215,20 +203,71 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.pr
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
+/*
+|--------------------------------------------------------------------------
+| HALAMAN SETELAH LOGIN
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/home', fn() => view('home'))->middleware('role:pengguna')->name('home');
+    Route::get('/home', fn() => view('home'))
+        ->middleware('role:pengguna')
+        ->name('home');
 
-    Route::get('/notifikasi', fn() => view('notifikasi'))->middleware('role:pengguna')->name('notifikasi');
+    Route::get('/notifikasi', fn() => view('notifikasi'))
+        ->middleware('role:pengguna')
+        ->name('notifikasi');
 
-    Route::get('/pesan', fn() => view('pesan'))->middleware('role:pengguna')->name('pesan');
+    Route::get('/pesan', fn() => view('pesan'))
+        ->middleware('role:pengguna')
+        ->name('pesan');
 
-    Route::get('/search', fn() => view('search'))->middleware('role:pengguna')->name('search');
+    Route::get('/search', fn() => view('search'))
+        ->middleware('role:pengguna')
+        ->name('search');
 
-    Route::get('/staff', fn() => view('staff'))->middleware('role:staff')->name('staff');
+    Route::get('/staff', fn() => view('staff'))
+        ->middleware('role:staff')
+        ->name('staff');
 
-    Route::get('/pengembalian-buku', fn() => view('index'))->middleware('role:pengguna')->name('pengembalian.index');
 
-    Route::get('/create', fn() => view('create'))->middleware('role:pengguna')->name('pengembalian.create');
+    /*
+    |--------------------------------------------------------------------------
+    | PENGEMBALIAN BUKU
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/pengembalian-buku', fn() => view('index'))
+        ->middleware('role:pengguna')
+        ->name('pengembalian.index');
 
+    Route::get('/create', fn() => view('create'))
+        ->middleware('role:pengguna')
+        ->name('pengembalian.create');
+<<<<<<< HEAD
 });
+=======
+
+       
+});
+
+//user biar bisa buka halaman tanpa login//
+
+// Admin (tanpa login dulu)
+Route::get('/admin', fn() => view('admin'))->name('admin');
+
+// Data Anggota (tanpa login dulu)
+Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
+
+// Kelola Buku (tanpa login dulu)
+Route::get('/kelola-buku', fn() => view('kelola-buku'))->name('kelola.buku');
+
+// Laporan Peminjaman (tanpa login dulu)
+Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('laporan-peminjaman');
+
+// Kelola User (tanpa login dulu)
+Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
+
+// Kelola User (tanpa login dulu)
+Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');
+>>>>>>> 745e825e60e2de9fa1dc0049561a9e2abbc9a273

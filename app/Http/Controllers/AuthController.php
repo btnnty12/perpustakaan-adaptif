@@ -28,8 +28,6 @@ class AuthController extends Controller
 
         // Verifikasi password
         if (Hash::check($request->kata_sandi, $user->kata_sandi)) {
-            // Login user
-            Auth::login($user, true); // true untuk remember me
             
             // Regenerate session untuk keamanan
             $request->session()->regenerate();
@@ -47,7 +45,6 @@ class AuthController extends Controller
                 case 'staff':
                     return redirect()->route('staff')->with('success', 'Selamat datang Staff!');
                 case 'pengguna':
-                case 'anggota': // 'anggota' adalah default peran di database
                     return redirect()->route('home')->with('success', 'Selamat datang!');
                 default:
                     return redirect()->route('home')->with('success', 'Selamat datang!');
@@ -73,7 +70,7 @@ class AuthController extends Controller
             'nama' => $request->name,
             'email' => $request->email,
             'kata_sandi' => $request->password, // Mutator akan hash otomatis
-            'peran' => 'anggota', // Default peran sesuai migration
+            'peran' => 'pengguna', // Default peran
         ]);
 
         return redirect('/login')->with('success', 'Pendaftaran berhasil! Silakan login.');

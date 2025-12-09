@@ -59,10 +59,10 @@
 
     <!-- LOGOUT PALING BAWAH -->
     <button 
-    onclick="window.location.href='{{ url('/logout') }}'"
-    class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
-    <i class="fa-solid fa-right-from-bracket"></i>
-</button>
+        onclick="window.location.href='/login';"
+        class="menu-item w-12 h-12 flex items-center justify-center text-2xl opacity-80 hover:opacity-100 mb-4 mt-auto">
+        <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
 
 </aside>
 
