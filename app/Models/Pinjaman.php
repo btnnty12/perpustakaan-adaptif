@@ -23,21 +23,15 @@ class Pinjaman extends Model
         'denda',
     ];
 
-    protected $casts = [
+     protected $casts = [
         'tanggal_pinjam' => 'date',
         'tanggal_jatuh_tempo' => 'date',
         'tanggal_kembali' => 'date',
         'denda' => 'float',
-    ];
-
-    protected $casts = [
         'status' => 'string',
     ];
-
-    // Eager load otomatis (opsional)
-    // protected $with = ['pengguna', 'buku'];
-
-    // Relasi ke pengguna
+        
+    
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'pengguna_id');

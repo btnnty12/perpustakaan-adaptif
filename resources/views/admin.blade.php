@@ -129,10 +129,10 @@
         <!-- Profile (model sama seperti kelola-user) -->
         <div class="flex items-center space-x-2">
             <div class="bg-[#717BFF] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">
-                FA
+                A
             </div>
 
-            <span class="text-black font-medium">Fayza Azzahra</span>
+            <span class="text-black font-medium">Admin</span>
 
             <img src="{{ asset('icons/arrow-down.png') }}" class="w-4 ml-1">
         </div>
@@ -149,7 +149,7 @@
             <!-- left character -->
             <div class="flex-1 flex items-center">
               <div class="max-w-md">
-                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">Hi, Fayza</h1>
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">Hi, Admin</h1>
                 <p class="mt-3 text-white/90">Pantau aktivitas peminjaman dan koleksi terbaru hari ini.</p>
                 <button class="mt-6 inline-block bg-white text-amber-700 font-semibold px-5 py-2 rounded-full shadow">Jelajahi Sekarang!</button>
               </div>

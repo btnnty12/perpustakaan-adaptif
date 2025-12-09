@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +12,9 @@ use App\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -185,7 +189,6 @@ $books = [
     return view('detail', ['book' => $books[$buku]]);
 })->name('detail');
 
-Route::get('/create', fn() => view('create'))->name('create');
 
 
 /*
@@ -211,7 +214,14 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 */
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/home', fn() => view('home'))
+    Route::get('/home', function () {
+        $user = [
+            'nama' => session('nama', 'Pengguna'),
+            'email' => session('email'),
+            'role' => session('role'),
+        ];
+        return view('home', ['user' => $user]);
+    })
         ->middleware('role:pengguna')
         ->name('home');
 
@@ -241,20 +251,15 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('role:pengguna')
         ->name('pengembalian.index');
 
-    Route::get('/create', fn() => view('create'))
+    Route::get('/pengembalian/create', fn() => view('create'))
         ->middleware('role:pengguna')
         ->name('pengembalian.create');
-<<<<<<< HEAD
-});
-=======
-
-       
 });
 
 //user biar bisa buka halaman tanpa login//
 
 // Admin (tanpa login dulu)
-Route::get('/admin', fn() => view('admin'))->name('admin');
+Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
 
 // Data Anggota (tanpa login dulu)
 Route::get('/data-anggota', fn() => view('data-anggota'))->name('data.anggota');
@@ -268,6 +273,5 @@ Route::get('/laporan-peminjaman', fn() => view('laporan-peminjaman'))->name('lap
 // Kelola User (tanpa login dulu)
 Route::get('/kelola-user', fn() => view('kelola-user'))->name('kelola-user');
 
-// Kelola User (tanpa login dulu)
+// Pengaturan (tanpa login dulu)
 Route::get('/pengaturan', fn() => view('pengaturan'))->name('pengaturan');
->>>>>>> 745e825e60e2de9fa1dc0049561a9e2abbc9a273
