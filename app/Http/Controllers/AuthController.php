@@ -35,6 +35,7 @@ class AuthController extends Controller
             // Set session data
             $request->session()->put([
                 'email' => $user->email,
+                'nama'  => $user->nama,
                 'role'  => $user->peran,
             ]);
 
@@ -78,8 +79,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        
+        // Hapus semua session data
+        $request->session()->forget(['email', 'nama', 'role']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         

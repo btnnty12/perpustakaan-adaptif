@@ -28,9 +28,6 @@ class Pinjaman extends Model
         'tanggal_jatuh_tempo' => 'date',
         'tanggal_kembali' => 'date',
         'denda' => 'float',
-    ];
-
-    protected $casts = [
         'status' => 'string',
     ];
 

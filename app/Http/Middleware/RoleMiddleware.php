@@ -10,11 +10,11 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ...$roles)
     {
         // Jika user belum login (session kosong)
-        if (!session()->has('peran')) {
+        if (!session()->has('role')) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu');
         }
 
-        $userRole = session('peran'); // Ambil peran user dari session
+        $userRole = session('role'); // Ambil peran user dari session
 
         // Jika role user tidak ada dalam daftar role yang diizinkan
         if (!in_array($userRole, $roles)) {
