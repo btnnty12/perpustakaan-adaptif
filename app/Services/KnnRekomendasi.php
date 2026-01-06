@@ -2,36 +2,74 @@
 
 namespace App\Services;
 
-class KnnRecommendation
+use Illuminate\Support\Collection;
+
+class KnnRekomendasi
 {
-    public function hitungRekomendasi($penggunaId, $dataPeminjaman, $k = 3)
+    public function hitungRekomendasi(int $penggunaId, Collection $dataPeminjaman, int $k = 3): array
     {
-        // 1. Ambil daftar buku yang pernah dipinjam pengguna tersebut
-        $userHistory = $dataPeminjaman->where('pengguna_id', $penggunaId);
-
-        // 2. Cari user lain yang memiliki riwayat mirip (similarity)
-        $similarUsers = $dataPeminjaman->where('pengguna_id', '!=', $penggunaId);
-
-        // 3. Hitung jarak/similaritas sederhana (contoh: jumlah buku yang sama)
-        $similarityScores = [];
-        foreach ($similarUsers as $row) {
-            $score = $userHistory->where('buku_id', $row->buku_id)->count();
-            $similarityScores[$row->pengguna_id] = ($similarityScores[$row->pengguna_id] ?? 0) + $score;
+        // 1. Bentuk vektor fitur: [pengguna_id => [buku_id => frekuensi]]
+        $vektor = [];
+        foreach ($dataPeminjaman as $row) {
+            $vektor[$row->pengguna_id][$row->buku_id] =
+                ($vektor[$row->pengguna_id][$row->buku_id] ?? 0) + 1;
         }
 
-        // 4. Ambil K user terdekat (nilai similarity tertinggi)
-        arsort($similarityScores);
-        $topUsers = array_slice($similarityScores, 0, $k, true);
+        // Jika pengguna tidak punya data
+        if (!isset($vektor[$penggunaId])) {
+            return ['buku_id' => null, 'skor' => 0];
+        }
 
-        // 5. Ambil buku yang mereka pinjam tapi belum pernah dipinjam oleh pengguna
-        $rekomendasiBuku = $dataPeminjaman
-            ->whereIn('pengguna_id', array_keys($topUsers))
-            ->whereNotIn('buku_id', $userHistory->pluck('buku_id'))
-            ->first();
+        $userVektor = $vektor[$penggunaId];
+
+        // 2. Hitung jarak Euclidean ke pengguna lain
+        $jarak = [];
+        foreach ($vektor as $uid => $vektorLain) {
+            if ($uid === $penggunaId) continue;
+
+            $semuaBuku = array_unique(
+                array_merge(array_keys($userVektor), array_keys($vektorLain))
+            );
+
+            $sum = 0;
+            foreach ($semuaBuku as $bukuId) {
+                $a = $userVektor[$bukuId] ?? 0;
+                $b = $vektorLain[$bukuId] ?? 0;
+                $sum += pow($a - $b, 2);
+            }
+
+            $jarak[$uid] = sqrt($sum);
+        }
+
+        if (empty($jarak)) {
+            return ['buku_id' => null, 'skor' => 0];
+        }
+
+        // 3. Ambil K pengguna terdekat (jarak terkecil)
+        asort($jarak);
+        $tetangga = array_slice($jarak, 0, $k, true);
+
+        // 4. Ambil buku dari tetangga yang belum dipinjam user
+        $bukuUser = array_keys($userVektor);
+        $rekomendasi = [];
+
+        foreach (array_keys($tetangga) as $uid) {
+            foreach ($vektor[$uid] as $bukuId => $freq) {
+                if (!in_array($bukuId, $bukuUser)) {
+                    $rekomendasi[$bukuId] = ($rekomendasi[$bukuId] ?? 0) + $freq;
+                }
+            }
+        }
+
+        if (empty($rekomendasi)) {
+            return ['buku_id' => null, 'skor' => 0];
+        }
+
+        arsort($rekomendasi);
 
         return [
-            'buku_id' => $rekomendasiBuku->buku_id ?? null,
-            'skor' => max($topUsers) ?? 0
+            'buku_id' => array_key_first($rekomendasi),
+            'skor' => min($tetangga) // jarak terdekat
         ];
     }
 }
